@@ -1,0 +1,7 @@
+Our team is:
+Ben Johnston – EE (me)
+Kevin Burns – EE
+Benny Chan – CE
+Alex Dubois – CE
+
+We will be working with the Biomedical Engineering department at Texas A&M to create wearable electronics.
