@@ -1,0 +1,1 @@
+Sensors are finally online and linked to the computer through Bluetooth with some fancy C# code.
