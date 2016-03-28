@@ -1,1 +1,11 @@
 Sensors are finally online and linked to the computer through Bluetooth with some fancy C# code.
+
+Attended the Design Blitz from 10AM to noon.
+
+Obtained more information on the MotionNet sensor. The actual sensor module is a MPU9150. Datasheet: https://dlnmh9ip6v2uc.cloudfront.net/datasheets/Sensors/IMU/PS-MPU-9150A.pdf
+
+The bluetooth module of the MotionNet Sensor is the BC127, which is bluetooth 4.0. Datasheet: https://developer.mbed.org/media/uploads/bckln/datasheet-bc127.pdf
+
+The batteries used are 400 mAh, 3.7 small batteries. One of them has already died, further reinforcing the aim to rework the power system of the sensors a bit.
+
+I made good progress on the ICD Document. I created the outline and finished my sections of the outline. I redid the formatting of the document template and started to work on my sections.
