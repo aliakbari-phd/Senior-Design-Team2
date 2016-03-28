@@ -1,0 +1,5 @@
+We have collected the MotionNet Sensors, a combination of accelerometers, gyroscopes, and magnetometers connected to a bluetooth output on a small PCB, made at UTDallas by Lu Sun Zhongjun, February 2015. We obtained 3 from Jian Wu and a mini-USB cord to hook up the computer.
+
+Jian recommends Visual Studio, as the code for the sensors is written in C#, a graphical version of C. Jian is also sending instructions on how to set them up, some basics physics of how they work, and some other useful info.
+
+These will be the focus of my part of the project, specifically combatting the drift they create.
