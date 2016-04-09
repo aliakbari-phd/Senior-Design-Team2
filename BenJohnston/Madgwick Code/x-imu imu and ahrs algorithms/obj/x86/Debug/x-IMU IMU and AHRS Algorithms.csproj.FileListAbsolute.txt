@@ -1,0 +1,144 @@
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Back.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BackInv.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Bottom.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BottomInv.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Front.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\FrontInv.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Left.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\LeftInv.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Right.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\RightInv.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Top.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\TopInv.png
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.exe
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.pdb
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.dll
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.dll
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.xml
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.xml
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.read.1.tlog
+F:\1. courses\1.Microprocessor\08.lab research\04.Code\madgwick\ximu_imu_and_ahrs_algorithms_1_0\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.write.1.tlog
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Back.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BackInv.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Bottom.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BottomInv.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Front.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\FrontInv.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Left.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\LeftInv.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Right.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\RightInv.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Top.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\TopInv.png
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.exe
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.pdb
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.dll
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.dll
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.xml
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.xml
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.read.1.tlog
+F:\6. lab research\6. Orientation Demo\x-IMU IMU and AHRS Algorithms 1.0\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.write.1.tlog
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Back.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BackInv.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Bottom.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BottomInv.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Front.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\FrontInv.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Left.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\LeftInv.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Right.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\RightInv.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Top.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\TopInv.png
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.dll
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.dll
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.xml
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.xml
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.read.1.tlog
+C:\Users\Jian\Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.write.1.tlog
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Back.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BackInv.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Bottom.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BottomInv.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Front.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\FrontInv.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Left.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\LeftInv.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Right.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\RightInv.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Top.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\TopInv.png
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.dll
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.dll
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.xml
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.xml
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.read.1.tlog
+C:\Users\Jian\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\ResGen.write.1.tlog
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.csproj.GenerateResource.Cache
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Back.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BackInv.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Bottom.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BottomInv.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Front.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\FrontInv.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Left.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\LeftInv.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Right.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\RightInv.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Top.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\TopInv.png
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.pdb
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.dll
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.dll
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.xml
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.xml
+C:\Users\Jian\03. Lab stuff\01. Orientation Demo\constant time\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.csprojResolveAssemblyReference.cache
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Back.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BackInv.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Bottom.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\BottomInv.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Front.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\FrontInv.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Left.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\LeftInv.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Right.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\RightInv.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\Top.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Form_3Dcuboid\TopInv.png
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.exe
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\x-IMU IMU and AHRS Algorithms.pdb
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.dll
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.dll
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.OpenGl.xml
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platform.Windows.xml
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.csprojResolveAssemblyReference.cache
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
+D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.csproj.GenerateResource.Cache
