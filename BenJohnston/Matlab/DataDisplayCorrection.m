@@ -1,6 +1,6 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
-filename = '200 Hz 15 sec 01.txt';
+filename = '2 hour stationary unplugged 2.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
@@ -9,20 +9,39 @@ A = importdata(filename, delimiterIn, headerlinesIn);
 %includes correction factor
 
 %import data
-a_velocity(:,1) = (A.data(:,4))./(5895/pi);  
-a_velocity(:,2) = (A.data(:,5))./(5895/pi);  
-a_velocity(:,3) = (A.data(:,6))./(5895/pi);          %Gyroscope correction factor
+a_velocity(:,1) = (A.data(:,4))./32.75;  
+a_velocity(:,2) = (A.data(:,5))./32.75;  
+a_velocity(:,3) = (A.data(:,6))./32.75;          %Gyroscope correction factor
 Ltime = (A.data(:,13));
 t = transpose((Ltime-Ltime(1))./1000);     %relative to start time, ms to s
 
+%*******low pass filter*****
+x_filter = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',50,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+a_velocity = filter(x_filter,a_velocity);
+
+%best fit code
+t3(:,1) = transpose(t);
+t3(:,2) = transpose(t);
+t3(:,3) = transpose(t);
+p1 = polyfit(t3,a_velocity,1);
+c_velocity = transpose(polyval(p1,t));      %best fit line of velocity data
+
+%correction factor (eliminate offset "constant")
 mean_x = mean(a_velocity(:,1));
 mean_y = mean(a_velocity(:,2));
-%{
-a_velocity(:,1)=a_velocity(:,1)-mean_x;
-a_velocity(:,2)=a_velocity(:,2)-mean_y;
-a_velocity(:,1)=zeros(size(a_velocity(:,1)));
-a_velocity(:,2)=zeros(size(a_velocity(:,2)));
-%}
+mean_z = mean(a_velocity(:,3));
+%a_velocity(:,1)=a_velocity(:,1)-mean_x;
+%a_velocity(:,2)=a_velocity(:,2)-mean_y;
+%a_velocity(:,3)=a_velocity(:,3)-mean_z;
+
+%zero testing
+%a_velocity(:,1)=zeros(size(a_velocity(:,1)));
+%a_velocity(:,2)=zeros(size(a_velocity(:,2)));
+%a_velocity(:,3)=zeros(size(a_velocity(:,3)));
+
+%differentiation and integration
 a_acceleration = diff(a_velocity);             % vel to accel 
 a_acceleration = [0,[1 3];a_acceleration];
 a_jerk = diff(a_acceleration);             %accel to jerk
@@ -30,36 +49,32 @@ a_jerk = [0,[1 3];a_jerk];
 a_position = trapz(t,a_velocity);
 a_distance = cumtrapz(t,a_velocity);     % vel to distance
 
-position(:,1) = cos(a_distance(:,3))+sin(a_distance(:,2));
-position(:,2) = -1+cos(a_distance(:,1))+sin(a_distance(:,3));
-position(:,3) = -1+cos(a_distance(:,2))+sin(a_distance(:,1));
+%angular distance to linear position
+position(:,1) = cosd(a_distance(:,3))+sind(a_distance(:,2));
+position(:,2) = -1+cosd(a_distance(:,1))+sind(a_distance(:,3));
+position(:,3) = -1+cosd(a_distance(:,2))+sind(a_distance(:,1));
 
+%plotting
 set(gcf,'color','white')
-subplot(2,1,1)
+subplot(3,1,1)
 plot3(position(:,1),position(:,2),position(:,3))
 xlabel('x'),ylabel('y'),zlabel('z')
-zlim([-.25 0.25])
-
 grid on
-subplot(2,1,2)
+
+subplot(3,1,2)
 plot(t,a_velocity(:,1))
 
-%{
-%best fit code
-p1 = polyfit(transpose(t),velocity,1);
-v1 = transpose(polyval(p1,t));      %best fit line of velocity data
+subplot(3,1,3)
+plot(t,c_velocity(:,1))
+ylim([-2 0])
 
+
+
+%{
 %correction
 vdelta = v1 - v1(1);            %discrepancy between velocity and best fit
 
-%{
-%*******low pass filter*****
-x_filter = designfilt('lowpassiir','FilterOrder',8,...
-            'PassbandFrequency',150,'PassbandRipple',0.5,...
-            'SampleRate',200e3);
-dataIn = velZ;
-velZ = filter(x_filter,dataIn);
-%}
+
 vel_corrected = velocity - abs(vdelta);     %subtract discprepancy from velocity
 dist_corrected = cumtrapz(t,vel_corrected);  %find absolute distance
 
