@@ -1,9 +1,11 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
+
 filename = '2 hour stationary unplugged 2.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
+
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
 %includes correction factor
@@ -15,9 +17,15 @@ a_velocity(:,3) = (A.data(:,6))./32.75;          %Gyroscope correction factor
 Ltime = (A.data(:,13));
 t = transpose((Ltime-Ltime(1))./1000);     %relative to start time, ms to s
 
+%remove first one percent of data
+%onepercent = round(0.01*length(a_velocity));
+%a_velocity(1:onepercent,:)=[];
+%t(1:onepercent,:)=[];
+
+
 %*******low pass filter*****
 x_filter = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',50,'PassbandRipple',0.5,...
+            'PassbandFrequency',100,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 a_velocity = filter(x_filter,a_velocity);
 
@@ -53,20 +61,25 @@ a_distance = cumtrapz(t,a_velocity);     % vel to distance
 position(:,1) = cosd(a_distance(:,3))+sind(a_distance(:,2));
 position(:,2) = -1+cosd(a_distance(:,1))+sind(a_distance(:,3));
 position(:,3) = -1+cosd(a_distance(:,2))+sind(a_distance(:,1));
-
+%{
 %plotting
 set(gcf,'color','white')
-subplot(3,1,1)
+subplot(2,1,1)
 plot3(position(:,1),position(:,2),position(:,3))
 xlabel('x'),ylabel('y'),zlabel('z')
 grid on
 
-subplot(3,1,2)
+subplot(2,1,2)
+%}
 plot(t,a_velocity(:,1))
+ylabel('Angular Velocity (deg/s)'),xlabel('Time (s)')
+ylim([-1.7 -1.4])
 
-subplot(3,1,3)
-plot(t,c_velocity(:,1))
-ylim([-2 0])
+
+
+%subplot(3,1,3)
+%plot(t,c_velocity(:,1))
+%ylim([-2 0])
 
 
 
