@@ -142,3 +142,5 @@ D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\bin\Debug\Tao.Platf
 D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.csprojResolveAssemblyReference.cache
 D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x_IMU_IMU_and_AHRS_Algorithms.Form_3Dcuboid.resources
 D:\Ben TAMU\ECEN 403\Demo Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.csproj.GenerateResource.Cache
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\BenJohnston\Madgwick Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.exe
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\BenJohnston\Madgwick Code\x-IMU IMU and AHRS Algorithms\obj\x86\Debug\x-IMU IMU and AHRS Algorithms.pdb
