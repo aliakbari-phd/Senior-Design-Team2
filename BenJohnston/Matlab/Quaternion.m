@@ -1,4 +1,4 @@
-filename = '200 Hz 60 sec 01.txt';
+filename = '200 Hz 15 sec 01.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
