@@ -1,0 +1,7 @@
+Updated Integrated Sensor Code to start implementing data structures
+
+Tasks:
+Finish updating integrated sensor code
+Create a basic database
+Create a basic GUI
+Find out how to do basic data analysis to find quantified level of LBD
