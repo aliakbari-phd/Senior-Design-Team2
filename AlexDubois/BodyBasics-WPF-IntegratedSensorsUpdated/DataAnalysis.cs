@@ -10,9 +10,9 @@ public class DataAnalysis
 
     public DataAnalysis(SensorData cData)
 	{
-        angle = default(List<Int16>);
-        angularAccel = default(List<Int16>);
-        angularJerk = default(List<Int16>);
+        angle = new List<Int16>();
+        angularAccel = new List<Int16>();
+        angularJerk = new List<Int16>();
         correctedData = cData;
     }
 

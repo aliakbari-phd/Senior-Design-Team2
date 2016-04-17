@@ -20,7 +20,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Data;
     using System.Collections.Generic;
     using System.Threading;
-
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
@@ -197,7 +196,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         private string statusText = null;
 
-        private SensorData sensorData;
+        private SensorData sensorData = new SensorData();
+        private DataAnalysis dataAnalysis;
+        private KinectFeedback kinectFeedback = new KinectFeedback();
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -410,11 +411,32 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestamp = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
-                        List<float> spineBaseData = default(List<float>);
-                        List<float> spineMidData = default(List<float>);
-                        List<float> spineShoulderData = default(List<float>);
-                        List<float> rightShoulderData = default(List<float>);
-                        List<List<float>> kinectData = default(List<List<float>>);
+                        List<float> spineBaseData = new List<float>();
+                        List<float> spineMidData = new List<float>();
+                        List<float> spineShoulderData = new List<float>();
+                        List<float> rightShoulderData = new List<float>();
+                        List<List<float>> kinectData = new List<List<float>>();
+
+                        if(kinectFeedback.isInitial == true)
+                        {
+                            kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                            kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                            kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                            kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.isInitial = false;
+                        }
+
+                        else
+                        {
+                            List<float> rightShoulderPos = new List<float>();
+                            rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                            rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                            rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                            kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos);
+                        }
+
                         //Collect Spine Base Data
                         spineBaseData.Add(body.Joints[JointType.SpineBase].Position.X);
                         spineBaseData.Add(body.Joints[JointType.SpineBase].Position.Y);
@@ -684,24 +706,27 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         //  start create files for Kinect and sensor and start to record data
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            string[] dirs = Directory.GetFiles("C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01");
+            string fpath = "C:/Users/Alex/Documents/BodyBasics-WPF-IntegratedSensors/SD01/";
+            //string fpath2 = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
+            //string fpath3 = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
+            string[] dirs = Directory.GetFiles(fpath);
             int num = dirs.Length;
-            fs_kinect_spinebase = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/spinebase.txt"), FileMode.Create);
+            fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase.txt"), FileMode.Create);
             spineBaseSW = new StreamWriter(fs_kinect_spinebase);
 
-            fs_kinect_spinemid = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/spinemid.txt"), FileMode.Create);
+            fs_kinect_spinemid = new FileStream(string.Concat(fpath,"spinemid.txt"), FileMode.Create);
             spinemidSW = new StreamWriter(fs_kinect_spinemid);
 
-            fs_kinect_spineshoulder = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/spineshoulder.txt"), FileMode.Create);
+            fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder.txt"), FileMode.Create);
             spineshoulderSW = new StreamWriter(fs_kinect_spineshoulder);
 
-            fs_kinect_rightshoulder = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/rightshoulder.txt"), FileMode.Create);
+            fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
             rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
 
-            fs_sensor1 = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/", string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
+            fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
             sw2 = new StreamWriter(fs_sensor1);
 
-            fs_sensor2 = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/", string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
+            fs_sensor2 = new FileStream(string.Concat(fpath, string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
             sw3 = new StreamWriter(fs_sensor2);
 
             //fs_sensor3 = new FileStream(string.Concat("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kevin/", string.Concat((num + 4).ToString(), ".txt")), FileMode.Create);

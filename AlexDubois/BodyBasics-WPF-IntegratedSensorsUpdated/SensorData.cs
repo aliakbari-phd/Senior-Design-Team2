@@ -15,6 +15,14 @@ public class SensorData
         wearableData = wearable;
     }
 
+    public SensorData()
+    {
+        kinectData = new List<List<float>>();
+        wearableData = new List<List<Int16>>();
+    }
+
+
+
     public List<List<float>> GetKinectData()
     {
         return kinectData;
