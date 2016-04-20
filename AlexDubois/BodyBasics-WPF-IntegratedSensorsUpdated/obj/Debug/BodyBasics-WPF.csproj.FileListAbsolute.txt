@@ -61,3 +61,18 @@ C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-Integrat
 C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
 C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.exe
 C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.pdb
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\BodyBasics-WPF.exe
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\BodyBasics-WPF.pdb
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\Microsoft.Kinect.dll
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\Microsoft.Kinect.xml
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.csprojResolveAssemblyReference.cache
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\MainWindow.baml
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\MainWindow.g.cs
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\App.g.cs
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF_MarkupCompile.cache
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.g.resources
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\Microsoft.Samples.Kinect.BodyBasics.Properties.Resources.resources
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.exe
+E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.pdb

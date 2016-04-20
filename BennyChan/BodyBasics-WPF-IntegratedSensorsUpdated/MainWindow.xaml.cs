@@ -20,7 +20,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Data;
     using System.Collections.Generic;
     using System.Threading;
-
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
@@ -197,11 +196,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         private string statusText = null;
 
+        private SensorData sensorData = new SensorData();
+        private DataAnalysis dataAnalysis;
+        private KinectFeedback kinectFeedback = new KinectFeedback();
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
         public MainWindow()
         {
+
             // one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
 
@@ -374,6 +377,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         /// <param name="sender">object sending the event</param>
         /// <param name="e">event arguments</param>
+        /// 
+        List<List<float>> kinectData = default(List<List<float>>);
         private void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             bool dataReceived = false;
@@ -406,19 +411,96 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestamp = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+                        List<float> spineBaseData = new List<float>();
+                        List<float> spineMidData = new List<float>();
+                        List<float> spineShoulderData = new List<float>();
+                        List<float> rightShoulderData = new List<float>();
+                        List<List<float>> kinectData = new List<List<float>>();
 
-                        // sw1.WriteLine(skelet.Joints[JointType.ShoulderRight].Position.X + " " + skelet.Joints[JointType.ShoulderRight].Position.Y + " " + skelet.Joints[JointType.ShoulderRight].Position.Z + " " + skelet.Joints[JointType.ShoulderRight].TrackingState + " " + timestamp);
-                        // sw1.WriteLine(skelet.Joints[JointType.ElbowRight].Position.X + " " + skelet.Joints[JointType.ElbowRight].Position.Y + " " + skelet.Joints[JointType.ElbowRight].Position.Z + " " + skelet.Joints[JointType.ElbowRight].TrackingState + " " + timestamp);
-                        //sw1.WriteLine(body.Joints[JointType.WristRight].Position.X + " " + body.Joints[JointType.WristRight].Position.Y + " " + body.Joints[JointType.WristRight].Position.Z + " " + body.Joints[JointType.WristRight].TrackingState + " " + timestamp);
-                        // sw1.WriteLine(skelet.Joints[JointType.ShoulderLeft].Position.X + " " + skelet.Joints[JointType.ShoulderLeft].Position.Y + " " + skelet.Joints[JointType.ShoulderLeft].Position.Z + " " + skelet.Joints[JointType.ShoulderLeft].TrackingState + " " + timestamp);
-                        // sw1.WriteLine(skelet.Joints[JointType.ElbowLeft].Position.X + " " + skelet.Joints[JointType.ElbowLeft].Position.Y + " " + skelet.Joints[JointType.ElbowLeft].Position.Z + " " + skelet.Joints[JointType.ElbowLeft].TrackingState + " " + timestamp);
-                        //sw1.WriteLine(body.Joints[JointType.WristLeft].Position.X + " " + body.Joints[JointType.WristLeft].Position.Y + " " + body.Joints[JointType.WristLeft].Position.Z + " " + body.Joints[JointType.WristLeft].TrackingState + " " + timestamp);
-                        // sw1.WriteLine(skelet.Joints[JointType.HipRight].Position.X + " " + skelet.Joints[JointType.HipRight].Position.Y + " " + skelet.Joints[JointType.HipRight].Position.Z + " " + skelet.Joints[JointType.HipRight].TrackingState + " " + timestamp);
-                        // sw1.WriteLine(skelet.Joints[JointType.KneeRight].Position.X + " " + skelet.Joints[JointType.KneeRight].Position.Y + " " + skelet.Joints[JointType.KneeRight].Position.Z + " " + skelet.Joints[JointType.KneeRight].TrackingState + " " + timestamp);
-                        //sw1.WriteLine(skelet.Joints[JointType.FootRight].Position.X + " " + skelet.Joints[JointType.FootRight].Position.Y + " " + skelet.Joints[JointType.FootRight].Position.Z + " " + skelet.Joints[JointType.FootRight].TrackingState + " " + timestamp);
-                        //sw1.WriteLine(skelet.Joints[JointType.HipLeft].Position.X + " " + skelet.Joints[JointType.HipLeft].Position.Y + " " + skelet.Joints[JointType.HipLeft].Position.Z + " " + skelet.Joints[JointType.HipLeft].TrackingState + " " + timestamp);
-                        // sw1.WriteLine(skelet.Joints[JointType.KneeLeft].Position.X + " " + skelet.Joints[JointType.KneeLeft].Position.Y + " " + skelet.Joints[JointType.KneeLeft].Position.Z + " " + skelet.Joints[JointType.KneeLeft].TrackingState + " " + timestamp);
-                        //sw1.WriteLine(skelet.Joints[JointType.FootLeft].Position.X + " " + skelet.Joints[JointType.FootLeft].Position.Y + " " + skelet.Joints[JointType.FootLeft].Position.Z + " " + skelet.Joints[JointType.FootLeft].TrackingState + " " + timestamp);
+                        if(kinectFeedback.isInitial == true)
+                        {
+                            kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                            kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                            kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                            kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.isInitial = false;
+                        }
+
+                        else
+                        {
+                            List<float> rightShoulderPos = new List<float>();
+                            rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                            rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                            rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                            kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos);
+                            angleTxt.Text = kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos).ToString();
+                        }
+
+                        //Collect Spine Base Data
+                        spineBaseData.Add(body.Joints[JointType.SpineBase].Position.X);
+                        spineBaseData.Add(body.Joints[JointType.SpineBase].Position.Y);
+                        spineBaseData.Add(body.Joints[JointType.SpineBase].Position.Z);
+                        if(body.Joints[JointType.SpineBase].TrackingState == TrackingState.Tracked)
+                        {
+                            spineBaseData.Add(1);
+                        }
+                        else
+                        {
+                            spineBaseData.Add(0);
+                        }
+                        spineBaseData.Add(timestamp);
+
+                        //Collect Spine Mid Data
+                        spineMidData.Add(body.Joints[JointType.SpineMid].Position.X);
+                        spineMidData.Add(body.Joints[JointType.SpineMid].Position.Y);
+                        spineMidData.Add(body.Joints[JointType.SpineMid].Position.Z);
+                        if (body.Joints[JointType.SpineMid].TrackingState == TrackingState.Tracked)
+                        {
+                            spineMidData.Add(1);
+                        }
+                        else
+                        {
+                            spineMidData.Add(0);
+                        }
+                        spineMidData.Add(timestamp);
+
+                        //Collect Spine Shoulder Data
+                        spineShoulderData.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                        spineShoulderData.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                        spineShoulderData.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                        if (body.Joints[JointType.SpineShoulder].TrackingState == TrackingState.Tracked)
+                        {
+                            spineShoulderData.Add(1);
+                        }
+                        else
+                        {
+                            spineShoulderData.Add(0);
+                        }
+                        spineShoulderData.Add(timestamp);
+
+                        //Collect Right Shoulder Data
+                        rightShoulderData.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                        rightShoulderData.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                        rightShoulderData.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                        if (body.Joints[JointType.ShoulderRight].TrackingState == TrackingState.Tracked)
+                        {
+                            rightShoulderData.Add(1);
+                        }
+                        else
+                        {
+                            rightShoulderData.Add(0);
+                        }
+                        rightShoulderData.Add(timestamp);
+
+                        //Collect lists of kinect data
+                        kinectData.Add(spineBaseData);
+                        kinectData.Add(spineMidData);
+                        kinectData.Add(spineShoulderData);
+                        kinectData.Add(rightShoulderData);
+
+                        //Write Kinect Joint Data to text files
                         spineBaseSW.WriteLine(body.Joints[JointType.SpineBase].Position.X + " " + body.Joints[JointType.SpineBase].Position.Y + " " + body.Joints[JointType.SpineBase].Position.Z + " " + body.Joints[JointType.SpineBase].TrackingState + " " + timestamp);
                         spinemidSW.WriteLine(body.Joints[JointType.SpineMid].Position.X + " " + body.Joints[JointType.SpineMid].Position.Y + " " + body.Joints[JointType.SpineMid].Position.Z + " " + body.Joints[JointType.SpineMid].TrackingState + " " + timestamp);
                         spineshoulderSW.WriteLine(body.Joints[JointType.SpineShoulder].Position.X + " " + body.Joints[JointType.SpineShoulder].Position.Y + " " + body.Joints[JointType.SpineShoulder].Position.Z + " " + body.Joints[JointType.SpineShoulder].TrackingState + " " + timestamp);
@@ -625,24 +707,28 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         //  start create files for Kinect and sensor and start to record data
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            string[] dirs = Directory.GetFiles("C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01");
+            //string fpath = "C:/Users/Alex/Documents/BodyBasics-WPF-IntegratedSensors/SD01/";
+            //string fpath = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
+            //string fpath = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
+            string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
+            string[] dirs = Directory.GetFiles(fpath);
             int num = dirs.Length;
-            fs_kinect_spinebase = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/spinebase.txt"), FileMode.Create);
+            fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase.txt"), FileMode.Create);
             spineBaseSW = new StreamWriter(fs_kinect_spinebase);
 
-            fs_kinect_spinemid = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/spinemid.txt"), FileMode.Create);
+            fs_kinect_spinemid = new FileStream(string.Concat(fpath,"spinemid.txt"), FileMode.Create);
             spinemidSW = new StreamWriter(fs_kinect_spinemid);
 
-            fs_kinect_spineshoulder = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/spineshoulder.txt"), FileMode.Create);
+            fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder.txt"), FileMode.Create);
             spineshoulderSW = new StreamWriter(fs_kinect_spineshoulder);
 
-            fs_kinect_rightshoulder = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/rightshoulder.txt"), FileMode.Create);
+            fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
             rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
 
-            fs_sensor1 = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/", string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
+            fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
             sw2 = new StreamWriter(fs_sensor1);
 
-            fs_sensor2 = new FileStream(string.Concat("C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/", string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
+            fs_sensor2 = new FileStream(string.Concat(fpath, string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
             sw3 = new StreamWriter(fs_sensor2);
 
             //fs_sensor3 = new FileStream(string.Concat("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kevin/", string.Concat((num + 4).ToString(), ".txt")), FileMode.Create);
@@ -755,6 +841,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         }
 
+        List<List<Int16>> wearableData = default(List<List<Int16>>);
+
         private void Processing1()
         {
             while (true)
@@ -804,11 +892,23 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     if (kinect_start != 0)
                     {
                         DateTime datenow = DateTime.Now;
+                        List<Int16> wearable = default(List<Int16>);
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+                        wearable.Add(BitConverter.ToInt16(convert, 22));
+                        wearable.Add(BitConverter.ToInt16(convert, 20));
+                        wearable.Add(BitConverter.ToInt16(convert, 18));
+                        wearable.Add(BitConverter.ToInt16(convert, 16));
+                        wearable.Add(BitConverter.ToInt16(convert, 14));
+                        wearable.Add(BitConverter.ToInt16(convert, 12));
+                        wearable.Add(BitConverter.ToInt16(convert, 10));
+                        wearable.Add(BitConverter.ToInt16(convert, 8));
+                        wearable.Add(BitConverter.ToInt16(convert, 6));
+                        wearable.Add((Int16)(timestampS));
+                        wearableData.Add(wearable);
                         sw2.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS);
                     }
                 }

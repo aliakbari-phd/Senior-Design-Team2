@@ -1,0 +1,44 @@
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\DiscreteGestureBasics-WPF.exe.config
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\Database\Seated.gbd
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\DiscreteGestureBasics-WPF.exe
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\DiscreteGestureBasics-WPF.pdb
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.dll
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.VisualGestureBuilder.dll
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.xml
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.VisualGestureBuilder.xml
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.csprojResolveAssemblyReference.cache
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\MainWindow.g.cs
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\App.g.cs
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF_Content.g.cs
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF_MarkupCompile.cache
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF_MarkupCompile.lref
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\MainWindow.baml
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.g.resources
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\Microsoft.Samples.Kinect.DiscreteGestureBasics.Properties.Resources.resources
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.csproj.GenerateResource.Cache
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.exe
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.pdb
+C:\Users\BennyChan\Documents\DiscreteGestureBasics-WPF\bin\x86\Debug\Database\DisplayFeedback.gbd
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\DiscreteGestureBasics-WPF.exe.config
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.exe
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.pdb
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\Database\DisplayFeedback.gbd
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\Database\Seated.gbd
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\DiscreteGestureBasics-WPF.exe
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\DiscreteGestureBasics-WPF.pdb
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.dll
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.VisualGestureBuilder.dll
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.xml
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\bin\x86\Debug\Microsoft.Kinect.VisualGestureBuilder.xml
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.csprojResolveAssemblyReference.cache
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\MainWindow.g.cs
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\App.g.cs
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF_Content.g.cs
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF_MarkupCompile.cache
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF_MarkupCompile.lref
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\MainWindow.baml
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.g.resources
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\Microsoft.Samples.Kinect.DiscreteGestureBasics.Properties.Resources.resources
+E:\OneDrive\Documentos\ECEN 403\Team7\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\DiscreteGestureBasics-WPF.csproj.GenerateResource.Cache
