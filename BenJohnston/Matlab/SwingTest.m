@@ -1,7 +1,7 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = 'Swing 23D 15 sec.txt';
+filename = 'Stationary 23D 1 min.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
@@ -61,23 +61,20 @@ a_distance = cumtrapz(t,a_velocity);     % vel to distance
 %angular distance to linear position
 position(:,1) = -1+cosd(a_distance(:,3))+sind(a_distance(:,2));
 position(:,2) = -1+cosd(a_distance(:,1))+sind(a_distance(:,3));
-position(:,3) = -1+cosd(a_distance(:,2))+sind(a_distance(:,1));
+position(:,3) = (-1+cosd(a_distance(:,2))+sind(a_distance(:,1)))*-1;
 
 %plotting
 set(gcf,'color','white')
 subplot(2,1,1)
-plot3(position(:,3),position(:,1),position(:,2))
-title('3-D Linear Position based on Relative Angular Velocity')
-xlabel('z Position'),ylabel('x Position'),zlabel('y Position')
-xlim([-0.5 0.5]), ylim([-0.5 0.5]), zlim([-0.5 0.5])
-grid on
-savefig('3d_grid.fig')
-
+plot(position(:,1),position(:,3))
+title('Swing Position')
+xlabel('x Position'),ylabel('z Position')
+xlim([-0.5 0.5]), ylim([-0.5 0.5])
 
 subplot(2,1,2)
 plot(t,a_distance(:,2))
-title('x Axis Angular Velocity')
-ylabel('Angular Velocity (deg/s)'),xlabel('Time (s)')
+title('y Axis Angular Distance')
+ylabel('Angular Distance (deg)'),xlabel('Time (s)')
 %ylim([-.1 .1])
 
 %results

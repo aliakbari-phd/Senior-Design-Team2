@@ -1,0 +1,23 @@
+row	name		port	note
+1	RemoteXXXX	12	
+2	RemoteXXXX	14	
+
+General Notes
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 1 : RemoteXXXX : COM12
+DEBUG->    begin init[1] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM12
+DEBUG->       Opened DCB12
+DEBUG->       Opened COM14
+DEBUG->       Opened DCB14
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 1 : RemoteXXXX : COM12
+DEBUG->       Closed COM12
+DEBUG->       Closed File D:/Ben TAMU/MotionNet/Executable/Split/m0001_s01_m01_n01.txt
+DEBUG->    Success close[0] node 1 : RemoteXXXX : COM12
+DEBUG->    begin close[1] node 2 : RemoteXXXX : COM14
+DEBUG->       Closed COM14
+DEBUG->       Closed File D:/Ben TAMU/MotionNet/Executable/Split/m0001_s01_m01_n02.txt
+DEBUG->    Success close[1] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
