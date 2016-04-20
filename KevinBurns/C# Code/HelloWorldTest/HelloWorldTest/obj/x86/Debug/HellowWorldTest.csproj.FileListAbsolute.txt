@@ -1,0 +1,4 @@
+C:\Users\burns\Desktop\VS Projects\HellowWorldTest\HellowWorldTest\bin\Debug\HellowWorldTest.exe
+C:\Users\burns\Desktop\VS Projects\HellowWorldTest\HellowWorldTest\bin\Debug\HellowWorldTest.pdb
+C:\Users\burns\Desktop\VS Projects\HellowWorldTest\HellowWorldTest\obj\x86\Debug\HellowWorldTest.exe
+C:\Users\burns\Desktop\VS Projects\HellowWorldTest\HellowWorldTest\obj\x86\Debug\HellowWorldTest.pdb
