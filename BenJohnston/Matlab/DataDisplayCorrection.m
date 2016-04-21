@@ -1,7 +1,7 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = 'Swing 23D 15 sec.txt';
+filename = 'Stationary 23D 1 min.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
