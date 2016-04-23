@@ -1,0 +1,6 @@
+Updated data structures and helped implement Kinect Feedback with Benny Chan, started implementing database
+
+Tasks:
+finish basic database
+create a basic GUI
+Find out how to do basic data analysis to find quantified level of LBD.
