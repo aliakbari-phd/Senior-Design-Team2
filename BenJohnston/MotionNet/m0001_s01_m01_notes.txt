@@ -1,6 +1,5 @@
 row	name		port	note
 1	RemoteXXXX	12	
-2	RemoteXXXX	14	
 
 General Notes
 DEBUG-> INITIALIZING ALL CHECKED NODES
@@ -11,6 +10,8 @@ DEBUG->       Opened COM12
 DEBUG->       Opened DCB12
 DEBUG->       Opened COM14
 DEBUG->       Opened DCB14
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
 DEBUG-> CLOSING ALL CHECKED NODES
 DEBUG->    begin close[0] node 1 : RemoteXXXX : COM12
 DEBUG->       Closed COM12
@@ -20,4 +21,88 @@ DEBUG->    begin close[1] node 2 : RemoteXXXX : COM14
 DEBUG->       Closed COM14
 DEBUG->       Closed File D:/Ben TAMU/MotionNet/Executable/Split/m0001_s01_m01_n02.txt
 DEBUG->    Success close[1] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/New Sensor/m0001_s01_m01_notes.txt
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM12
+DEBUG->       Opened DCB12
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 1 : RemoteXXXX : COM12
+DEBUG->       Closed COM12
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/New Sensor/Split/m0001_s01_m01_n01.txt
+DEBUG->    Success close[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/New Sensor/m0001_s01_m01_notes.txt
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM12
+DEBUG->       Opened DCB12
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 1 : RemoteXXXX : COM12
+DEBUG->       Closed COM12
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/New Sensor/Split/m0001_s01_m01_n01.txt
+DEBUG->    Success close[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/New Sensor/m0001_s01_m01_notes.txt
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM14
+DEBUG->       Opened DCB14
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 2 : RemoteXXXX : COM14
+DEBUG->       Closed COM14
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/New Sensor/Split/m0001_s01_m01_n02.txt
+DEBUG->    Success close[0] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/m0001_s01_m01_notes.txt
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM14
+DEBUG->       Opened DCB14
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 2 : RemoteXXXX : COM14
+DEBUG->       Closed COM14
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/Split/m0001_s01_m01_n02.txt
+DEBUG->    Success close[0] node 2 : RemoteXXXX : COM14
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/m0001_s01_m01_notes.txt
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM12
+DEBUG->       Opened DCB12
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 1 : RemoteXXXX : COM12
+DEBUG->       Closed COM12
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/Split/m0001_s01_m01_n01.txt
+DEBUG->    Success close[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/m0001_s01_m01_notes.txt
+DEBUG-> INITIALIZING ALL CHECKED NODES
+DEBUG->    begin init[0] node 1 : RemoteXXXX : COM12
+DEBUG-> SUCCESS INITIALIZING ALL CHECKED NODES
+DEBUG->       Opened COM12
+DEBUG->       Opened DCB12
+DEBUG-> READING FROM ALL CHECKED NODES
+DEBUG-> SUCCESS READING ALL CHECKED NODES
+DEBUG-> CLOSING ALL CHECKED NODES
+DEBUG->    begin close[0] node 1 : RemoteXXXX : COM12
+DEBUG->       Closed COM12
+DEBUG->       Closed File C:/Users/Chasareth_2/Documents/GitHub/Team7/BenJohnston/MotionNet/Split/m0001_s01_m01_n01.txt
+DEBUG->    Success close[0] node 1 : RemoteXXXX : COM12
 DEBUG-> SUCCESS CLOSING ALL CHECKED NODES
