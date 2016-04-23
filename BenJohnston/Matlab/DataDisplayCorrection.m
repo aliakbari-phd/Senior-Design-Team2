@@ -1,7 +1,7 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = '200 Hz 15 sec 01.txt';
+filename = 'Stationary 23D 1 min.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
@@ -29,6 +29,7 @@ x_filter = designfilt('lowpassiir','FilterOrder',3,...
             'SampleRate',200e3);
 a_velocity = filter(x_filter,a_velocity);
 
+
 %best fit code
 t3(:,1) = transpose(t);
 t3(:,2) = transpose(t);
@@ -42,7 +43,7 @@ mean_y = mean(a_velocity(:,2));
 mean_z = mean(a_velocity(:,3));
 a_velocity(:,1)=a_velocity(:,1)-mean_x;
 a_velocity(:,2)=a_velocity(:,2)-mean_y;
-%a_velocity(:,3)=a_velocity(:,3)-mean_z;
+a_velocity(:,3)=a_velocity(:,3)-mean_z;
 
 %zero testing
 %a_velocity(:,1)=zeros(size(a_velocity(:,1)));
@@ -58,23 +59,23 @@ a_position = trapz(t,a_velocity);
 a_distance = cumtrapz(t,a_velocity);     % vel to distance
 
 %angular distance to linear position
-position(:,1) = cosd(a_distance(:,3))+sind(a_distance(:,2));
+position(:,1) = -1+cosd(a_distance(:,3))+sind(a_distance(:,2));
 position(:,2) = -1+cosd(a_distance(:,1))+sind(a_distance(:,3));
 position(:,3) = -1+cosd(a_distance(:,2))+sind(a_distance(:,1));
 
 %plotting
 set(gcf,'color','white')
 subplot(2,1,1)
-plot3(position(:,1),position(:,2),position(:,3))
+plot3(position(:,3),position(:,1),position(:,2))
 title('3-D Linear Position based on Relative Angular Velocity')
-xlabel('x Position'),ylabel('y Position'),zlabel('z Position')
-zlim([-1 1])
+xlabel('z Position'),ylabel('x Position'),zlabel('y Position')
+xlim([-0.5 0.5]), ylim([-0.5 0.5]), zlim([-0.5 0.5])
 grid on
 savefig('3d_grid.fig')
 
 
 subplot(2,1,2)
-plot(t,a_velocity(:,1))
+plot(t,a_distance(:,2))
 title('x Axis Angular Velocity')
 ylabel('Angular Velocity (deg/s)'),xlabel('Time (s)')
 %ylim([-.1 .1])

@@ -1,0 +1,5 @@
+C:\Users\burns\Desktop\VS Projects\HelloWorldTest\HelloWorldTest\obj\x86\Debug\HellowWorldTest.exe
+C:\Users\burns\Desktop\VS Projects\HelloWorldTest\HelloWorldTest\bin\Debug\HellowWorldTest.exe
+C:\Users\burns\Desktop\VS Projects\HelloWorldTest\HelloWorldTest\bin\Debug\HellowWorldTest.pdb
+C:\Users\burns\Desktop\VS Projects\HelloWorldTest\HelloWorldTest\obj\x86\Debug\HelloWorldTest.csprojResolveAssemblyReference.cache
+C:\Users\burns\Desktop\VS Projects\HelloWorldTest\HelloWorldTest\obj\x86\Debug\HellowWorldTest.pdb

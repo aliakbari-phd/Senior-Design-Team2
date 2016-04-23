@@ -435,6 +435,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos);
+                            angleTxt.Text = kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos).ToString();
                         }
 
                         //Collect Spine Base Data
@@ -706,9 +707,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         //  start create files for Kinect and sensor and start to record data
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            string fpath = "C:/Users/Alex/Documents/BodyBasics-WPF-IntegratedSensors/SD01/";
-            //string fpath2 = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
-            //string fpath3 = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
+            //string fpath = "C:/Users/Alex/Documents/BodyBasics-WPF-IntegratedSensors/SD01/";
+            //string fpath = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
+            //string fpath = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
+            string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
             string[] dirs = Directory.GetFiles(fpath);
             int num = dirs.Length;
             fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase.txt"), FileMode.Create);

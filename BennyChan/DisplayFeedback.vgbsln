@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GestureBuilderFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<SolutionFile>
+		<Header>
+			<Date>2016-04-19</Date>
+			<Time>20:09:37.5264926-05:00</Time>
+			<Version>1</Version>
+			<Type>Solution</Type>
+			<ID>714f2c48-c015-4592-afe4-e14e2b7613a1</ID>
+		</Header>
+		<Solution_Data>
+			<Files>
+				<Name />
+				<Content>
+					<Items>
+						<File>ArmsCrossed.vgbproj</File>
+					</Items>
+					<Items>
+						<File>ArmsCrossed.a.vgbproj</File>
+					</Items>
+					<Items>
+						<File>StandingUpStraight.vgbproj</File>
+					</Items>
+					<Items>
+						<File>StandingUpStraight.a.vgbproj</File>
+					</Items>
+				</Content>
+			</Files>
+		</Solution_Data>
+		<UI_State />
+		<Attributes />
+	</SolutionFile>
+</GestureBuilderFile>
