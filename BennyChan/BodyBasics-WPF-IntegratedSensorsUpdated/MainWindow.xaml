@@ -37,6 +37,6 @@
         <Button Content="Initialization" Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="199,3,0,0" Name="button4" VerticalAlignment="Top" Width="67" Click="button4_Click" />
         <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="428,3,0,0" Name="comboBox3" VerticalAlignment="Top" Width="77" IsTabStop="False" IsEditable="True" />
         <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="428,32,0,0" Name="comboBox4" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
-        <TextBlock x:Name="angleTxt" HorizontalAlignment="Left" Height="45" Margin="527,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Angle" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="angleTxt" HorizontalAlignment="Left" Height="45" Margin="527,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Sagital Angle" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
     </Grid>
 </Window>

@@ -95,10 +95,10 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                 StandingResultView standingResult = new StandingResultView(0, false, false, 0.0f);
                 ArmsCrossedResultView armsCrossedResult = new ArmsCrossedResultView(0, false, false, 0.0f);
                 GestureDetector detector = new GestureDetector(this.kinectSensor, standingResult, armsCrossedResult);
-                this.gestureDetectorList.Add(detector);                
-                
-                // split gesture results across the first two columns of the content grid
-                ContentControl standingcontentControl = new ContentControl();
+                this.gestureDetectorList.Add(detector);
+
+                    // split gesture results across the first two columns of the content grid
+                    ContentControl standingcontentControl = new ContentControl();
                 ContentControl armscrossedcontentControl = new ContentControl();
                 standingcontentControl.Content = this.gestureDetectorList[i].StandingResultView;
                 armscrossedcontentControl.Content = this.gestureDetectorList[i].ArmsCrossedResultView;

@@ -205,6 +205,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                     int penIndex = 0;
                     foreach (Body body in bodies)
                     {
+
                         Pen drawPen = this.bodyColors[penIndex++];
 
                         if (body.IsTracked)

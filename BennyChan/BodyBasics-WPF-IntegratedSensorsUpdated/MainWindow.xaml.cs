@@ -765,6 +765,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //fs_sensor3.Close();
             //fs_sensor4.Close();
 
+            kinectFeedback.initialPosRS.Clear();
+            kinectFeedback.isInitial = true;
+
             button1.IsEnabled = true;
             ButtonStop.IsEnabled = false;
         }

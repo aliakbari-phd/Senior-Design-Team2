@@ -70,6 +70,7 @@
                     <Image Source="{Binding ImageSource}" Stretch="UniformToFill" />
                 </Viewbox>
             </StackPanel>
+            <TextBlock x:Name="angleTxt" Grid.Column="2" HorizontalAlignment="Left" Height="49" Margin="116,76,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Angle" VerticalAlignment="Top" Width="149" FontSize="32"/>
         </Grid>
 
         <StatusBar Grid.Row="2" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Bottom" Background="White" Foreground="{StaticResource MediumGreyBrush}">
