@@ -34,7 +34,7 @@ t = (1:length(Ltime)).*T;       %create time vector based on average period
 
 aa = gyro.*T;     %create axis matrix
 
-
+%This is an example addition
 
 for i=1:length(aa)  %create angle matrix
     angle(i,:,1) = norm(aa(i,:));
