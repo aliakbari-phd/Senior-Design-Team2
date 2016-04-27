@@ -1,7 +1,7 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = 'Stationary 23D 1 min.txt';
+filename = 'Swing 23D 2 hr.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
@@ -69,14 +69,14 @@ subplot(2,1,1)
 plot(position(:,1),position(:,3))
 title('Swing Position')
 xlabel('x Position'),ylabel('z Position')
-xlim([-0.5 0.5]), ylim([-0.5 0.5])
+%xlim([-0.5 0.5]), ylim([-0.5 0.5])
 
 subplot(2,1,2)
 plot(t,a_distance(:,2))
 title('y Axis Angular Distance')
 ylabel('Angular Distance (deg)'),xlabel('Time (s)')
 %ylim([-.1 .1])
-
+xlim([500 515])
 %results
 abs_distance = cumtrapz(t,abs(gyro));
 
