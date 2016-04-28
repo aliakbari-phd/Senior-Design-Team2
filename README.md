@@ -19,8 +19,8 @@ Our team will combine the use of wearable inertial sensors and a Microsoft Kinec
 
 ## Block Diagram:
 
-![Block Diagram](http://imgur.com/I17h0av "Block Diagram")
+![Block Diagram](http://i.imgur.com/I17h0av.png "Block Diagram")
 
 ## Concept Sketch:
 
-![Concept Sketch](http://imgur.com/Zqgoq5p "Concept Sketch")
+![Concept Sketch](http://i.imgur.com/Zqgoq5p.png "Concept Sketch")
