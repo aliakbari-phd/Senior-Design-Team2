@@ -1,6 +1,5 @@
 # Wearable Computers for Quantification of Lower Back Disorders
-## Team 7
-## Ben Johnston, Kevin Burns, Alex Dubois, Benny Chan
+## Team 7: Ben Johnston, Kevin Burns, Alex Dubois, Benny Chan
 
 ## Abstract:
 
