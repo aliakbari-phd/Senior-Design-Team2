@@ -16,3 +16,11 @@ Lower back disorders (LBDs) are the most common work-related musculoskeletal dis
 Our goal is to create a system that can monitor the movement of the patient’s lower back during a specified exercise to characterize and quantify the severity of a lower back disorder. The exercise requires the patient to stand up straight with their arms crossed over one another with their hands resting on their chest. The patient then bends straight down, with their hands remaining on their chest, and returns to the original position. This exercise is repeated as many times as the patient can without undue pain in a 15 second window. This exercise is repeated at 15 degrees, 30 degrees, and as far as the patient can rotate in either direction from the sagittal plane. Repeated motion testing has varied results and can thus be used to provide a full characterization of a human process. 
 
 Our team will combine the use of wearable inertial sensors and a Microsoft Kinect working in tandem to track this motion. The inertial sensors will deliver the pertinent angular characterization of the lower back, and the Kinect will assist in error correction of the inertial sensors as well as ensure proper patient posture throughout the exercise. This data will be synchronized and corrected for standard sensor error. The corrected data will be analyzed to provide the severity quantification as well as being stored on a database. The motion and quantified information will be shown on a graphical user interface on the operator’s computer and posture correction feedback will be shown on a separate display monitor.
+
+## Block Diagram:
+
+![Block Diagram](http://imgur.com/I17h0av "Block Diagram")
+
+## Concept Sketch:
+
+![Concept Sketch](http://imgur.com/Zqgoq5p "Concept Sketch")
