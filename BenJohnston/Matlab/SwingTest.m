@@ -41,14 +41,14 @@ c_velocity = transpose(polyval(p1,t));      %best fit line of velocity data
 mean_x = mean(gyro(:,1));
 mean_y = mean(gyro(:,2));
 mean_z = mean(gyro(:,3));
-gyro(:,1)=gyro(:,1)-mean_x;
-gyro(:,2)=gyro(:,2)-mean_y;
-gyro(:,3)=gyro(:,3)-mean_z;
+%gyro(:,1)=gyro(:,1)+1.2386; %mean_x
+%gyro(:,2)=gyro(:,2)+0.74415; %mean_y
+%gyro(:,3)=gyro(:,3)-0.837; %mean_z
 
 %zero testing
-%a_velocity(:,1)=zeros(size(a_velocity(:,1)));
-%a_velocity(:,2)=zeros(size(a_velocity(:,2)));
-%a_velocity(:,3)=zeros(size(a_velocity(:,3)));
+%gyro(:,1)=zeros(size(gyro(:,1)));
+%gyro(:,2)=zeros(size(gyro(:,2)));
+%gyro(:,3)=zeros(size(gyro(:,3)));
 
 %differentiation and integration
 a_acceleration = diff(gyro);             % vel to accel 
@@ -76,7 +76,7 @@ plot(t,a_distance(:,2))
 title('y Axis Angular Distance')
 ylabel('Angular Distance (deg)'),xlabel('Time (s)')
 %ylim([-.1 .1])
-xlim([500 515])
+%xlim([500 515])
 %results
 abs_distance = cumtrapz(t,abs(gyro));
 
