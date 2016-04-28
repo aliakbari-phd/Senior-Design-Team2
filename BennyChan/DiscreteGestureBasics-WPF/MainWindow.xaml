@@ -9,7 +9,7 @@
         <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e" />
         <SolidColorBrush x:Key="KinectPurpleBrush" Color="#ff52318f" />
         <SolidColorBrush x:Key="KinectBlueBrush" Color="#ff00BCF2" />
-        
+
         <DataTemplate DataType="{x:Type local:StandingResultView}">
             <Grid Width="Auto" Margin="5" Background="{Binding BodyColor}">
                 <Grid.RowDefinitions>
@@ -39,7 +39,7 @@
         </DataTemplate>
 
     </Window.Resources>
-    
+
     <Grid Margin="10 0 10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -70,11 +70,23 @@
                     <Image Source="{Binding ImageSource}" Stretch="UniformToFill" />
                 </Viewbox>
             </StackPanel>
-            <TextBlock x:Name="angleTxt" Grid.Column="2" HorizontalAlignment="Left" Height="49" Margin="116,76,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Angle" VerticalAlignment="Top" Width="149" FontSize="32"/>
+            <TextBlock x:Name="sagittal" Grid.Column="2" HorizontalAlignment="Right" Height="35" Margin="0,10,172,0" TextWrapping="Wrap" Text="Sagittal Angle:" VerticalAlignment="Top" Width="179" FontSize="26.667"/>
+            <TextBlock x:Name="flex" Grid.Column="2" Height="35" Margin="0,45,172,0" TextWrapping="Wrap" Text="Flex Angle:" VerticalAlignment="Top" FontSize="26.667" HorizontalAlignment="Right" Width="179"/>
+            <TextBlock x:Name="sagittalAngle" Grid.Column="2" Height="35" Margin="0,10,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" FontSize="26.667" HorizontalAlignment="Right" Width="179"/>
+            <TextBlock x:Name="flexAngle" Grid.Column="2" HorizontalAlignment="Right" Height="35" Margin="0,45,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="179" FontSize="26.667" RenderTransformOrigin="0.326,2.678"/>
+            <TextBlock x:Name="zeroBool" Grid.Column="1" HorizontalAlignment="Left" Height="72" Margin="27,68,0,0" TextWrapping="Wrap" Text="Bool" VerticalAlignment="Top" Width="143" FontSize="64"/>
+            <TextBlock x:Name="fifteenBool" Grid.Column="1" HorizontalAlignment="Left" Height="74" Margin="27,58,0,0" TextWrapping="Wrap" Text="Bool" VerticalAlignment="Top" Width="143" FontSize="64" Grid.Row="1"/>
+            <TextBlock x:Name="thirtyBool" Grid.Column="1" HorizontalAlignment="Left" Height="71" Margin="27,59,0,0" TextWrapping="Wrap" Text="Bool" VerticalAlignment="Top" Width="143" FontSize="64" Grid.Row="2"/>
+            <TextBlock x:Name="zeroBool_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="72" Margin="77,8,0,0" TextWrapping="Wrap" Text="0°" VerticalAlignment="Top" Width="64" FontSize="64" RenderTransformOrigin="1.383,0.625"/>
+            <TextBlock x:Name="zeroBool_Copy1" Grid.Column="1" HorizontalAlignment="Left" Height="72" Margin="57,5,0,0" TextWrapping="Wrap" Text="15°" VerticalAlignment="Top" Width="96" FontSize="64" Grid.Row="1"/>
+            <TextBlock x:Name="zeroBool_Copy2" Grid.Column="1" HorizontalAlignment="Left" Height="72" Margin="57,10,0,0" TextWrapping="Wrap" Text="30°" VerticalAlignment="Top" Width="96" FontSize="64" Grid.Row="2"/>
+            <TextBlock x:Name="isFullFlex" HorizontalAlignment="Left" Height="71" Margin="28,61,0,0" TextWrapping="Wrap" Text="Bool" VerticalAlignment="Top" Width="143" FontSize="64" Grid.Row="2"/>
+            <TextBlock x:Name="zeroBool_Copy3" HorizontalAlignment="Left" Height="72" Margin="28,26,0,0" TextWrapping="Wrap" Text="Full Flex" VerticalAlignment="Top" Width="119" FontSize="32" Grid.Row="2"/>
         </Grid>
 
         <StatusBar Grid.Row="2" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Bottom" Background="White" Foreground="{StaticResource MediumGreyBrush}">
             <StatusBarItem Content="{Binding StatusText}" />
         </StatusBar>
+        <Button Content="Calibrate" Grid.Row="1" Margin="0,0,10,10" Name="ButtonCalibrate" Click="button3_Click" DataContext="{Binding}" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="86" />
     </Grid>
 </Window>

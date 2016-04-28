@@ -121,6 +121,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private StreamWriter spineshoulderSW;
         private static FileStream fs_kinect_rightshoulder;
         private StreamWriter rightshoulderSW;
+        private static FileStream fs_kinect_sagittalangle;
+        private StreamWriter sagittalangleSW;
+        private static FileStream fs_kinect_flexangle;
+        private StreamWriter flexangleSW;
         private static FileStream fs_sensor1;
         private StreamWriter sw2;
         private static FileStream fs_sensor2;
@@ -421,21 +425,30 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         {
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.X);
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Y);
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Z);
                             kinectFeedback.isInitial = false;
                         }
 
                         else
                         {
                             List<float> rightShoulderPos = new List<float>();
+                            List<float> spineShoulderPos = new List<float>();
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
-                            kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos);
-                            angleTxt.Text = kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos).ToString();
+                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
+                            kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                            sagittalAngle.Text = kinectFeedback.sagittalAngleTxt;
+                            flexAngle.Text = kinectFeedback.flexAngleTxt;
                         }
 
                         //Collect Spine Base Data
@@ -505,6 +518,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         spinemidSW.WriteLine(body.Joints[JointType.SpineMid].Position.X + " " + body.Joints[JointType.SpineMid].Position.Y + " " + body.Joints[JointType.SpineMid].Position.Z + " " + body.Joints[JointType.SpineMid].TrackingState + " " + timestamp);
                         spineshoulderSW.WriteLine(body.Joints[JointType.SpineShoulder].Position.X + " " + body.Joints[JointType.SpineShoulder].Position.Y + " " + body.Joints[JointType.SpineShoulder].Position.Z + " " + body.Joints[JointType.SpineShoulder].TrackingState + " " + timestamp);
                         rightshoulderSW.WriteLine(body.Joints[JointType.ShoulderRight].Position.X + " " + body.Joints[JointType.ShoulderRight].Position.Y + " " + body.Joints[JointType.ShoulderRight].Position.Z + " " + body.Joints[JointType.ShoulderRight].TrackingState + " " + timestamp);
+                        sagittalangleSW.WriteLine(kinectFeedback.currentSagittalAngle + " " + timestamp);
+                        flexangleSW.WriteLine(kinectFeedback.currentFlexAngle + " " + timestamp);
                     }
                 }
             }
@@ -710,7 +725,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //string fpath = "C:/Users/Alex/Documents/BodyBasics-WPF-IntegratedSensors/SD01/";
             //string fpath = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
             //string fpath = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
-            string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
+            //string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
+            string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
             string[] dirs = Directory.GetFiles(fpath);
             int num = dirs.Length;
             fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase.txt"), FileMode.Create);
@@ -724,6 +740,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
             rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
+
+            fs_kinect_sagittalangle = new FileStream(string.Concat(fpath, "sagittalangle.txt"), FileMode.Create);
+            sagittalangleSW = new StreamWriter(fs_kinect_sagittalangle);
+
+            fs_kinect_flexangle = new FileStream(string.Concat(fpath, "flexangle.txt"), FileMode.Create);
+            flexangleSW = new StreamWriter(fs_kinect_flexangle);
 
             fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
             sw2 = new StreamWriter(fs_sensor1);
@@ -751,6 +773,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             spinemidSW.Close();
             spineshoulderSW.Close();
             rightshoulderSW.Close();
+            sagittalangleSW.Close();
+            flexangleSW.Close();
             sw2.Close();
             sw3.Close();
             //sw4.Close();
@@ -760,12 +784,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             fs_kinect_spinemid.Close();
             fs_kinect_spineshoulder.Close();
             fs_kinect_rightshoulder.Close();
+            fs_kinect_sagittalangle.Close();
+            fs_kinect_flexangle.Close();
             fs_sensor1.Close();
             fs_sensor2.Close();
             //fs_sensor3.Close();
             //fs_sensor4.Close();
 
             kinectFeedback.initialPosRS.Clear();
+            kinectFeedback.initialPosSS.Clear();
+            kinectFeedback.initialPosSB.Clear();
+            kinectFeedback.sagittalAngle.Clear();
+            kinectFeedback.flexAngle.Clear();
             kinectFeedback.isInitial = true;
 
             button1.IsEnabled = true;
@@ -1116,6 +1146,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 spineBaseSW.Close();
                 spinemidSW.Close();
                 spineshoulderSW.Close();
+                rightshoulderSW.Close();
+                sagittalangleSW.Close();
+                flexangleSW.Close();
                 sw2.Close();
                 sw3.Close();
                 sw4.Close();
@@ -1124,6 +1157,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 fs_kinect_spinemid.Close();
                 fs_kinect_spineshoulder.Close();
                 fs_kinect_rightshoulder.Close();
+                fs_kinect_sagittalangle.Close();
+                fs_kinect_flexangle.Close();
                 fs_sensor1.Close();
                 fs_sensor2.Close();
                 fs_sensor3.Close();

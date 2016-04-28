@@ -6,18 +6,9 @@ A = importdata(filenameA, delimiterIn, headerlinesIn);
 SpineBaseX = str2double(A.textdata(:,1));
 SpineBaseY = str2double(A.textdata(:,2));
 SpineBaseZ = str2double(A.textdata(:,3));
-VelSpineBaseX = diff(SpineBaseX);
-VelSpineBaseX = [0; VelSpineBaseX];
-VelSpineBaseY = diff(SpineBaseY);
-VelSpineBaseY = [0; VelSpineBaseY];
-VelSpineBaseZ = diff(SpineBaseZ);
-VelSpineBaseZ = [0; VelSpineBaseZ];
 SpineBaseX = SpineBaseX.*100;
 SpineBaseY = SpineBaseY.*100;
 SpineBaseZ = SpineBaseZ.*100;
-VelSpineBaseX = VelSpineBaseX.*100;
-VelSpineBaseY = VelSpineBaseY.*100;
-VelSpineBaseZ = VelSpineBaseZ.*100;
 t = A.data(:,1);
 TestDuration = t-t(1);
 TestDuration = TestDuration./1000;
@@ -37,11 +28,11 @@ end
 %TestDurationMovement = TestDuration(1: 151);
 figure(1)
 set(gcf, 'color', 'white');
-subplot(4, 1, 1), plot(TestDuration(1: 151), VelSpineBaseX(1: 151)), ylabel('PositionX (cm)');
+subplot(4, 1, 1), plot(TestDuration, SpineBaseX), ylabel('PositionX (cm)');
 title('SpineBase');
-subplot(4, 1, 2), plot(TestDuration(1: 151), VelSpineBaseY(1: 151)), ylabel('PositionY (cm)');
-subplot(4, 1, 3), plot(TestDuration(1: 151), VelSpineBaseZ(1: 151)), ylabel('PositionZ (cm)');
-subplot(4, 1, 4), plot(TestDuration(1: 151), SpineBaseTracked(1: 151)), ylabel('IsTracked');
+subplot(4, 1, 2), plot(TestDuration, SpineBaseY), ylabel('PositionY (cm)');
+subplot(4, 1, 3), plot(TestDuration, SpineBaseZ), ylabel('PositionZ (cm)');
+subplot(4, 1, 4), plot(TestDuration, SpineBaseTracked), ylabel('IsTracked');
 xlabel('seconds');
 
 filenameB = 'spinemid.txt';
@@ -131,6 +122,17 @@ subplot(4, 1, 3), plot(TestDuration, RightShoulderZ), ylabel('PositionZ (cm)');
 subplot(4, 1, 4), plot(TestDuration, RightShoulderTracked), ylabel('IsTracked');
 xlabel('seconds');
 
+filenameE = 'flexangle.txt';
+E = importdata(filenameE, delimiterIn, headerlinesIn);
+flexAngle = E(:,1);
+v = 1:length(flexAngle);
+figure(6)
+set(gcf, 'color', 'white');
+subplot(2, 1, 1), plot(TestDuration, flexAngle), ylabel('Degrees');
+title('Flex Angle');
+xlabel('seconds');
+
+
 figure(5)
 set(gcf, 'color', 'white');
 plot3(SpineShoulderX, SpineShoulderZ, SpineShoulderY);
@@ -143,4 +145,6 @@ hold on;
 plot3(SpineMidX, SpineMidZ, SpineMidY);
 hold on;
 plot3(SpineBaseX, SpineBaseZ, SpineBaseY);
+legend('Spine Shoulder', 'Spine Mid', 'Spine Base');
+legend('boxoff')
 title('Session 1 Test');

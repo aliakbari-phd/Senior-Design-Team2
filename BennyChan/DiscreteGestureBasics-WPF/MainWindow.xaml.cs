@@ -157,6 +157,20 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
             }
         }
 
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            kinectBodyView.kinectFeedback.initialPosRS.Clear();
+            kinectBodyView.kinectFeedback.initialPosSS.Clear();
+            kinectBodyView.kinectFeedback.initialPosSB.Clear();
+            kinectBodyView.kinectFeedback.sagittalAngle.Clear();
+            kinectBodyView.kinectFeedback.flexAngle.Clear();
+            kinectBodyView.kinectFeedback.isInitial = true;
+
+            ButtonCalibrate.IsEnabled = false;
+            ButtonCalibrate.IsEnabled = true;
+        }
+
+
         /// <summary>
         /// Execute shutdown tasks
         /// </summary>
@@ -269,6 +283,12 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 
                 // visualize the new body data
                 this.kinectBodyView.UpdateBodyFrame(this.bodies);
+                sagittalAngle.Text = kinectBodyView.kinectFeedback.sagittalAngleTxt;
+                flexAngle.Text = kinectBodyView.kinectFeedback.flexAngleTxt;
+                zeroBool.Text = kinectBodyView.kinectFeedback.isZero;
+                fifteenBool.Text = kinectBodyView.kinectFeedback.isFifteen;
+                thirtyBool.Text = kinectBodyView.kinectFeedback.isThirty;
+                isFullFlex.Text = kinectBodyView.kinectFeedback.isFlex;
 
                 // we may have lost/acquired bodies, so update the corresponding gesture detectors
                 if (this.bodies != null)

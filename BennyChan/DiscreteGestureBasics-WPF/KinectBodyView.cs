@@ -102,6 +102,8 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// </summary>
         private List<Pen> bodyColors;
 
+        public KinectFeedback kinectFeedback = new KinectFeedback();
+
         /// <summary>
         /// Initializes a new instance of the KinectBodyView class
         /// </summary>
@@ -210,6 +212,67 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 
                         if (body.IsTracked)
                         {
+
+                            if (kinectFeedback.isInitial == true)
+                            {
+                                kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                                kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                                kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.X);
+                                kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                                kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                                kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Y);
+                                kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                                kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                                kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Z);
+                                kinectFeedback.isInitial = false;
+                            }
+
+                            else
+                            {
+                                List<float> rightShoulderPos = new List<float>();
+                                List<float> spineShoulderPos = new List<float>();
+                                rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                                spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                                rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                                spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                                rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
+                                spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                                kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
+                                kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                                if (kinectFeedback.currentSagittalAngle >= -5.0f && kinectFeedback.currentSagittalAngle <= 5.0f)
+                                {
+                                    kinectFeedback.isZero = "True";
+                                }
+                                else
+                                {
+                                    kinectFeedback.isZero = "False";
+                                }
+                                if (kinectFeedback.currentSagittalAngle >= 10.0f && kinectFeedback.currentSagittalAngle <= 20.0f)
+                                {
+                                    kinectFeedback.isFifteen = "True";
+                                }
+                                else
+                                {
+                                    kinectFeedback.isFifteen = "False";
+                                }
+                                if (kinectFeedback.currentSagittalAngle >= 25.0f && kinectFeedback.currentSagittalAngle <= 35.0f)
+                                {
+                                    kinectFeedback.isThirty = "True";
+                                }
+                                else
+                                {
+                                    kinectFeedback.isThirty = "False";
+                                }
+                                if (kinectFeedback.currentFlexAngle <= 30.0f && kinectFeedback.currentFlexAngle >= 15.0f)
+                                {
+                                    kinectFeedback.isFlex = "True";
+                                }
+                                else
+                                {
+                                    kinectFeedback.isFlex = "False";
+                                }
+                            }
+
                             this.DrawClippedEdges(body, dc);
 
                             IReadOnlyDictionary<JointType, Joint> joints = body.Joints;

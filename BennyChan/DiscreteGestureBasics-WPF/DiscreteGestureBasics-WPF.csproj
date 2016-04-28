@@ -93,6 +93,7 @@
     <Compile Include="ArmsCrossedResultView.cs" />
     <Compile Include="KinectFeedback.cs" />
     <Compile Include="StandingResultView.cs" />
+    <Compile Include="ZeroResultView.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -122,6 +123,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\0.png" />
+    <Resource Include="Images\not0.png" />
     <Resource Include="Images\ArmsCrossed.png" />
     <Resource Include="Images\NotArmsCrossed.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -145,9 +148,7 @@
     <Resource Include="Images\Kinect.ico" />
     <Resource Include="Images\Logo.png" />
     <Resource Include="Images\Status.png" />
-    <Resource Include="Images\NotSeated.png" />
     <Resource Include="Images\NotTracked.png" />
-    <Resource Include="Images\Seated.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\Seated.gbd">
