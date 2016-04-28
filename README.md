@@ -1,8 +1,8 @@
-# Team7
-Wearable Computers for Quantification of Lower Back Disorders
-Ben Johnston, Kevin Burns, Alex Dubois, Benny Chan
+# Wearable Computers for Quantification of Lower Back Disorders
+## Team 7
+## Ben Johnston, Kevin Burns, Alex Dubois, Benny Chan
 
-Abstract:
+## Abstract:
 
 Using a combination of wearable inertial sensors and a Microsoft Kinect, our group will create a cost effective system to model the motion of a patient’s lower back in order to quantify the severity of lumbar spinal disorders. This will provide an objective pre-surgical screening, where current methods are largely subjective.
 
@@ -10,7 +10,7 @@ Two small wearable inertial sensors will be placed in line with the patient’s 
 
 This system would be used in a physician’s clinic room and relatively simple to set up. There are other, more accurate, motion capture systems available that use infrared emission and detection to isolate specific markers on a subject. However, these options consume a large amount of space and cost hundreds of thousands of dollars or more.
 
-Introduction:
+## Introduction:
 
 Lower back disorders (LBDs) are the most common work-related musculoskeletal disorders. This translates to a significant cost to society. However, in 80 to 90 percent of cases, precise diagnosis is not known for disabling LBDs. An objective, quantified measure of the severity of lower back disorders is needed. A proven metric can provide a benchmark for returning to the job without risk of exacerbating the disorder, as well as a delineation between normal variability of pain and a disorder.
 
