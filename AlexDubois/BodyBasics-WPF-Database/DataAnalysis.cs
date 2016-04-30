@@ -3,12 +3,47 @@ using System.Collections.Generic;
 
 public class DataAnalysis
 {
+    static double flexAngleROM = 60;
+
+    //LBD Quantification Factors
+    static double maleGenderFactor = .7;
+    static double femaleGenderFactor = .8;
+
+    static double fpROMFactor = 1;
+    static double spROMFactor = 1;
+    static double asymCompleteFactor = 1;
+    static double twistingROMFactor = 1;
+    static double peakAngVelFactor = 1;
+    static double peakAngAccFactor = 1;
+    static double peakAngJerkFactor = 1;
+
+    //Patient Data
     public bool gender;
     public int age;
     public int currentPatientNum;
-    List<Int16> angle;
-    List<Int16> angularAccel;
-    List<Int16> angularJerk;
+    public int peakSPAngVelocityAt0;
+    public int peakSPAngAccelAt0;
+    public int peakAngJerkAt0;
+    public bool fpROM;
+    public bool spROM;
+    public bool asymComplete;
+
+    //Calculate twisting ROM
+    public double twistingROM;
+    public double maxSPCWAngle;
+    public double maxSPCCWAngle;
+
+    List<float> kinectSPAngleAt0;
+    List<float> kinectFlexAngleAt0;
+    List<float> angularSPVel;
+    List<float> angularFlexVel;
+    List<float> angularSPAccel;
+    List<float> angularSPJerk;
+    List<float> angularFlexAccel;
+    List<float> angularFlexJerk;
+
+    public double severityLBD;
+
     SensorData correctedData;
 
     public DataAnalysis()
@@ -16,32 +51,189 @@ public class DataAnalysis
         currentPatientNum = 0;
         gender = true;
         age = 0;
-        angle = new List<Int16>();
-        angularAccel = new List<Int16>();
-        angularJerk = new List<Int16>();
+        kinectSPAngleAt0 = new List<float>();
+        kinectFlexAngleAt0 = new List<float>();
+        angularSPVel = new List<float>();
+        angularFlexVel = new List<float>();
+        angularSPAccel = new List<float>();
+        angularFlexAccel = new List<float>();
+        angularSPJerk = new List<float>();
+        angularFlexJerk = new List<float>();
         correctedData = new SensorData();
     }
 
-    private void CalcAngle()
+    public void InitAngles(List<float> kinectSPAngles, List<float> kinectFlexAngles)
     {
-        /*for(int i = 0; i < correctedData.GetWearableData().Count; i ++)
-        {
-            List<Int16> data = correctedData.GetWearableData().FindIndex(i);
-            for(int j = 0; j < correctedData.GetWearableData().FindIndex(i).Count; j++)
-            {
+        kinectSPAngleAt0 = kinectSPAngles;
+        kinectFlexAngleAt0 = kinectFlexAngles;
+    }
 
+    private void MergeSensorData(SensorData correctedData)
+    {
+        //Analyze set of kinect and wearable sensor data
+        //for each motion set (across sagital plane, trunk flexion, extension)
+        //Vel, Accel, Jerk, Angle, etc, and pick most accurate ones
+    }
+
+
+    public double QuantifyLBD()
+    {
+        double rating = 0;
+        int step = 1;
+        double ageFactor = 0;
+        float maxVel = 30;
+        float maxAcc = 20;
+        float maxJerk = 10;
+
+        float peakSPAngle = 0;
+        float peakFlexAngle = 0;
+        
+        float peakSPAngVelocityAt0 = 0;
+        float peakSPAngAccelerationAt0 = 0;
+        float peakSPAngJerkAt0 = 0;
+
+        float peakFlexAngVelocityAt0 = 0;
+        float peakFlexAngAccelerationAt0 = 0;
+        float peakFlexAngJerkAt0 = 0;
+
+        //Retrieve SP Angular Velocity, Acceleration, and Jerk
+        //List<Int16> spAngVelocityAt0 = correctedData.wearableSensor1Data[0];
+        //List<Int16> spAngAccelerationAt0 = CalcStepDerivative(correctedData.wearableSensor1Data[0],step);
+        //List<Int16> spAngJerkAt0 = CalcStepDerivative(spAngAccelerationAt0,step);
+        //Retrieve the peaks of each
+        //peakSPAngVelocityAt0 = FindMax(spAngVelocityAt0);
+        //peakSPAngAccelerationAt0 = FindMax(spAngAccelerationAt0);
+        //peakSPAngJerkAt0 = FindMax(spAngJerkAt0);
+        angularSPVel = CalcStepDerivative(kinectSPAngleAt0, step);
+        angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, step);
+        angularSPAccel = CalcStepDerivative(angularSPVel, step);
+        angularFlexAccel = CalcStepDerivative(angularFlexVel, step);
+        angularSPJerk = CalcStepDerivative(angularSPAccel, step);
+        angularFlexJerk = CalcStepDerivative(angularFlexAccel, step);
+
+        peakSPAngle = FindMax(kinectSPAngleAt0);
+        peakFlexAngle = FindMax(kinectFlexAngleAt0);
+        peakSPAngVelocityAt0 = FindMax(angularSPVel);
+        peakSPAngAccelerationAt0 = FindMax(angularSPAccel);
+        peakSPAngJerkAt0 = FindMax(angularSPJerk);
+        peakFlexAngVelocityAt0 = FindMax(angularSPVel);
+        peakFlexAngAccelerationAt0 = FindMax(angularSPAccel);
+        peakFlexAngJerkAt0 = FindMax(angularSPJerk);
+
+        maxSPCWAngle = peakSPAngle;
+        maxSPCCWAngle = FindMin(kinectSPAngleAt0);
+
+        //Normalize peaks to a corresponding rating factor
+        rating += QuantifyPeak(maxVel, peakSPAngVelocityAt0, peakAngVelFactor);
+        rating += QuantifyPeak(maxAcc, peakSPAngAccelerationAt0, peakAngAccFactor);
+        rating += QuantifyPeak(maxJerk, peakSPAngJerkAt0, peakAngJerkFactor);
+
+        //Calculate twisting ROM
+        twistingROM = maxSPCWAngle - maxSPCCWAngle;
+
+        if (peakSPAngle < 30)
+        {
+            rating += spROMFactor*.5;
+            if (peakSPAngle < 15)
+            {
+                rating += spROMFactor * .5;
             }
         }
-        */
+
+
+
+        if(peakFlexAngle < flexAngleROM)
+        {
+            rating += fpROMFactor;
+        }
+
+        //Still needs definition
+        if(asymComplete == false)
+        {
+            rating += asymCompleteFactor;
+        }
+
+
+        //If unable to twist more than 90 degrees total
+        if(twistingROM < 90)
+        {
+            rating += twistingROMFactor;
+        }
+
+
+
+        //Normalize accoridng to gender factor
+        if(gender == true)
+        {
+            rating = rating * maleGenderFactor;
+        }
+
+        else
+        {
+            rating = rating * femaleGenderFactor;
+        }
+
+        //Factor in age
+        ageFactor = (1 / age);
+
+        rating += ageFactor;
+
+        severityLBD = rating;
+
+        return rating;
     }
 
-    private void CalcAngularAccel()
-    {
 
+    //potentially change to sensor data, keep a running max in main program
+    private float FindMax(List<float> list)
+    {
+        float max = 0;
+        for(int i = 0; i < list.Count; i++)
+        {
+            if(max < list[i])
+            {
+                max = list[i];
+            }
+        }
+        return max;
     }
 
-    private void CalcAnglularJerk()
+    //potentially change to sensor data, keep a running max in main program
+    private float FindMin(List<float> list)
     {
+        float min = 0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (min > list[i])
+            {
+                min = list[i];
+            }
+        }
+        return min;
+    }
 
+    private void Integrate()
+    {
+        //Define integration alg
+    }
+
+    private List<float> CalcStepDerivative(List<float> intList, int step)
+    {
+        List<float> derivative = new List<float>();
+        for(int i = 0; i < intList.Count - 1; i ++)
+        {
+            float accel = ((intList[i + 1] - intList[i])/ step);
+            derivative.Add(accel);
+        }
+
+        return derivative;
+    }
+    private double QuantifyPeak(float max, float peakMeasurement, double peakFactor)
+    {
+        double quantifiedPeak = 0;
+        quantifiedPeak = (peakMeasurement / max);
+        quantifiedPeak = (quantifiedPeak * peakFactor);
+        quantifiedPeak = peakFactor - quantifiedPeak;
+        return quantifiedPeak;
     }
 }

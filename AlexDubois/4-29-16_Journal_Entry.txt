@@ -1,0 +1,6 @@
+Created basic LBD quantification algorithm, basic database, integrated flex angle, and added new window for DDI
+
+Tasks:
+Finish DDI
+Fix quantification algorithm
+Push rest of data to database

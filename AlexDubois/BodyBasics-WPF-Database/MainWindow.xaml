@@ -13,7 +13,7 @@
   <Grid Margin="10 0 10 0">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
+      <RowDefinition Height="375" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
@@ -32,7 +32,7 @@
         <Button Content="Port Number1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="192,2,0,15" Name="button2" VerticalAlignment="Top" Width="66" Grid.Column="1" FontSize="10" />
         <ComboBox Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="264,3,0,0" Name="comboBox1" VerticalAlignment="Top" Width="70" DataContext="{Binding}" ItemsSource="{Binding}" IsEditable="True" Grid.Column="1" />
         <Button Content="Stop Recording" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="27,32,0,0" Name="ButtonStop" VerticalAlignment="Top" Width="86" Grid.RowSpan="2" Click="button3_Click" DataContext="{Binding}" Grid.Column="1" />
-        <Button Content="Port Number2" Grid.Row="2" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="192,32,0,15" Name="button3" VerticalAlignment="Bottom" Width="66" Grid.Column="1" FontSize="10" />
+        <Button Content="Port Number2" Grid.Row="2" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="192,32,0,100" Name="button3" VerticalAlignment="Bottom" Width="66" Grid.Column="1" FontSize="10" />
         <ComboBox Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="264,32,0,0" Name="comboBox2" VerticalAlignment="Top" Width="70" Grid.RowSpan="2" IsEditable="True" Grid.Column="1" />
         <Button Content="Initialization" Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="119,3,0,0" Name="button4" VerticalAlignment="Top" Width="67" Click="button4_Click" />
         <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="417,3,0,0" Name="ageBox" VerticalAlignment="Top" Width="77" IsTabStop="False" IsEditable="True" />
@@ -42,5 +42,7 @@
         <TextBlock x:Name="genderTxt" HorizontalAlignment="Left" Height="45" Margin="348,32,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Gender" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
         <TextBlock x:Name="PatientIDTxt" HorizontalAlignment="Left" Height="45" Margin="498,32,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Patient ID" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
         <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="587,32,0,0" Name="PatientIDBox" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
+        <TextBlock x:Name="sagittalAngle" HorizontalAlignment="Left" Height="31" Margin="27,65,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Sagital Angle:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="flexAngle" HorizontalAlignment="Left" Height="31" Margin="27,95,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Flex Angle:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
     </Grid>
 </Window>

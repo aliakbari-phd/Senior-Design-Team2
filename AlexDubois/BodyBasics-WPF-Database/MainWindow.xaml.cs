@@ -18,7 +18,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using Microsoft.Kinect;
     using System.IO.Ports;
     using System.Data;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Data.SqlClient;
     /// <summary>
@@ -295,8 +294,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             ProcessSensorData = new Thread[threadCount];
             (ProcessSensorData[0] = new Thread(Processing1)).Start();
             (ProcessSensorData[1] = new Thread(Processing2)).Start();
-            (ProcessSensorData[2] = new Thread(Processing3)).Start();
-            (ProcessSensorData[3] = new Thread(Processing4)).Start();
         }
 
         /// <summary>
@@ -423,21 +420,30 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         {
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.X);
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Y);
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Z);
                             kinectFeedback.isInitial = false;
                         }
 
                         else
                         {
                             List<float> rightShoulderPos = new List<float>();
+                            List<float> spineShoulderPos = new List<float>();
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
+                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
+                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
-                            kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos);
-                            angleTxt.Text = kinectFeedback.CalcAngleWithRespectToInitialPos(rightShoulderPos).ToString();
+                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
+                            kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                            sagittalAngle.Text = kinectFeedback.sagittalAngleTxt;
+                            flexAngle.Text = kinectFeedback.flexAngleTxt;
                         }
 
                         //Collect Spine Base Data
@@ -796,6 +802,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //fs_sensor3.Close();
             //fs_sensor4.Close();
 
+            dataAnalysis.InitAngles(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles);
+
+
             SqlCommand cmd = new SqlCommand();
             SqlDataReader dr;
 
@@ -815,6 +824,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             button1.IsEnabled = true;
             ButtonStop.IsEnabled = false;
+
+            dataAnalysis.QuantifyLBD();
+            ApplicationState.dataAnalysis = dataAnalysis;
+
+            var form = new DDI();
+            form.Show(); // if you need non-modal window
+
+            //Reset all of the kinect feedback status
+            kinectFeedback.Reset();
         }
 
         private void DataReceivedHandler1(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -1023,126 +1041,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        private void Processing3()
-        {
-            while (true)
-            {
-                lock (data3)
-                {
-                    while (data3.Count < 50)
-                    {
-                        Monitor.Wait(data3);
-                    }
+        
 
-
-                    int i = 1;
-                    while (i == 1)
-                    {
-                        RxPkt3[0] = data3.Dequeue();
-                        if (RxPkt3[0] == 16)
-                        {
-                            RxPkt3[1] = data3.Dequeue();
-                            if (RxPkt3[1] == 1)
-                            {
-                                int j = 1;
-                                int k = 2;
-                                while (j == 1)
-                                {
-                                    RxPkt3[k] = data3.Dequeue();
-                                    if (RxPkt3[k] == 16)
-                                    {
-                                        RxPkt3[k + 1] = data3.Dequeue();
-                                        if (RxPkt3[k + 1] == 4)
-                                        {
-                                            j = 0;
-                                            i = 0;
-                                        }
-                                    }
-                                    k++;
-                                }
-                            }
-                        }
-                    }
-                    byte[] convert = new byte[26];
-                    for (i = 0; i < 26; i++)
-                    {
-                        convert[i] = RxPkt3[i];
-                    }
-                    Array.Reverse(convert);//operating system is little endians while the package is big endians, reverse the array.
-                    if (kinect_start != 0)
-                    {
-                        DateTime datenow = DateTime.Now;
-                        int hour = datenow.Hour;
-                        int minute = datenow.Minute;
-                        int second = datenow.Second;
-                        int millisecond = datenow.Millisecond;
-                        int timestampS3 = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
-                        sw4.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS3);
-                    }
-                }
-            }
-        }
-
-
-        private void Processing4()
-        {
-            while (true)
-            {
-                lock (data4)
-                {
-                    while (data4.Count < 50)
-                    {
-                        Monitor.Wait(data4);
-                    }
-
-
-                    int i = 1;
-                    while (i == 1)
-                    {
-                        RxPkt4[0] = data4.Dequeue();
-                        if (RxPkt4[0] == 16)
-                        {
-                            RxPkt4[1] = data4.Dequeue();
-                            if (RxPkt4[1] == 1)
-                            {
-                                int j = 1;
-                                int k = 2;
-                                while (j == 1)
-                                {
-                                    RxPkt4[k] = data4.Dequeue();
-                                    if (RxPkt4[k] == 16)
-                                    {
-                                        RxPkt4[k + 1] = data4.Dequeue();
-                                        if (RxPkt4[k + 1] == 4)
-                                        {
-                                            j = 0;
-                                            i = 0;
-                                        }
-                                    }
-                                    k++;
-                                }
-                            }
-                        }
-                    }
-                    byte[] convert = new byte[26];
-                    for (i = 0; i < 26; i++)
-                    {
-                        convert[i] = RxPkt4[i];
-                    }
-                    Array.Reverse(convert);//operating system is little endians while the package is big endians, reverse the array.
-                    if (kinect_start != 0)
-                    {
-                        DateTime datenow = DateTime.Now;
-                        int hour = datenow.Hour;
-                        int minute = datenow.Minute;
-                        int second = datenow.Second;
-                        int millisecond = datenow.Millisecond;
-                        int timestampS4 = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
-                        sw5.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS4);
-                    }
-                }
-            }
-        }
+        //Close window button
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (keystart == 0 && e.Key == System.Windows.Input.Key.PageDown)
@@ -1173,16 +1074,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 fs_sensor2.Close();
                 fs_sensor3.Close();
                 fs_sensor4.Close();
+
+                //Reset kinect status
+                kinectFeedback.Reset();
                 ButtonStop.IsEnabled = false;
                 button1.IsEnabled = true;
             }
         }
 
+        //Initialize Sensors Button
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-
+            //If something is in the comboBox
             if (comboBox1.Text != "")
             {
+                //Connect through serial port1
                 serialPort1.PortName = "COM" + comboBox1.Text;
                 serialPort1.BaudRate = 115200;
                 serialPort1.Parity = Parity.None;
@@ -1190,6 +1096,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler1);
                 serialPort1.Open();
             }
+
 
             if (comboBox2.Text != "")
             {
@@ -1200,27 +1107,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 serialPort2.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler2);
                 serialPort2.Open();
             }
-
-            //if (comboBox3.Text != "")
-            //{
-            //    serialPort3.PortName = "COM" + comboBox3.Text;
-            //    serialPort3.BaudRate = 115200;
-            //    serialPort3.Parity = Parity.None;
-            //    serialPort3.StopBits = StopBits.One;
-            //    serialPort3.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler3);
-            //    serialPort3.Open();
-            //}
-
-            //if (comboBox4.Text != "")
-            //{
-            //    serialPort4.PortName = "COM" + comboBox4.Text;
-            //    serialPort4.BaudRate = 115200;
-            //    serialPort4.Parity = Parity.None;
-            //    serialPort4.StopBits = StopBits.One;
-            //    serialPort4.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler4);
-            //    serialPort4.Open();
-            //}
-
             button4.IsEnabled = false;
         }
 

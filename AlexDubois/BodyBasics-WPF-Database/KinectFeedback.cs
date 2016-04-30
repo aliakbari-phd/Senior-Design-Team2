@@ -8,19 +8,35 @@ using System.IO;
 public class KinectFeedback
 {
     public bool isInitial;
-    public List<double> sagittalAngle;
+    public List<float> sagittalAngles;
+    public List<float> flexAngles;
+    public float currentSagittalAngle;
+    public float currentFlexAngle;
     public List<float> initialPosRS;
     public List<float> initialPosSS;
+    public List<float> initialPosSB;
+    public string flexAngleTxt;
+    public string sagittalAngleTxt;
+    public string isZero;
+    public string isFifteen;
+    public string isThirty;
+    public string isFlex;
 
     public KinectFeedback()
-	{
+    {
         isInitial = true;
+        isZero = "False";
+        isFifteen = "False";
+        isThirty = "False";
+        isFlex = "False";
         initialPosRS = new List<float>();
         initialPosSS = new List<float>();
-        sagittalAngle = new List<double>();
+        initialPosSB = new List<float>();
+        sagittalAngles = new List<float>();
+        flexAngles = new List<float>();
     }
-    
-    public double CalcAngleWithRespectToInitialPos(List<float>jointPos)
+
+    public float CalcSagittalAngleWithRespectToInitialPos(List<float> jointPos)
     {
         List<float> vector0 = new List<float>();
         List<float> vector1 = new List<float>();
@@ -38,16 +54,47 @@ public class KinectFeedback
         }
 
         float dotProduct = DotProduct(vector0, vector1);
-        double magnitudeVector0 = CalcMagnitude(vector0);
-        double magnitudeVector1 = CalcMagnitude(vector1);
-        double cos = dotProduct / (magnitudeVector0 * magnitudeVector1);
-        sagittalAngle.Add(Math.Acos(cos)*(180/2*Math.PI));
-        double angle = Math.Acos(cos) * (180 / 2 * Math.PI);
-        return angle;
+        float magnitudeVector0 = CalcMagnitude(vector0);
+        float magnitudeVector1 = CalcMagnitude(vector1);
+        float cos = dotProduct / (magnitudeVector0 * magnitudeVector1);
+        double angle = Math.Acos(cos) * (180 / Math.PI);
+        sagittalAngleTxt = ((float)(angle)).ToString();
+        currentSagittalAngle = (float)(angle);
+        sagittalAngles.Add(currentSagittalAngle);
+        return (float)(angle);
+    }
+
+    public float CalcFlexAngleWithRespectToInitialPos(List<float> jointPos)
+    {
+        List<float> vector0 = new List<float>();
+        List<float> vector1 = new List<float>();
+
+        for (int i = 0; i < jointPos.Count; i++)
+        {
+            float posDiff = jointPos[i] - initialPosSB[i];
+            vector0.Add(posDiff);
+        }
+
+        for (int i = 0; i < jointPos.Count; i++)
+        {
+            //0 is the reference point of the Kinect
+            float posDiff = 0 - initialPosSS[i];
+            vector1.Add(posDiff);
+        }
+
+        float dotProduct = DotProduct(vector0, vector1);
+        float magnitudeVector0 = CalcMagnitude(vector0);
+        float magnitudeVector1 = CalcMagnitude(vector1);
+        float cos = dotProduct / (magnitudeVector0 * magnitudeVector1);
+        double angle = Math.Acos(cos) * (180 / Math.PI);
+        flexAngleTxt = ((float)(angle)).ToString();
+        currentFlexAngle = (float)(angle);
+        flexAngles.Add(currentFlexAngle);
+        return (float)(angle);
 
     }
 
-    private float DotProduct(List<float>vector1, List<float>vector2)
+    private float DotProduct(List<float> vector1, List<float> vector2)
     {
         float dotProduct = 0;
         for (int i = 0; i < vector1.Count; i++)
@@ -57,14 +104,24 @@ public class KinectFeedback
         return dotProduct;
     }
 
-    private double CalcMagnitude(List<float>vector)
+    private float CalcMagnitude(List<float> vector)
     {
         double magnitude = 0;
-        foreach(float pos in vector)
+        foreach (float pos in vector)
         {
             magnitude += pos * pos;
         }
         magnitude = Math.Sqrt(magnitude);
-        return magnitude;
+        return (float)(magnitude);
+    }
+
+    public void Reset()
+    {
+        initialPosRS.Clear();
+        initialPosSS.Clear();
+        initialPosSB.Clear();
+        sagittalAngles.Clear();
+        flexAngles.Clear();
+        isInitial = true;
     }
 }

@@ -4,32 +4,34 @@ using System.Collections.Generic;
 public class SensorData
 {
     //Each list contains set of a specific joint's data, first element denotes the Enum
-    List<List<float>> kinectData;
-    //Each list connected to a wearable sensor
-    List<List<Int16>> wearableData;
+    public List<List<float>> kinectData;
+    //Each list contains data at a certain angle
+    public List<List<Int16>> wearableSensor1Data;
+    public List<List<Int16>> wearableSensor2Data;
 
+    //Enum corresponds to the index within the wearable sensor data
+    public enum sensorDataIndices
+    {
+        Zero,
+        FifteenCW,
+        ThirtyCW,
+        FifteenCCW,
+        ThirtyCCW,
+        TwistingROM
+    }
 
-    public SensorData(List<List<float>> kinectJoints, List<List<Int16>> wearable)
+    public SensorData(List<List<float>> kinectJoints, List<List<Int16>> wearable1, List<List<Int16>> wearable2)
 	{
         kinectData = kinectJoints;
-        wearableData = wearable;
+        wearableSensor1Data = wearable1;
+        wearableSensor1Data = wearable2;
     }
 
     public SensorData()
     {
         kinectData = new List<List<float>>();
-        wearableData = new List<List<Int16>>();
+        wearableSensor1Data = new List<List<Int16>>();
+        wearableSensor2Data = new List<List<Int16>>();
     }
 
-
-
-    public List<List<float>> GetKinectData()
-    {
-        return kinectData;
-    }
-
-    public List<List<Int16>> GetWearableData()
-    {
-        return wearableData;
-    }
 }

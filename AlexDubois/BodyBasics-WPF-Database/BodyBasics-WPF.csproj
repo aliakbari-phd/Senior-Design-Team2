@@ -86,9 +86,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationState.cs" />
     <Compile Include="DataAnalysis.cs" />
+    <Compile Include="DDI.xaml.cs">
+      <DependentUpon>DDI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KinectFeedback.cs" />
     <Compile Include="SensorData.cs" />
+    <Page Include="DDI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
