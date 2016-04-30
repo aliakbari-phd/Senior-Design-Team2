@@ -442,8 +442,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
                             kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
                             kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
-                            sagittalAngle.Text = kinectFeedback.sagittalAngleTxt;
-                            flexAngle.Text = kinectFeedback.flexAngleTxt;
                         }
 
                         //Collect Spine Base Data
@@ -755,6 +753,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 MessageBox.Show("Can not open connection ! ");
             }
 
+            if(PatientIDBox.Text != "")
+            {
+                dataAnalysis.patientID = Int32.Parse(PatientIDBox.Text);
+            }
+
             if (ageBox.Text != "")
             {
                 dataAnalysis.age = Int32.Parse(ageBox.Text);
@@ -803,19 +806,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //fs_sensor4.Close();
 
             dataAnalysis.InitAngles(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles);
-
+            dataAnalysis.QuantifyLBD();
 
             SqlCommand cmd = new SqlCommand();
             SqlDataReader dr;
 
             cmd.Connection = connection;
+
+            //@TODO: Fix potential SQL Code Injections
             if (dataAnalysis.gender == true)
             {
-                cmd.CommandText = "insert into Patients (PatientNum,Age,Gender) values ('" + PatientIDBox.Text + "','" + ageBox.Text + "', '" + "1" + "')";
+                cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + PatientIDBox.Text + "','" + ageBox.Text + "', '" + "1" + "','" + dataAnalysis.peakSPAngVelocityAt0.ToString() + "', '" + dataAnalysis.peakSPAngAccelerationAt0.ToString() + "', '" + dataAnalysis.peakSPAngJerkAt0.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
             }
             else
             {
-                cmd.CommandText = "insert into Patients (PatientNum,Age,Gender) values ('" + PatientIDBox.Text + "','" + ageBox.Text + "', '" + "0" + "')";
+                cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + PatientIDBox.Text + "','" + ageBox.Text + "', '" + "0" + "','" + dataAnalysis.peakSPAngVelocityAt0.ToString() + "', '" + dataAnalysis.peakSPAngAccelerationAt0.ToString() + "', '" + dataAnalysis.peakSPAngJerkAt0.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
             }
 
             cmd.ExecuteNonQuery();
@@ -825,7 +830,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             button1.IsEnabled = true;
             ButtonStop.IsEnabled = false;
 
-            dataAnalysis.QuantifyLBD();
             ApplicationState.dataAnalysis = dataAnalysis;
 
             var form = new DDI();
@@ -1109,8 +1113,33 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             button4.IsEnabled = false;
         }
-
-
+        private void setFactors_Click(object sender, RoutedEventArgs e)
+        {
+            if (spROMFactor.Text != "")
+            {
+                dataAnalysis.spROMFactor = Convert.ToDouble(spROMFactor.Text);
+            }
+            if (fpROMFactor.Text != "")
+            {
+                dataAnalysis.fpROMFactor = Convert.ToDouble(fpROMFactor.Text);
+            }
+            if (twistingROMFactor.Text != "")
+            {
+                dataAnalysis.twistingROMFactor = Convert.ToDouble(twistingROMFactor.Text);
+            }
+            if (peakVelFactor.Text != "")
+            {
+                dataAnalysis.peakAngVelFactor = Convert.ToDouble(peakVelFactor.Text);
+            }
+            if (peakAccFactor.Text != "")
+            {
+                dataAnalysis.peakAngAccFactor = Convert.ToDouble(peakAccFactor.Text);
+            }
+            if (peakJerkFactor.Text != "")
+            {
+                dataAnalysis.peakAngJerkFactor = Convert.ToDouble(peakJerkFactor.Text);
+            }
+        }
     }
 
 

@@ -9,23 +9,24 @@ public class DataAnalysis
     static double maleGenderFactor = .7;
     static double femaleGenderFactor = .8;
 
-    static double fpROMFactor = 1;
-    static double spROMFactor = 1;
-    static double asymCompleteFactor = 1;
-    static double twistingROMFactor = 1;
-    static double peakAngVelFactor = 1;
-    static double peakAngAccFactor = 1;
-    static double peakAngJerkFactor = 1;
+    public double fpROMFactor = 2;
+    public double spROMFactor = 2;
+    public double asymCompleteFactor = 1;
+    public double twistingROMFactor = 1;
+    public double peakAngVelFactor = 1;
+    public double peakAngAccFactor = 2;
+    public double peakAngJerkFactor = 1;
 
     //Patient Data
+    public int patientID;
     public bool gender;
     public int age;
-    public int currentPatientNum;
-    public int peakSPAngVelocityAt0;
-    public int peakSPAngAccelAt0;
-    public int peakAngJerkAt0;
+    public float peakSPAngVelocityAt0;
+    public float peakSPAngAccelerationAt0;
+    public float peakSPAngJerkAt0;
     public bool fpROM;
-    public bool spROM;
+    public bool spROM15;
+    public bool spROM30;
     public bool asymComplete;
 
     //Calculate twisting ROM
@@ -48,7 +49,7 @@ public class DataAnalysis
 
     public DataAnalysis()
     {
-        currentPatientNum = 0;
+        patientID = 0;
         gender = true;
         age = 0;
         kinectSPAngleAt0 = new List<float>();
@@ -88,9 +89,9 @@ public class DataAnalysis
         float peakSPAngle = 0;
         float peakFlexAngle = 0;
         
-        float peakSPAngVelocityAt0 = 0;
-        float peakSPAngAccelerationAt0 = 0;
-        float peakSPAngJerkAt0 = 0;
+        peakSPAngVelocityAt0 = 0;
+        peakSPAngAccelerationAt0 = 0;
+        peakSPAngJerkAt0 = 0;
 
         float peakFlexAngVelocityAt0 = 0;
         float peakFlexAngAccelerationAt0 = 0;
@@ -134,9 +135,11 @@ public class DataAnalysis
         if (peakSPAngle < 30)
         {
             rating += spROMFactor*.5;
+            spROM30 = false;
             if (peakSPAngle < 15)
             {
                 rating += spROMFactor * .5;
+                spROM15 = false;
             }
         }
 
@@ -145,6 +148,7 @@ public class DataAnalysis
         if(peakFlexAngle < flexAngleROM)
         {
             rating += fpROMFactor;
+            fpROM = false;
         }
 
         //Still needs definition
@@ -231,6 +235,11 @@ public class DataAnalysis
     private double QuantifyPeak(float max, float peakMeasurement, double peakFactor)
     {
         double quantifiedPeak = 0;
+        if(max < peakMeasurement)
+        {
+            return 0;
+        }
+
         quantifiedPeak = (peakMeasurement / max);
         quantifiedPeak = (quantifiedPeak * peakFactor);
         quantifiedPeak = peakFactor - quantifiedPeak;

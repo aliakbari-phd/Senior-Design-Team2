@@ -42,7 +42,18 @@
         <TextBlock x:Name="genderTxt" HorizontalAlignment="Left" Height="45" Margin="348,32,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Gender" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
         <TextBlock x:Name="PatientIDTxt" HorizontalAlignment="Left" Height="45" Margin="498,32,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Patient ID" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
         <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="587,32,0,0" Name="PatientIDBox" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
-        <TextBlock x:Name="sagittalAngle" HorizontalAlignment="Left" Height="31" Margin="27,65,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Sagital Angle:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
-        <TextBlock x:Name="flexAngle" HorizontalAlignment="Left" Height="31" Margin="27,95,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Flex Angle:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="spROMFactorTxt" HorizontalAlignment="Left" Height="31" Margin="27,65,0,0" Grid.Row="2" TextWrapping="Wrap" Text="SPROM:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="fpROMFactorTxt" HorizontalAlignment="Left" Height="31" Margin="27,95,0,0" Grid.Row="2" TextWrapping="Wrap" Text="FPROM:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="107,70,0,0" Name="spROMFactor" VerticalAlignment="Top" Width="77" IsTabStop="False" IsEditable="True" />
+        <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="107,100,0,0" Name="fpROMFactor" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
+        <TextBlock x:Name="twistingROMFactorTxt" HorizontalAlignment="Left" Height="31" Margin="187,65,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TwistROM:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="peakVelFactorTxt" HorizontalAlignment="Left" Height="31" Margin="187,95,0,0" Grid.Row="2" TextWrapping="Wrap" Text="PeakVel:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="peakAccFactorTxt" HorizontalAlignment="Left" Height="31" Margin="357,65,0,0" Grid.Row="2" TextWrapping="Wrap" Text="PeakAcc:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <TextBlock x:Name="peakJerkFactorTxt" HorizontalAlignment="Left" Height="31" Margin="357,95,0,0" Grid.Row="2" TextWrapping="Wrap" Text="PeakJerk:" VerticalAlignment="Top" Width="135" FontSize="18.667"/>
+        <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="277,70,0,0" Name="twistingROMFactor" VerticalAlignment="Top" Width="77" IsTabStop="False" IsEditable="True" />
+        <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="277,100,0,0" Name="peakVelFactor" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
+        <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="437,70,0,0" Name="peakAccFactor" VerticalAlignment="Top" Width="77" IsTabStop="False" IsEditable="True" />
+        <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="437,100,0,0" Name="peakJerkFactor" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
+        <Button Content="Set Factors" Grid.Column="1" Grid.Row="2" Height="31" HorizontalAlignment="Left" Margin="517,85,0,0" Name="setFactors" VerticalAlignment="Top" Width="67" Click="setFactors_Click" />
     </Grid>
 </Window>

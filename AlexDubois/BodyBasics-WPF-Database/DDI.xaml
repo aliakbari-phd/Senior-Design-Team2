@@ -6,12 +6,35 @@
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
         Title="Data Display" Height="1000" Width="800">
+    <Window.Resources>
+        <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e" />
+        <SolidColorBrush x:Key="KinectPurpleBrush" Color="#ff52318f" />
+        <SolidColorBrush x:Key="KinectBlueBrush" Color="#ff00BCF2" />
+    </Window.Resources>
     <Grid Margin="10 0 10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="0" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="severityLBD" Grid.Row="0" Margin="10 10 0 0" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Segoe UI" FontSize="18">Severity of Lower Back Disorder:</TextBlock>
+
+        <Viewbox Grid.Row="1" HorizontalAlignment="Center">
+            <Image Source="{Binding ImageSource}" Stretch="UniformToFill" />
+        </Viewbox>
+
+        <StatusBar Grid.Row="2" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Bottom" Background="White" Foreground="{StaticResource MediumGreyBrush}">
+            <StatusBarItem Content="{Binding StatusText}" />
+        </StatusBar>
+        <TextBlock x:Name="patientIDTxt" HorizontalAlignment="Left" Height="45" Margin="27,3,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Patient ID:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="ageTxt" HorizontalAlignment="Left" Height="45" Margin="27,32,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Age:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="genderTxt" HorizontalAlignment="Left" Height="45" Margin="27,61,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Gender: " VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="severityLBDTxt" HorizontalAlignment="Left" Height="45" Margin="27,90,0,0" Grid.Row="2" TextWrapping="Wrap" Text="LBD Rating:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="spROM15Txt" HorizontalAlignment="Left" Height="31" Margin="27,119,0,0" Grid.Row="2" TextWrapping="Wrap" Text="SPROM15:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="spROM30Txt" HorizontalAlignment="Left" Height="31" Margin="27,148,0,0" Grid.Row="2" TextWrapping="Wrap" Text="SPROM30:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="fpROMTxt" HorizontalAlignment="Left" Height="31" Margin="27,177,0,0" Grid.Row="2" TextWrapping="Wrap" Text="FPROM:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="peakVelTxt" HorizontalAlignment="Left" Height="31" Margin="27,206,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Peak Angular Velocity:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="peakAccTxt" HorizontalAlignment="Left" Height="31" Margin="27,235,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Peak Angular Acceleration:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="peakJerkTxt" HorizontalAlignment="Left" Height="31" Margin="27,264,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Peak Angular Jerk:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <TextBlock x:Name="twistingROMTxt" HorizontalAlignment="Left" Height="31" Margin="27,293,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Twisting ROM:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
     </Grid>
 </Window>

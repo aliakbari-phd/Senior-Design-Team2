@@ -22,7 +22,25 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public DDI()
         {
             InitializeComponent();
-            severityLBD.Text = ApplicationState.dataAnalysis.severityLBD.ToString();
+            patientIDTxt.Text = "PatientID: " + ApplicationState.dataAnalysis.patientID.ToString();
+            ageTxt.Text = "Age: " + ApplicationState.dataAnalysis.age.ToString();
+            if (ApplicationState.dataAnalysis.gender == true)
+            {
+                genderTxt.Text = "Gender: " + "Male";
+            }
+            else
+            {
+                genderTxt.Text = "Gender: " + "Female";
+            }
+
+            severityLBDTxt.Text = "LBD Severity: " + ApplicationState.dataAnalysis.severityLBD.ToString();
+            spROM15Txt.Text = "SP ROM15: " + ApplicationState.dataAnalysis.spROM15.ToString();
+            spROM30Txt.Text = "SP ROM30: " + ApplicationState.dataAnalysis.spROM30.ToString();
+            fpROMTxt.Text = "FP ROM: " + ApplicationState.dataAnalysis.fpROM.ToString();
+            peakVelTxt.Text = "Peak Angular Velocity: " + ApplicationState.dataAnalysis.peakSPAngVelocityAt0.ToString();
+            peakAccTxt.Text = "Peak Angular Acceleration: " + ApplicationState.dataAnalysis.peakSPAngAccelerationAt0.ToString();
+            peakJerkTxt.Text = "Peak Angular Jerk: " + ApplicationState.dataAnalysis.peakSPAngJerkAt0.ToString();
+            twistingROMTxt.Text = "Twisting ROM: " + ApplicationState.dataAnalysis.twistingROM.ToString();
         }
     }
 }
