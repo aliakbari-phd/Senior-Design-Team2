@@ -1,0 +1,5 @@
+Fixed sagittal angle, computed flex angle and modified GUI to include feedback for angles.
+
+Tasks:
+Provide in-depth flowchart
+Modify GUI as required
