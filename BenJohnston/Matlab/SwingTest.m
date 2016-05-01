@@ -1,7 +1,7 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = 'Swing 23D 2 hr.txt';
+filename = '200 Hz 15 sec 01.txt';
 delimiterIn = '\t';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
@@ -41,9 +41,9 @@ c_velocity = transpose(polyval(p1,t));      %best fit line of velocity data
 mean_x = mean(gyro(:,1));
 mean_y = mean(gyro(:,2));
 mean_z = mean(gyro(:,3));
-%gyro(:,1)=gyro(:,1)+1.2386; %mean_x
-%gyro(:,2)=gyro(:,2)+0.74415; %mean_y
-%gyro(:,3)=gyro(:,3)-0.837; %mean_z
+gyro(:,1)=gyro(:,1)-mean_x;
+gyro(:,2)=gyro(:,2)-mean_y;
+%gyro(:,3)=gyro(:,3)-mean_z;
 
 %zero testing
 %gyro(:,1)=zeros(size(gyro(:,1)));
