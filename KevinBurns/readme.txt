@@ -8,4 +8,6 @@ MATLAB code folder contains any relevant MATLAB coding for test purposes
 
 Charts,Graphs, and Images folder contains images used for proposals, presentations, and reports
 
+Mini Demo Video contains scripts and slides to use for mini-demo day video
+
 
