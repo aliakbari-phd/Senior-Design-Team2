@@ -1,0 +1,4 @@
+C:\Users\burns\Desktop\VS Projects\SignalSync\SignalSync\bin\Debug\SignalSync.exe
+C:\Users\burns\Desktop\VS Projects\SignalSync\SignalSync\bin\Debug\SignalSync.pdb
+C:\Users\burns\Desktop\VS Projects\SignalSync\SignalSync\obj\x86\Debug\SignalSync.exe
+C:\Users\burns\Desktop\VS Projects\SignalSync\SignalSync\obj\x86\Debug\SignalSync.pdb

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,57 +16,65 @@ namespace TestProgram
             List<double> Timestamps2 = new List<double>();
             List<double> Input1 = new List<double>();
             List<double> Input2 = new List<double>();
-            int I1Eletracker=0;
-            int I2Eletracker=0;
-            double I1max=0;
-            double I1cont=0;
-            int I1Ele=0;
-            double I2max=0;
-            double I2cont=0;
-            int I2Ele=0;
-            double TimeI1=0;
-            double TimeI2=0;
-            int I1CorEle=0;
-            int I2CorEle=0;
+            int I1Eletracker = 0;
+            int I2Eletracker = 0;
+            double I1max = 0;
+            double I1cont = 0;
+            int I1Ele = 0;
+            double I2max = 0;
+            double I2cont = 0;
+            int I2Ele = 0;
+            double TimeI1 = 0;
+            double TimeI2 = 0;
+            int I1CorEle = 0;
+            int I2CorEle = 0;
+            string path = @"C:\Users\burns\Desktop\403\Code Stuff\readintest.txt";
 
-            //Read in (example here still need to read in to lists)
+            //Read in txt file into lists for manipulation
 
-            Timestamps1.Add(0);
-            Timestamps1.Add(1);
-            Timestamps1.Add(2);
-            Timestamps1.Add(3);
-            Timestamps1.Add(4);
-            Timestamps1.Add(5);
-            Timestamps1.Add(6);
-            Timestamps1.Add(7);
-            Timestamps2.Add(0);
-            Timestamps2.Add(1);
-            Timestamps2.Add(2);
-            Timestamps2.Add(3);
-            Timestamps2.Add(4);
-            Timestamps2.Add(5);
-            Timestamps2.Add(6);
-            Timestamps2.Add(7);
-            Input1.Add(1);
-            Input1.Add(2);
-            Input1.Add(3);
-            Input1.Add(4);
-            Input1.Add(6);
-            Input1.Add(3);
-            Input1.Add(2);
-            Input1.Add(1);
-            Input2.Add(1);
-            Input2.Add(2);
-            Input2.Add(3);
-            Input2.Add(4);
-            Input2.Add(5);
-            Input2.Add(6);
-            Input2.Add(10);
-            Input2.Add(5);
+            string[] readText = File.ReadAllLines(path);
+            foreach (string s in readText)
+            {
+                Console.WriteLine(s);
+            }
+
+
+            /* Timestamps1.Add(1);
+             Timestamps1.Add(2);
+             Timestamps1.Add(3);
+             Timestamps1.Add(4);
+             Timestamps1.Add(5);
+             Timestamps1.Add(6);
+             Timestamps1.Add(7);
+             Timestamps1.Add(8);
+             Timestamps2.Add(1);
+             Timestamps2.Add(2);
+             Timestamps2.Add(3);
+             Timestamps2.Add(4);
+             Timestamps2.Add(5);
+             Timestamps2.Add(6);
+             Timestamps2.Add(7);
+             Timestamps2.Add(8);
+             Input1.Add(1);
+             Input1.Add(2);
+             Input1.Add(3);
+             Input1.Add(4);
+             Input1.Add(6);
+             Input1.Add(3);
+             Input1.Add(2);
+             Input1.Add(1);
+             Input2.Add(1);
+             Input2.Add(2);
+             Input2.Add(3);
+             Input2.Add(4);
+             Input2.Add(5);
+             Input2.Add(6);
+             Input2.Add(10);
+             Input2.Add(5);  */
 
             //Math
             //First input Max Ele tracker
-            for (int i1iter = 0; i1iter < Input1.Capacity; i1iter++)
+            /*for (int i1iter = 0; i1iter < Input1.Capacity; i1iter++)
             {
                 I1cont = Input1[I1Ele];
                 if (Math.Abs(I1cont) > I1max)
@@ -140,7 +149,7 @@ namespace TestProgram
 
 
 
-            Console.ReadLine();
+            Console.ReadLine();*/
         }
     }
 }
