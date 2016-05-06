@@ -75,7 +75,7 @@ savefig('3d_grid.fig')
 
 
 subplot(2,1,2)
-plot(t,a_distance(:,1))
+plot(t,a_distance(:,2))
 title('x Axis Angular Distance')
 ylabel('Angular Distance (deg)'),xlabel('Time (s)')
 %title('x Axis Angular Velocity')
