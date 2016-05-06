@@ -28,15 +28,57 @@ namespace TestProgram
             double TimeI2 = 0;
             int I1CorEle = 0;
             int I2CorEle = 0;
-            string path = @"C:\Users\burns\Desktop\403\Code Stuff\readintest.txt";
-
+            string path1 = @"C:\Users\burns\Desktop\403\MATLAB Codes\test1_1.txt";
+            string path2 = @"C:\Users\burns\Desktop\403\MATLAB Codes\test2_1.txt";
+            string line;
             //Read in txt file into lists for manipulation
 
-            string[] readText = File.ReadAllLines(path);
-            foreach (string s in readText)
+            /*TextReader rdr = File.OpenText(path);
+            while ((line = rdr.ReadLine()) != null)
             {
-                Console.WriteLine(s);
+                string text = rdr.ReadLine();
+                /*string[] bits = text.Split(' ');
+                double x = double.Parse(bits[0]);
+                double y = double.Parse(bits[1]);
+                Console.WriteLine(text);
             }
+            rdr.Close();*/
+            using (TextReader reader = File.OpenText(path1))
+            {
+                string readin1;
+                while ((readin1 = reader.ReadLine()) != null)
+                {
+                    //string text = reader.ReadLine();
+                    string[] bits = readin1.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    double x = double.Parse(bits[0]);
+                    double y = double.Parse(bits[1]);
+                    Console.WriteLine(x);
+                    Timestamps1.Add(x);
+                    Console.WriteLine(y);
+                    Input1.Add(y);
+                }
+                Console.WriteLine("To read in next file press any key");
+                System.Console.ReadKey();
+            }
+            
+            using (TextReader reader2 = File.OpenText(path2))
+            {
+                string readin2;
+                while ((readin2 = reader2.ReadLine()) != null)
+                {
+                   // string text2 = reader2.ReadLine();
+                    string[] bits = readin2.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    double x2 = double.Parse(bits[0]);
+                    double y2 = double.Parse(bits[1]);
+                    Console.WriteLine(x2);
+                    Timestamps2.Add(x2);
+                    Console.WriteLine(y2);
+                    Input2.Add(y2);
+                }
+                Console.WriteLine("Both Files read in, press any key");
+                System.Console.ReadKey();
+            }
+            
 
 
             /* Timestamps1.Add(1);
@@ -74,7 +116,7 @@ namespace TestProgram
 
             //Math
             //First input Max Ele tracker
-            /*for (int i1iter = 0; i1iter < Input1.Capacity; i1iter++)
+            for (int i1iter = 0; i1iter < Input1.Count; i1iter++)
             {
                 I1cont = Input1[I1Ele];
                 if (Math.Abs(I1cont) > I1max)
@@ -88,9 +130,9 @@ namespace TestProgram
             Console.WriteLine("The timestamp for I1 at max is " + Timestamps1[I1Eletracker]);
             
             //Second input Max Ele tracker
-            for (int i2iter = 0; i2iter < Input2.Capacity; i2iter++)
+            for (int i2iter = 0; i2iter < Input2.Count; i2iter++)
             {
-                I2cont = Input2[I2Ele];
+                I2cont = Input2[i2iter];
                 if (Math.Abs(I2cont) > I2max)
                 {
                     I2max = I2cont;
@@ -115,7 +157,7 @@ namespace TestProgram
             if (TimeI1 > TimeI2)
             {
                 Console.WriteLine("The new timestamps for input two are ");
-                for (int i = 0; i < Input2.Capacity-1; i++)
+                for (int i = 0; i < Input2.Count-1; i++)
                 {
                     Timestamps2[I2CorEle] = Timestamps2[I2CorEle] + CorrFact;
                     Console.WriteLine(Timestamps2[I2CorEle]);
@@ -129,7 +171,7 @@ namespace TestProgram
             else if (TimeI1 < TimeI2)
             {
                 Console.WriteLine("The new timestamps for input one are ");
-                for (int i2 = 0; i2 < Input1.Capacity-1; i2++)
+                for (int i2 = 0; i2 < Input1.Count-1; i2++)
                 {
                     Timestamps1[I1CorEle] = Timestamps1[I1CorEle] + CorrFact;
                     Console.WriteLine(Timestamps1[I1CorEle]);
@@ -149,7 +191,8 @@ namespace TestProgram
 
 
 
-            Console.ReadLine();*/
+            Console.WriteLine("Press any key to exit");
+            System.Console.ReadKey();
         }
     }
 }

@@ -1,0 +1,9 @@
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\bin\Debug\Filtering.exe
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\bin\Debug\Filtering.pdb
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\bin\Debug\MathNet.Filtering.dll
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\bin\Debug\MathNet.Numerics.dll
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\bin\Debug\MathNet.Filtering.xml
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\bin\Debug\MathNet.Numerics.xml
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\obj\x86\Debug\Filtering.csprojResolveAssemblyReference.cache
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\obj\x86\Debug\Filtering.exe
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\KevinBurns\C# Code\Filtering\Filtering\obj\x86\Debug\Filtering.pdb
