@@ -37,12 +37,13 @@ namespace TestProgram
             while ((line = rdr.ReadLine()) != null)
             {
                 string text = rdr.ReadLine();
-                /*string[] bits = text.Split(' ');
+                /*string[] bits = text.Split(' ');   //Incorrect read-in
                 double x = double.Parse(bits[0]);
                 double y = double.Parse(bits[1]);
                 Console.WriteLine(text);
             }
             rdr.Close();*/
+
             using (TextReader reader = File.OpenText(path1))
             {
                 string readin1;
@@ -80,7 +81,7 @@ namespace TestProgram
             }
             
 
-
+            //dummy test
             /* Timestamps1.Add(1);
              Timestamps1.Add(2);
              Timestamps1.Add(3);
@@ -114,7 +115,7 @@ namespace TestProgram
              Input2.Add(10);
              Input2.Add(5);  */
 
-            //Math
+            //Math Algorithm
             //First input Max Ele tracker
             for (int i1iter = 0; i1iter < Input1.Count; i1iter++)
             {
@@ -151,6 +152,8 @@ namespace TestProgram
             //Determines correction factor
             CorrFact = Math.Abs(TimeI1 - TimeI2);
             Console.WriteLine("Correction Factor is "+CorrFact);
+            Console.WriteLine("Press any key to see the new timestamps");
+            System.Console.ReadKey();
 
             //Cases for sync, 1) TimeI1 longer than TimeI2 2)Time I2 longer than TimeI1
           
@@ -188,7 +191,7 @@ namespace TestProgram
             }
 
             //Read Out after corrections
-
+            //Under construction... reading to data structure from data analysis
 
 
             Console.WriteLine("Press any key to exit");
