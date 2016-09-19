@@ -1,8 +1,8 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = '200 Hz 15 sec 01.txt';
-delimiterIn = '\t';
+filename = 'ViconTest1.txt';
+delimiterIn = ' ';
 headerlinesIn = 1;
 A = importdata(filename, delimiterIn, headerlinesIn);
 
@@ -14,7 +14,7 @@ A = importdata(filename, delimiterIn, headerlinesIn);
 gyro(:,1) = (A.data(:,4))./32.75;  
 gyro(:,2) = (A.data(:,5))./32.75;  
 gyro(:,3) = (A.data(:,6))./32.75;          %Gyroscope correction factor
-Ltime = (A.data(:,13));
+Ltime = (A.data(:,10));
 t = transpose((Ltime-Ltime(1))./1000);     %relative to start time, ms to s
 
 %remove first one percent of data

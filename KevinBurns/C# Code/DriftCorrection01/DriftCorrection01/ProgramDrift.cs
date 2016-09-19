@@ -21,7 +21,7 @@ namespace DriftCorrection01
             int I2Eletracker = 0;
             double I1max = 0;
             double I1container = 0;
-            int I1Ele = 0;
+            int I1Ele = 0;                          // some variables unused
             double I2max = 0;
             double I2cont = 0;
             int I2Ele = 0;
@@ -49,6 +49,7 @@ namespace DriftCorrection01
                 System.Console.ReadKey();
             }
 
+            //not needed
             /*using (TextReader reader2 = File.OpenText(path2))
             {
                 string readin2;
@@ -72,10 +73,10 @@ namespace DriftCorrection01
             for (int i1iter = 0; i1iter < Input1.Count; i1iter++)
             {
                 I1container = Input1[I1Ele] + I1container;
-                I1Ele = I1Ele+1;
+                I1Ele = I1Ele+1;                                    //Sum
             }
 
-            CorrectionFactor = I1container / Input1.Count;
+            CorrectionFactor = I1container / Input1.Count;          //Average
 
             Console.WriteLine("The average velocity is " + CorrectionFactor);
             Console.WriteLine("Press any key to continue");
@@ -83,7 +84,7 @@ namespace DriftCorrection01
             Console.WriteLine("The corrected velocities are: \n");
             for (int i1iter2 = 0; i1iter2 < Input1.Count; i1iter2++)
             {
-                Input1[I2Ele] = Input1[I2Ele] - CorrectionFactor;
+                Input1[I2Ele] = Input1[I2Ele] - CorrectionFactor;   //Apply Correction
                 Console.WriteLine(Input1[I2Ele]);
                 I2Ele = I2Ele + 1;
             }
