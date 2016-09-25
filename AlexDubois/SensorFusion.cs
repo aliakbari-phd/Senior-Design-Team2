@@ -1,0 +1,5 @@
+
+void SensorFusion(SynchronizedData syncedData)
+{
+
+}

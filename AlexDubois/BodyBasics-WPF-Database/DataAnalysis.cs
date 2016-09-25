@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class DataAnalysis
 {
-    static double flexAngleROM = 60;
+    static double flexAngleROM = 55;
 
     //LBD Quantification Factors
-    static double maleGenderFactor = .7;
-    static double femaleGenderFactor = .8;
+    static double maleGenderFactor = .93;
+    static double femaleGenderFactor = .97;
 
     public double fpROMFactor = 2;
     public double spROMFactor = 2;
@@ -24,17 +24,21 @@ public class DataAnalysis
     public float peakSPAngVelocityAt0;
     public float peakSPAngAccelerationAt0;
     public float peakSPAngJerkAt0;
-    public bool fpROM;
-    public bool spROM15;
-    public bool spROM30;
-    public bool asymComplete;
+    public bool fpROM = true;
+    public bool spROM15 = true;
+    public bool spROM30 = true;
+    public bool asymComplete = true;
 
     //Calculate twisting ROM
     public double twistingROM;
     public double maxSPCWAngle;
     public double maxSPCCWAngle;
 
-    List<float> kinectSPAngleAt0;
+    public List<float> kinectSPAngleAt0;
+    public List<float> timeStampsAngleAt0;
+    List<float> velTimeStampsAt0;
+    List<float> accelTimeStampsAt0;
+    List<float> jerkTimeStampsAt0;
     List<float> kinectFlexAngleAt0;
     List<float> angularSPVel;
     List<float> angularFlexVel;
@@ -61,6 +65,10 @@ public class DataAnalysis
         angularSPJerk = new List<float>();
         angularFlexJerk = new List<float>();
         correctedData = new SensorData();
+        timeStampsAngleAt0 = new List<float>();
+        velTimeStampsAt0 = new List<float>();
+        accelTimeStampsAt0 = new List<float>();
+        jerkTimeStampsAt0 = new List<float>();
     }
 
     public void InitAngles(List<float> kinectSPAngles, List<float> kinectFlexAngles)
@@ -80,11 +88,11 @@ public class DataAnalysis
     public double QuantifyLBD()
     {
         double rating = 0;
-        int step = 1;
-        double ageFactor = 0;
+        //float step = 1;
+        float ageFactor = 0;
         float maxVel = 30;
-        float maxAcc = 20;
-        float maxJerk = 10;
+        float maxAcc = 50;
+        float maxJerk = 70;
 
         float peakSPAngle = 0;
         float peakFlexAngle = 0;
@@ -96,7 +104,7 @@ public class DataAnalysis
         float peakFlexAngVelocityAt0 = 0;
         float peakFlexAngAccelerationAt0 = 0;
         float peakFlexAngJerkAt0 = 0;
-
+        float minFlexAngle = 0;
         //Retrieve SP Angular Velocity, Acceleration, and Jerk
         //List<Int16> spAngVelocityAt0 = correctedData.wearableSensor1Data[0];
         //List<Int16> spAngAccelerationAt0 = CalcStepDerivative(correctedData.wearableSensor1Data[0],step);
@@ -105,12 +113,20 @@ public class DataAnalysis
         //peakSPAngVelocityAt0 = FindMax(spAngVelocityAt0);
         //peakSPAngAccelerationAt0 = FindMax(spAngAccelerationAt0);
         //peakSPAngJerkAt0 = FindMax(spAngJerkAt0);
-        angularSPVel = CalcStepDerivative(kinectSPAngleAt0, step);
-        angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, step);
-        angularSPAccel = CalcStepDerivative(angularSPVel, step);
-        angularFlexAccel = CalcStepDerivative(angularFlexVel, step);
-        angularSPJerk = CalcStepDerivative(angularSPAccel, step);
-        angularFlexJerk = CalcStepDerivative(angularFlexAccel, step);
+        //angularSPVel = CalcStepDerivative(kinectSPAngleAt0, step);
+        //angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, step);
+        //angularSPAccel = CalcStepDerivative(angularSPVel, step);
+        //angularFlexAccel = CalcStepDerivative(angularFlexVel, step);
+        //angularSPJerk = CalcStepDerivative(angularSPAccel, step);
+        //angularFlexJerk = CalcStepDerivative(angularFlexAccel, step);
+
+
+        angularSPVel = CalcStepDerivative(kinectSPAngleAt0, timeStampsAngleAt0, velTimeStampsAt0);
+        angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, timeStampsAngleAt0, velTimeStampsAt0);
+        angularSPAccel = CalcStepDerivative(angularSPVel, velTimeStampsAt0, accelTimeStampsAt0);
+        angularFlexAccel = CalcStepDerivative(angularFlexVel, velTimeStampsAt0, accelTimeStampsAt0);
+        angularSPJerk = CalcStepDerivative(angularSPAccel, accelTimeStampsAt0, jerkTimeStampsAt0);
+        angularFlexJerk = CalcStepDerivative(angularFlexAccel, accelTimeStampsAt0, jerkTimeStampsAt0);
 
         peakSPAngle = FindMax(kinectSPAngleAt0);
         peakFlexAngle = FindMax(kinectFlexAngleAt0);
@@ -120,6 +136,8 @@ public class DataAnalysis
         peakFlexAngVelocityAt0 = FindMax(angularSPVel);
         peakFlexAngAccelerationAt0 = FindMax(angularSPAccel);
         peakFlexAngJerkAt0 = FindMax(angularSPJerk);
+        minFlexAngle = FindMin(kinectFlexAngleAt0);
+
 
         maxSPCWAngle = peakSPAngle;
         maxSPCCWAngle = FindMin(kinectSPAngleAt0);
@@ -145,7 +163,7 @@ public class DataAnalysis
 
 
 
-        if(peakFlexAngle < flexAngleROM)
+        if(minFlexAngle > flexAngleROM)
         {
             rating += fpROMFactor;
             fpROM = false;
@@ -159,15 +177,18 @@ public class DataAnalysis
 
 
         //If unable to twist more than 90 degrees total
-        if(twistingROM < 90)
+        if(twistingROM < 45)
         {
             rating += twistingROMFactor;
         }
 
+        //Factor in age
+        ageFactor = 1 / ((float)age);
 
+        rating += (ageFactor * 10);
 
         //Normalize accoridng to gender factor
-        if(gender == true)
+        if (gender == true)
         {
             rating = rating * maleGenderFactor;
         }
@@ -176,11 +197,6 @@ public class DataAnalysis
         {
             rating = rating * femaleGenderFactor;
         }
-
-        //Factor in age
-        ageFactor = (1 / age);
-
-        rating += ageFactor;
 
         severityLBD = rating;
 
@@ -202,10 +218,10 @@ public class DataAnalysis
         return max;
     }
 
-    //potentially change to sensor data, keep a running max in main program
+    //potentially change to sensor data, keep a running min in main program
     private float FindMin(List<float> list)
     {
-        float min = 0;
+        float min = 100;
         for (int i = 0; i < list.Count; i++)
         {
             if (min > list[i])
@@ -221,15 +237,28 @@ public class DataAnalysis
         //Define integration alg
     }
 
-    private List<float> CalcStepDerivative(List<float> intList, int step)
+    private List<float> CalcStepDerivative(List<float> floatList, List<float> timeStamps, List<float> derivTimeStamps)
     {
+        // Originally the step was passed in
         List<float> derivative = new List<float>();
-        for(int i = 0; i < intList.Count - 1; i ++)
+        derivTimeStamps = new List<float>();
+        float derivValue = 0;
+        float step = 0;
+        for(int i = 0; i < floatList.Count - 1; i ++)
         {
-            float accel = ((intList[i + 1] - intList[i])/ step);
-            derivative.Add(accel);
-        }
+            if (floatList[i + 1] == floatList[i])
+            {
+                derivative.Add(0);
+            }
 
+            else
+            {
+                step = timeStampsAngleAt0[i + 1] - timeStampsAngleAt0[i];
+                derivValue = ((floatList[i + 1] - floatList[i]) / step);
+                derivative.Add(derivValue);
+                derivTimeStamps.Add(step);
+            }
+        }
         return derivative;
     }
     private double QuantifyPeak(float max, float peakMeasurement, double peakFactor)

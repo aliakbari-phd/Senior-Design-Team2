@@ -19,10 +19,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.IO.Ports;
     using System.Data;
     using System.Threading;
+
+    //Library added to allow for SQL database interactions
     using System.Data.SqlClient;
-    /// <summary>
     /// Interaction logic for MainWindow
-    /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
 
@@ -87,70 +87,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         private DrawingImage imageSource;
 
-        private SerialPort serialPort1 = new SerialPort();
-        private SerialPort serialPort2 = new SerialPort();
-        private SerialPort serialPort3 = new SerialPort();
-        private SerialPort serialPort4 = new SerialPort();
-
-        private byte[] RxPkt1 = new byte[50];
-        private byte[] RxPkt2 = new byte[50];
-        private byte[] RxPkt3 = new byte[50];
-        private byte[] RxPkt4 = new byte[50];
-
-        private int stop = 0;
-        private int keystart = 0;
-        private int kinect_start = 0;
-        //private string move = "Kicking";
-
-        /*private static FileStream fs_kinect = new FileStream("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kinect.txt", FileMode.Create);
-        private StreamWriter sw1 = new StreamWriter(fs_kinect);
-        private static FileStream fs_sensor1 = new FileStream("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Sensor1.txt", FileMode.Create);
-        private StreamWriter sw2 = new StreamWriter(fs_sensor1);
-        private static FileStream fs_sensor2 = new FileStream("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Sensor2.txt", FileMode.Create);
-        private StreamWriter sw3 = new StreamWriter(fs_sensor2);
-        private static FileStream fs_sensor3 = new FileStream("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Sensor3.txt", FileMode.Create);
-        private StreamWriter sw4 = new StreamWriter(fs_sensor3);
-        private static FileStream fs_sensor4 = new FileStream("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Sensor4.txt", FileMode.Create);
-        private StreamWriter sw5 = new StreamWriter(fs_sensor4);*/
-
-        private static FileStream fs_kinect_spinebase;
-        private StreamWriter spineBaseSW;
-        private static FileStream fs_kinect_spinemid;
-        private StreamWriter spinemidSW;
-        private static FileStream fs_kinect_spineshoulder;
-        private StreamWriter spineshoulderSW;
-        private static FileStream fs_kinect_rightshoulder;
-        private StreamWriter rightshoulderSW;
-        private static FileStream fs_sensor1;
-        private StreamWriter sw2;
-        private static FileStream fs_sensor2;
-        private StreamWriter sw3;
-        private static FileStream fs_sensor3;
-        private StreamWriter sw4;
-        private static FileStream fs_sensor4;
-        private StreamWriter sw5;
-
-        //private long timestamp = 0;
-        private int bytesRead1 = 0;
-        private int bytesRead2 = 0;
-        private int bytesRead3 = 0;
-        private int bytesRead4 = 0;
-
-        private Queue<byte> data1 = new Queue<byte>(); //Queue structure to store all the bytes received
-        private byte[] buffer1 = new byte[4096]; //Buffer to hold data received in serial port
-
-        private Queue<byte> data2 = new Queue<byte>(); //Queue structure to store all the bytes received
-        private byte[] buffer2 = new byte[4096]; //Buffer to hold data received in serial port
-
-        private Queue<byte> data3 = new Queue<byte>(); //Queue structure to store all the bytes received
-        private byte[] buffer3 = new byte[4096]; //Buffer to hold data received in serial port
-
-        private Queue<byte> data4 = new Queue<byte>(); //Queue structure to store all the bytes received
-        private byte[] buffer4 = new byte[4096]; //Buffer to hold data received in serial port
-
-        private int threadCount = 4;
-        Thread[] ProcessSensorData;
-
         /// <summary>
         /// Active Kinect sensor
         /// </summary>
@@ -194,11 +130,84 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// <summary>
         /// Current status text to display
         /// </summary>
+        /// 
+        //Set of custom variables available to MainWindow
+
+        //Set of ports to connect to wearable sensors
+        private SerialPort serialPort1 = new SerialPort();
+        private SerialPort serialPort2 = new SerialPort();
+        private SerialPort serialPort3 = new SerialPort();
+        private SerialPort serialPort4 = new SerialPort();
+
+        private byte[] RxPkt1 = new byte[50];
+        private byte[] RxPkt2 = new byte[50];
+        private byte[] RxPkt3 = new byte[50];
+        private byte[] RxPkt4 = new byte[50];
+
+
+        //Stop signal for entire system (wearables + kinect)
+        private int stop = 0;
+
+        //Start signal for wearable sensors
+        private int keystart = 0;
+
+        //Start signal for kinect
+        private int kinect_start = 0;
+
+
+        //Set of filestreams to write to text files for specific sensor and kinect joint data
+        private static FileStream fs_kinect_spinebase;
+        private StreamWriter spineBaseSW;
+        private static FileStream fs_kinect_spinemid;
+        private StreamWriter spinemidSW;
+        private static FileStream fs_kinect_spineshoulder;
+        private StreamWriter spineshoulderSW;
+        private static FileStream fs_kinect_rightshoulder;
+        private StreamWriter rightshoulderSW;
+        private static FileStream fs_sensor1;
+        private StreamWriter sw2;
+        private static FileStream fs_sensor2;
+        private StreamWriter sw3;
+        private static FileStream fs_sensor3;
+        private StreamWriter sw4;
+        private static FileStream fs_sensor4;
+        private StreamWriter sw5;
+
+        //Set of ints to read data from SerialPort
+        private int bytesRead1 = 0;
+        private int bytesRead2 = 0;
+        private int bytesRead3 = 0;
+        private int bytesRead4 = 0;
+
+        //Queue structure to store all the bytes received
+        private Queue<byte> data1 = new Queue<byte>();
+        //Buffer to hold data received in serial port
+        private byte[] buffer1 = new byte[4096];
+
+        private Queue<byte> data2 = new Queue<byte>();
+        private byte[] buffer2 = new byte[4096];
+
+        private Queue<byte> data3 = new Queue<byte>();
+        private byte[] buffer3 = new byte[4096];
+
+        private Queue<byte> data4 = new Queue<byte>();
+        private byte[] buffer4 = new byte[4096];
+
+        //Define thread number for each potential wearable sensor we can add
+        private int threadCount = 4;
+        Thread[] ProcessSensorData;
         private string statusText = null;
 
+        //Data structure to collect set of kinect joint data and wearable data
         private SensorData sensorData = new SensorData();
+
+        //Data structure to collect patient data and analyze it to quantify LBD
         private DataAnalysis dataAnalysis = new DataAnalysis();
+
+        //Data structure utilized for kinect ROM and patient testing
         private KinectFeedback kinectFeedback = new KinectFeedback();
+
+        //Define Database connection string required to open a connection and insert SQL into
         SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\PatientData.mdf;Integrated Security=True");
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -291,6 +300,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             // initialize the components (controls) of the window
             this.InitializeComponent();
 
+
+            //Create our threads and pass in their respective function to collect wearable sensor data
             ProcessSensorData = new Thread[threadCount];
             (ProcessSensorData[0] = new Thread(Processing1)).Start();
             (ProcessSensorData[1] = new Thread(Processing2)).Start();
@@ -398,26 +409,38 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     dataReceived = true;
                 }
             }
+
+            //If the kinect start signal has arrived
             if (kinect_start != 0)
             {
+                //Loop through each body detected
                 foreach (Body body in bodies)
                 {
+                    //If it is the primary body and set to be tracked
                     if (body.IsTracked == true)
                     {
+                        //Create and collect timestamp in order to synchronize later on
                         DateTime datenow = DateTime.Now;
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestamp = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+
+                        //Declare lists of joint data we are collecting
                         List<float> spineBaseData = new List<float>();
                         List<float> spineMidData = new List<float>();
                         List<float> spineShoulderData = new List<float>();
                         List<float> rightShoulderData = new List<float>();
+
+                        //Collect entire set of kinect data
                         List<List<float>> kinectData = new List<List<float>>();
 
-                        if(kinectFeedback.isInitial == true)
+
+                        //If the kinect feedback system has not yet been set
+                        if (kinectFeedback.isInitial == true)
                         {
+                            //Collect initial position of Right shoulder, spine shoulder, and spine base
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
                             kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.X);
@@ -427,11 +450,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
                             kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Z);
+                            //Tell kinect system that we have collected our initial position
                             kinectFeedback.isInitial = false;
                         }
 
                         else
                         {
+                            //Now we can collect positions of RS, SS, and SB to collect sets of vectors
                             List<float> rightShoulderPos = new List<float>();
                             List<float> spineShoulderPos = new List<float>();
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
@@ -440,15 +465,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+
+                            //Calculate the Sagittal Angle and Flex Angle
                             kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
                             kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                            dataAnalysis.timeStampsAngleAt0.Add(timestamp);
                         }
 
                         //Collect Spine Base Data
                         spineBaseData.Add(body.Joints[JointType.SpineBase].Position.X);
                         spineBaseData.Add(body.Joints[JointType.SpineBase].Position.Y);
                         spineBaseData.Add(body.Joints[JointType.SpineBase].Position.Z);
-                        if(body.Joints[JointType.SpineBase].TrackingState == TrackingState.Tracked)
+                        if (body.Joints[JointType.SpineBase].TrackingState == TrackingState.Tracked)
                         {
                             spineBaseData.Add(1);
                         }
@@ -711,7 +739,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
 
         //  start create files for Kinect and sensor and start to record data
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void startRecording_Click(object sender, RoutedEventArgs e)
         {
             string fpath = "C:/Users/Alex/Documents/ECEN403Github/AlexDubois/BodyBasics-WPF-Database/SD01/";
             //string fpath = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
@@ -719,10 +747,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
             string[] dirs = Directory.GetFiles(fpath);
             int num = dirs.Length;
-            fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase.txt"), FileMode.Create);
+            fs_kinect_spinebase = new FileStream(string.Concat(fpath, "spinebase.txt"), FileMode.Create);
             spineBaseSW = new StreamWriter(fs_kinect_spinebase);
 
-            fs_kinect_spinemid = new FileStream(string.Concat(fpath,"spinemid.txt"), FileMode.Create);
+            fs_kinect_spinemid = new FileStream(string.Concat(fpath, "spinemid.txt"), FileMode.Create);
             spinemidSW = new StreamWriter(fs_kinect_spinemid);
 
             fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder.txt"), FileMode.Create);
@@ -753,7 +781,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 MessageBox.Show("Can not open connection ! ");
             }
 
-            if(PatientIDBox.Text != "")
+            if (PatientIDBox.Text != "")
             {
                 dataAnalysis.patientID = Int32.Parse(PatientIDBox.Text);
             }
@@ -778,7 +806,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
 
             kinect_start = 1;
-            button1.IsEnabled = false;
+            startRecording.IsEnabled = false;
             ButtonStop.IsEnabled = true;
         }
 
@@ -827,7 +855,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             connection.Close();
 
-            button1.IsEnabled = true;
+            startRecording.IsEnabled = true;
             ButtonStop.IsEnabled = false;
 
             ApplicationState.dataAnalysis = dataAnalysis;
@@ -841,17 +869,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void DataReceivedHandler1(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-
+            //Read bytes from serial port
             bytesRead1 = serialPort1.Read(buffer1, 0, buffer1.Length);
 
+            //Lock the queue
             lock (data1)
             {
-
+                //Push to queue
                 for (int i = 0; i < bytesRead1; i++)
                 {
                     data1.Enqueue(buffer1[i]);
                 }
 
+                //Signal next thread to go into ready queue
                 Monitor.Pulse(data1);
             }
 
@@ -911,12 +941,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         }
 
-        List<List<Int16>> wearableData = default(List<List<Int16>>);
+        List<List<Int16>> wearableData = new List<List<Int16>>();
 
         private void Processing1()
         {
+            //Keep collecting
             while (true)
             {
+                //Critical section for thread, mutex lock queue until finished removing and reading from queue
                 lock (data1)
                 {
                     while (data1.Count < 50)
@@ -961,13 +993,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     Array.Reverse(convert);//operating system is little endians while the package is big endians, reverse the array.
                     if (kinect_start != 0)
                     {
+                        //Create timestamp
                         DateTime datenow = DateTime.Now;
-                        List<Int16> wearable = default(List<Int16>);
+                        List<Int16> wearable = new List<Int16>();
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+                        //Collect data into list
                         wearable.Add(BitConverter.ToInt16(convert, 22));
                         wearable.Add(BitConverter.ToInt16(convert, 20));
                         wearable.Add(BitConverter.ToInt16(convert, 18));
@@ -979,6 +1013,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         wearable.Add(BitConverter.ToInt16(convert, 6));
                         wearable.Add((Int16)(timestampS));
                         wearableData.Add(wearable);
+
+                        //Write to file
                         sw2.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS);
                     }
                 }
@@ -1045,7 +1081,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        
+
 
         //Close window button
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -1053,7 +1089,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             if (keystart == 0 && e.Key == System.Windows.Input.Key.PageDown)
             {
                 kinect_start = 1;
-                button1.IsEnabled = false;
+                startRecording.IsEnabled = false;
                 keystart = 1;
                 ButtonStop.IsEnabled = true;
             }
@@ -1082,12 +1118,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 //Reset kinect status
                 kinectFeedback.Reset();
                 ButtonStop.IsEnabled = false;
-                button1.IsEnabled = true;
+                startRecording.IsEnabled = true;
             }
         }
 
         //Initialize Sensors Button
-        private void button4_Click(object sender, RoutedEventArgs e)
+        private void init_Click(object sender, RoutedEventArgs e)
         {
             //If something is in the comboBox
             if (comboBox1.Text != "")
@@ -1111,7 +1147,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 serialPort2.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler2);
                 serialPort2.Open();
             }
-            button4.IsEnabled = false;
+            init.IsEnabled = false;
         }
         private void setFactors_Click(object sender, RoutedEventArgs e)
         {
@@ -1139,9 +1175,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 dataAnalysis.peakAngJerkFactor = Convert.ToDouble(peakJerkFactor.Text);
             }
+
+            setFactors.IsEnabled = false;
+            setFactors.IsEnabled = true;
+        }
+
+        private void calibrate_Click(object sender, RoutedEventArgs e)
+        {
+            kinectFeedback.Reset();
+            calibrate.IsEnabled = false;
+            calibrate.IsEnabled = true;
         }
     }
-
-
-
 }

@@ -62,3 +62,4 @@ C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-Integrat
 C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.exe
 C:\Users\Alex\Documents\ECEN 403 GitHub\Team7\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\obj\Debug\BodyBasics-WPF.pdb
 D:\Users\Alex\Documents\ECEN 403\ECEN403Project\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-IntegratedSensorsUpdated\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config

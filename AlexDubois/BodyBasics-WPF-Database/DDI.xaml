@@ -36,5 +36,6 @@
         <TextBlock x:Name="peakAccTxt" HorizontalAlignment="Left" Height="31" Margin="27,235,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Peak Angular Acceleration:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
         <TextBlock x:Name="peakJerkTxt" HorizontalAlignment="Left" Height="31" Margin="27,264,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Peak Angular Jerk:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
         <TextBlock x:Name="twistingROMTxt" HorizontalAlignment="Left" Height="31" Margin="27,293,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Twisting ROM:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
+        <ListBox x:Name="anglesList" HorizontalAlignment="Left" Height="31" Margin="27,322,0,0" Grid.Row="2" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
     </Grid>
 </Window>

@@ -41,6 +41,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             peakAccTxt.Text = "Peak Angular Acceleration: " + ApplicationState.dataAnalysis.peakSPAngAccelerationAt0.ToString();
             peakJerkTxt.Text = "Peak Angular Jerk: " + ApplicationState.dataAnalysis.peakSPAngJerkAt0.ToString();
             twistingROMTxt.Text = "Twisting ROM: " + ApplicationState.dataAnalysis.twistingROM.ToString();
+
+            //List<string> stringList = new List<string>();
+            //for(int i = 0; i < ApplicationState.dataAnalysis.kinectSPAngleAt0.Count; i ++)
+            //{
+            //    stringList.Add(ApplicationState.dataAnalysis.kinectSPAngleAt0[i].ToString());
+            //}
+            //anglesList.DataContext = stringList;
         }
     }
 }

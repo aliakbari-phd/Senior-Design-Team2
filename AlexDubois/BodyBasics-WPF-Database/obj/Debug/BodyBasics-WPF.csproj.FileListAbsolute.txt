@@ -80,6 +80,11 @@ C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\obj\Deb
 C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\bin\AnyCPU\Debug\PatientData.mdf
 C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\bin\AnyCPU\Debug\PatientData_log.ldf
 C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF_Content.g.cs
+<<<<<<< HEAD
+C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\obj\Debug\DDI.g.cs
+C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF_MarkupCompile.lref
+C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\obj\Debug\DDI.baml
+=======
 E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
 E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\bin\AnyCPU\Debug\PatientData.mdf
 E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\bin\AnyCPU\Debug\PatientData_log.ldf
@@ -101,3 +106,4 @@ E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\obj\Deb
 E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
 E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.exe
 E:\OneDrive\Documentos\ECEN 403\Team7\AlexDubois\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.pdb
+>>>>>>> d8a9053807d7f4cadf3004cadedcc56c36f1e36f
