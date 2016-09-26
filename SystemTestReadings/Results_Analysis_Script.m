@@ -1,3 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+filename = 'Ben_Johnston Cal 01.csv';
+V_Data = xlsread(filename, 'A12:N1582');
+
+pnts_base(:,1) = V_Data(:,3);           %base points
+pnts_base(:,2) = V_Data(:,4);
+pnts_base(:,3) = V_Data(:,5);
+
+pnts_upper(:,1) = V_Data(:,9);          %upper points
+pnts_upper(:,2) = V_Data(:,10);
+pnts_upper(:,3) = V_Data(:,11);
+
+v_zunit = ([0 0 1]);            %create z unit vector
+Vic_frames = V_Data(:,1);
+
+
+v_pntpnt = pnts_upper - pnts_base;      %point to point vector
+
+iterator_a=1;
+v_length = size(v_pntpnt);
+l = v_length(1,1);
+while iterator_a<l
+v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
+iterator_a = iterator_a+1;
+theta(iterator_a,:) = acos(dot(v_pnt_norm,v_zunit));
+end
+alpha = (pi/2)-theta;
+alpha_deg = alpha.*(180/pi);
+
+%Syncing
+[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
+
+Vic_peak_beg = Vic_locs(1)-200;
+Vic_peak_end = Vic_locs(end);
+
+Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+
+Vic_time = (Frames_used)/100;
+Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
@@ -74,32 +118,26 @@ positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
 
+[SMid_pks , SMid_locs] = findpeaks(tMid, gyroMid, 'MinPeakProminence', .5);
 
+SMid_peak_beg = SMid_locs(1);
+SMid_peak_end = SMid_locs(end);
 
-%subplot(3,1,1)
-%plot(tMid,distanceMid(:,1),tBase,distanceBase(:,1))
-title('Angular Distance (deg)')
-%ylabel('x'),xlabel('Time (s)')
+Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
 
-%subplot(3,1,2)
-plot(tMid,aMid(:,2),tBase,gyroBase(:,2))
-ylabel('y'),xlabel('Time (s)')
-legend('Middle Sensor', 'Base Sensor')
-
-%subplot(3,1,3)
-%plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
-%ylabel('z'),xlabel('Time (s)')
+Vic_time = (Frames_used)/100;
+Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-%results
-%abs_distance = cumtrapz(t,abs(gyro));
 
-%result_duration = t(end);                   %report duration of test
-%result_Fs = length(gyro)/t(end);       %Fs = sampling frequency
-%result_xdistance = abs(abs_distance(end,1));      %report final distance
-%result_ydistance = abs(abs_distance(end,2));
-%result_zdistance = abs(abs_distance(end,3));  
-%result_drift = abs(gyro(end,1)-gyro(onepercent,1));
-%result_bfdrift = abs(c_velocity(end)-c_velocity(1)); %difference in begin to end of best fit velocity
-%result_mean_vel = abs(mean(gyro(:,3)));   %report mean velocity
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
