@@ -48,9 +48,9 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 filenameSMid = 'T1S1.txt';
 filenameSBase = 'T1S2.txt';
 delimiterIn = ' ';
-headerlinesIn = 1;
-SMid = importdata(filenameSMid, delimiterIn, headerlinesIn);
-SBase = importdata(filenameSBase, delimiterIn, headerlinesIn);
+headerlinesIn_IMU = 1;
+SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
+SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
 
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
@@ -129,8 +129,6 @@ Vic_time = (Frames_used)/100;
 Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
 Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 
