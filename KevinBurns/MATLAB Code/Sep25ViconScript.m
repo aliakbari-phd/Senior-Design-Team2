@@ -10,6 +10,7 @@ pnts_upper(:,2) = V_Data(:,10);
 pnts_upper(:,3) = V_Data(:,11);
 
 v_zunit = ([0 0 1]);            %create z unit vector
+Vic_frames = V_Data(:,1);
 
 
 v_pntpnt = pnts_upper - pnts_base;      %point to point vector
@@ -19,17 +20,30 @@ i=1;
 v_length = size(v_pntpnt);
 l = v_length(1,1);
 while i<l
-v_pnt_norm(i,:) = v_pntpnt(i,:)./norm(v_pntpnt(i,:));
+v_pnt_norm = v_pntpnt(i,:)./norm(v_pntpnt(i,:));
 i = i+1;
-theta(i,:) = acos(dot(v_pnt_norm(i,:),v_zunit));
+theta(i,:) = acos(dot(v_pnt_norm,v_zunit));
 end
 alpha = (pi/2)-theta;
 alpha_deg = alpha.*(180/pi);
 
+[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
+
+Vic_peak_beg = Vic_locs(1)-200;
+Vic_peak_end = Vic_locs(end);
+
+Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
 
 % theta = atan2(norm(cross(v_pntpnt, v_zunit)), dot(v_pntpnt, v_zunit));
 
-plot(V_Data(:,1),alpha_deg)
+Vic_time = (Frames_used)/100;
+Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+
+% plot(Vic_frames(Vic_peak_beg:Vic_peak_end),alpha_deg(Vic_peak_beg:Vic_peak_end), Vic_frames(Vic_locs), Vic_pks, 'or')
+
+plot(Vic_plot_xaxis,Vic_plot_yaxis)
+xlim([0 Vic_time])
 
 result = norm(v_pntpnt);
 
