@@ -140,6 +140,10 @@ positionS2(:,3) = -1+cosd(a_distanceS2(:,2))+sind(a_distanceS2(:,1));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+[Vic_pks, Vic_locs] = findpeaks(V_BaseNorm_X, 'MinPeakProminence',.25);
+[IMU_pks, IMU_locs] = findpeaks(positionS2(:,1), 'MinPeakProminence',.25);
+[Kin_pks, Kin_locs] = findpeaks(SpineBaseZ, 'MinPeakProminence',.25);
+
 
 %%%%%%%%%%%PLOTTING HERE%%%%%%%%%%%%%%%%%%
 
@@ -147,20 +151,42 @@ figure(1)
 set(gcf, 'color', 'white');
 
 subplot(3,1,1)
-plot(VSpace,V_BaseNorm_X,TestDurationS2, positionS2(:,1),TestDuration,SpineBaseZ)
-title('X Position')
+%plot(VSpace,V_BaseNorm_X,TestDurationS2, positionS2(:,1),TestDuration,SpineBaseZ)
+plot(VSpace,V_BaseNorm_X,VSpace(Vic_locs),Vic_pks,'or')
+title('Vicon')
 
 subplot(3,1,2)
-plot(VSpace,V_BaseNorm_Y,TestDurationS2, positionS2(:,2),TestDuration,SpineBaseX)
-title(' Y Position')
+plot(TestDurationS2, positionS2(:,1), TestDurationS2(IMU_locs),IMU_pks,'or')
+title('IMU')
 ylabel('Normalized Position')
 ylim([-1 1])
 
 subplot(3,1,3)
-plot(VSpace,V_BaseNorm_Z,TestDurationS2, positionS2(:,3),TestDuration,SpineBaseY)
-title('Z Position')
+plot(TestDuration, SpineBaseZ, TestDuration(Kin_locs), Kin_pks, 'or')
+title('Kinect')
 xlabel('Time (s)')
 
+% subplot(3,1,2)
+% plot(VSpace,V_BaseNorm_Y,TestDurationS2, positionS2(:,2),TestDuration,SpineBaseX)
+% title(' Y Position')
+% ylabel('Normalized Position')
+% ylim([-1 1])
+
+% subplot(3,1,3)
+% plot(VSpace,V_BaseNorm_Z,TestDurationS2, positionS2(:,3),TestDuration,SpineBaseY)
+% title('Z Position')
+% xlabel('Time (s)')
+
+
+
+
+
+% subplot(4, 1, 1), plot(TestDuration, SpineBaseX), ylabel('PositionX (cm)');
+% title('SpineBase');
+% subplot(4, 1, 2), plot(TestDuration, SpineBaseY), ylabel('PositionY (cm)');
+% subplot(4, 1, 3), plot(TestDuration, SpineBaseZ), ylabel('PositionZ (cm)');
+ % subplot(4, 1, 4), plot(TestDuration, SpineBaseTracked), ylabel('IsTracked');
+% xlabel('seconds');
 
 
 

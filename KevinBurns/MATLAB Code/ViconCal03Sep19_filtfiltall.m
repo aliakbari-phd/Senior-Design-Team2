@@ -70,6 +70,13 @@ for n=x
         SpineBaseTracked(n) = 0;
     end
 end
+
+kin_filter = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',15e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+
+SpineBaseZ_filt = filtfilt(kin_filter, SpineBaseZ);
+        
 %TestDurationMovement = TestDuration(1: 151);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,8 +105,8 @@ TestDurationS2 = transpose(TestDurationS2./1000);
 x_filter = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',10e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
-GyroS1 = filter(x_filter,GyroS1);
-GyroS2 = filter(x_filter,GyroS2);
+GyroS1 = filtfilt(x_filter,GyroS1);
+GyroS2 = filtfilt(x_filter,GyroS2);
 
 %best fit code
 tS1(:,1) = transpose(TestDurationS1);
@@ -140,22 +147,36 @@ positionS2(:,3) = -1+cosd(a_distanceS2(:,2))+sind(a_distanceS2(:,1));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Vic_plot_func = V_BaseNorm_X;
-IMU_plot_func = positionS2(:,1);
-Kin_plot_func = SpineBaseZ;
+Vic_plot_func = V_BaseNorm_X([146:1476]);
+IMU_plot_func = positionS2([310:3183], 1);
+Kin_plot_func = SpineBaseZ_filt([52:473]);
 
 [Vic_pks, Vic_locs] = findpeaks(Vic_plot_func, 'MinPeakProminence',.05);
 [IMU_pks, IMU_locs] = findpeaks(IMU_plot_func, 'MinPeakProminence',.25);
 [Kin_pks, Kin_locs] = findpeaks(Kin_plot_func, 'MinPeakProminence',.8);
 
-% t_p = 14.145;
-% 
-% Vic_plot_x = 0:t_p/1330:t_p;
-% IMU_plot_x = 0:t_p/2873:t_p;
-% Kin_plot_x = 0:t_p/421:t_p;
+t_p = 14.145;
+
+Vic_plot_x = 0:t_p/1330:t_p;
+IMU_plot_x = 0:t_p/2873:t_p;
+Kin_plot_x = 0:t_p/421:t_p;
+
+n = 1;
+m = 1;
+AS = 1;
+
+while (m<421)
+    Avg_Signal(AS,1) = (IMU_plot_func(n) + Kin_plot_func(m))/2;
+    m=m+1;
+    n=n+6;
+    AS = AS+1;
+end
+
+AS_x = 0:t_p/420:t_p;
+
+x_time = 0:14.145;
 
 
-        
 %%%%%%%%%%%PLOTTING HERE%%%%%%%%%%%%%%%%%%
 
 figure(1)
@@ -163,23 +184,27 @@ set(gcf, 'color', 'white');
 
 subplot(3,1,1)
 %plot(VSpace,V_BaseNorm_X,TestDurationS2, positionS2(:,1),TestDuration,SpineBaseZ)
-plot(VSpace, Vic_plot_func,VSpace(Vic_locs),Vic_pks,'or')%Vic_plot_x,Vic_plot_func)
+plot(Vic_plot_x,Vic_plot_func)%,VSpace(Vic_locs),Vic_pks,'or')
 title('Vicon')
-xlim([0 18])
+xlim([0 14.145])
 
 subplot(3,1,2)
-plot(TestDurationS2, IMU_plot_func, TestDurationS2(IMU_locs),IMU_pks,'or')%IMU_plot_x, IMU_plot_func)
+plot(IMU_plot_x, IMU_plot_func)%, TestDurationS2(IMU_locs),IMU_pks,'or')
 title('IMU')
 ylabel('Normalized Position')
 ylim([-1 1])
-xlim([0 18])
+xlim([0 14.145])
 
 subplot(3,1,3)
-plot(TestDuration, Kin_plot_func, TestDuration(Kin_locs), Kin_pks, 'or')%Kin_plot_x, Kin_plot_func)
+plot(Kin_plot_x, Kin_plot_func)%(, TestDuration(Kin_locs), Kin_pks, 'or')
 title('Kinect')
 xlabel('Time (s)')
-xlim([0 18])
+xlim([0 14.145])
 
+% subplot(4,1,4)
+% plot(AS_x, Avg_Signal)
+% xlim([0 14.145])
+% ylim([-1 1])
 
 
 % subplot(3,1,2)
