@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 01.csv';
-V_Data = xlsread(filename, 'A12:N1582');
+filename = 'Ben_Johnston Cal 02.csv';
+V_Data = xlsread(filename, 'A12:N1619');
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -30,7 +30,7 @@ alpha_deg = alpha.*(180/pi);
 %Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
 
-Vic_peak_beg = Vic_locs(1)-200;
+Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
 
 Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
@@ -45,8 +45,8 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T1S1.txt';
-filenameSBase = 'T1S2.txt';
+filenameSMid = 'T2S1.txt';
+filenameSBase = 'T2S2.txt';
 delimiterIn = ' ';
 headerlinesIn = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn);
@@ -126,19 +126,19 @@ IMU_str2end_frame = SMid_locs(end)-SMid_locs(1);
 IMU_str2end_time = tMid(SMid_locs(end))-tMid(SMid_locs(1));
 IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
 
-IMU_prev_time = IMU_str2end_time+2;
+IMU_prev_time = IMU_str2end_time;
 IMU_prev_frms = 2/IMU_timesteps;
 
 SMid_y_axis = distanceMid(:,2);
 
-SMid_peak_beg = SMid_locs(1)-IMU_prev_frms;
+SMid_peak_beg = SMid_locs(1);
 SMid_peak_end = SMid_locs(end);
 
 % 
 % Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
 % 
 SMid_time = IMU_prev_time;
-SMid_plot_yaxis = SMid_y_axis(109:SMid_peak_end);
+SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 
