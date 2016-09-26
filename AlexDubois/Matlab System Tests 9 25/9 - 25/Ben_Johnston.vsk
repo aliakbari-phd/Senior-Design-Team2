@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<KinematicModel MODEL="Ben_Johnston" VERSION="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.vicon.com/Schemas/ViconVST.xsd">
+
+  <Parameters>
+    <Parameter HIDDEN="1" NAME="Lower_Length" PRIOR="174.519500732422" SD="0" VALUE="174.519500732422"/>
+  </Parameters>
+
+  <Skeleton>
+    <Segment BOUNDS="-17.452 -17.452 -'Lower_Length' 17.452 17.452 0" CONTEXT="General" INERTIA="0 0 0 " MASS="0 " MASS-CENTRE="0 0 0 " NAME="Lower" RGB="255 164 0">
+      <JointFree BOUNDS="0 0 0 0 0 0 0 0 0 0 0 0" COVARIANCE="2.46490001678467 0 0 0 0 0  0 2.46490001678467 0 0 0 0  0 0 246.490005493164 0 0 0  0 0 0 1000000 0 0  0 0 0 0 1000000 0  0 0 0 0 0 1000000  " MEAN="0 0 0 0 0 0" NAME="World_Lower" POST-ORIENTATION="0 0 0" POST-POSITION="0 0 0" PRE-ORIENTATION="0 0 0" PRE-POSITION="0 0 0" SIGNS="+ + + + + + " T="* * * * * * ">
+        <JointTemplate COVARIANCE="2.46490001678467 0 0 0 0 0  0 2.46490001678467 0 0 0 0  0 0 246.490005493164 0 0 0  0 0 0 1000000 0 0  0 0 0 0 1000000 0  0 0 0 0 0 1000000  " MEAN="0 0 0 0 0 0" POST-ORIENTATION="0 0 0 " POST-POSITION="0 0 0 " PRE-ORIENTATION="0 0 0 " PRE-POSITION="0 0 0 " TPOSE-COVARIANCE="0.100000001490116 0 0 0 0 0  0 0.100000001490116 0 0 0 0  0 0 0.100000001490116 0 0 0  0 0 0 0.100000001490116 0 0  0 0 0 0 0.100000001490116 0  0 0 0 0 0 0.100000001490116  " TPOSE-MEAN="0 0 0 0 0 0"/>
+      </JointFree>
+    </Segment>
+    <Segment BOUNDS="-22.4771 -22.4771 -224.771 22.4771 22.4771 0 " CONTEXT="General" INERTIA="0 0 0 " MASS="0 " MASS-CENTRE="0 0 0 " NAME="Upper" RGB="255 255 0">
+      <JointFree BOUNDS="0 0 0 0 0 0 0 0 0 0 0 0" COVARIANCE="2.46490001678467 0 0 0 0 0  0 2.46490001678467 0 0 0 0  0 0 246.490005493164 0 0 0  0 0 0 1000000 0 0  0 0 0 0 1000000 0  0 0 0 0 0 1000000  " MEAN="0 0 0 0 0 0" NAME="World_Upper" POST-ORIENTATION="0 0 0" POST-POSITION="0 0 0" PRE-ORIENTATION="0 0 0" PRE-POSITION="0 0 0" SIGNS="+ + + + + + " T="* * * * * * ">
+        <JointTemplate COVARIANCE="2.46490001678467 0 0 0 0 0  0 2.46490001678467 0 0 0 0  0 0 246.490005493164 0 0 0  0 0 0 1000000 0 0  0 0 0 0 1000000 0  0 0 0 0 0 1000000  " MEAN="0 0 0 0 0 0" POST-ORIENTATION="0 0 0 " POST-POSITION="0 0 0 " PRE-ORIENTATION="0 0 0 " PRE-POSITION="0 0 0 " TPOSE-COVARIANCE="0.100000001490116 0 0 0 0 0  0 0.100000001490116 0 0 0 0  0 0 0.100000001490116 0 0 0  0 0 0 0.100000001490116 0 0  0 0 0 0 0.100000001490116 0  0 0 0 0 0 0.100000001490116  " TPOSE-MEAN="0 0 0 0 0 0"/>
+      </JointFree>
+    </Segment>
+  </Skeleton>
+
+  <MarkerSet>
+    <Markers>
+      <Marker COVARIANCE="1 0 0 0 1 0 0 0 1 " NAME="Base" POSITION="0 0 0" RADIUS="12.5" RGB="255 164 0" SEGMENT="Lower" STATUS="required">
+        <MarkerTemplate COVARIANCE="1 0 0 0 1 0 0 0 1 " PLACEMENT-COVARIANCE="1 0 0 0 1 0 0 0 1 " POSITION="0 0 0"/>
+      </Marker>
+      <Marker COVARIANCE="1 0 0 0 1 0 0 0 1 " NAME="L5" POSITION="0 0 -174.52" RADIUS="12.5" RGB="255 164 0" SEGMENT="Lower" STATUS="required">
+        <MarkerTemplate COVARIANCE="1 0 0 0 1 0 0 0 1 " PLACEMENT-COVARIANCE="1 0 0 0 1 0 0 0 1 " POSITION="0 0 -'Lower_Length'"/>
+      </Marker>
+      <Marker COVARIANCE="1 0 0 0 1 0 0 0 1 " NAME="UpperVert" POSITION="-3.55271e-015 -1.33227e-015 -224.771" RADIUS="12.5" RGB="255 164 0" SEGMENT="Upper" STATUS="required">
+        <MarkerTemplate COVARIANCE="1 0 0 0 1 0 0 0 1 " PLACEMENT-COVARIANCE="1 0 0 0 1 0 0 0 1 " POSITION="-3.55271e-015 -1.33227e-015 -224.771 "/>
+      </Marker>
+      <Marker COVARIANCE="1 0 0 0 1 0 0 0 1 " NAME="Shoulder" POSITION="-4.44089e-016 127.796 -218.145" RADIUS="12.5" RGB="255 164 0" SEGMENT="Upper" STATUS="required">
+        <MarkerTemplate COVARIANCE="1 0 0 0 1 0 0 0 1 " PLACEMENT-COVARIANCE="1 0 0 0 1 0 0 0 1 " POSITION="-4.44089e-016 127.796 -218.145 "/>
+      </Marker>
+    </Markers>
+    <Sticks>
+      <Stick MARKER1="Base" MARKER2="L5" RGB="255 164 0"/>
+      <Stick MARKER1="L5" MARKER2="UpperVert" RGB="255 164 0"/>
+      <Stick MARKER1="L5" MARKER2="Shoulder" RGB="255 164 0"/>
+      <Stick MARKER1="UpperVert" MARKER2="Shoulder" RGB="255 164 0"/>
+    </Sticks>
+  </MarkerSet>
+
+  <Alignment/>
+
+</KinematicModel>
