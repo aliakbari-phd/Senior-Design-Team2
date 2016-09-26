@@ -1,3 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+filename = 'Ben_Johnston Cal 01.csv';
+V_Data = xlsread(filename, 'A12:N1582');
+
+pnts_base(:,1) = V_Data(:,3);           %base points
+pnts_base(:,2) = V_Data(:,4);
+pnts_base(:,3) = V_Data(:,5);
+
+pnts_upper(:,1) = V_Data(:,9);          %upper points
+pnts_upper(:,2) = V_Data(:,10);
+pnts_upper(:,3) = V_Data(:,11);
+
+v_zunit = ([0 0 1]);            %create z unit vector
+Vic_frames = V_Data(:,1);
+
+
+v_pntpnt = pnts_upper - pnts_base;      %point to point vector
+
+iterator_a=1;
+v_length = size(v_pntpnt);
+l = v_length(1,1);
+while iterator_a<l
+v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
+iterator_a = iterator_a+1;
+theta(iterator_a,:) = acos(dot(v_pnt_norm,v_zunit));
+end
+alpha = (pi/2)-theta;
+alpha_deg = alpha.*(180/pi);
+
+%Syncing
+[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
+
+Vic_peak_beg = Vic_locs(1)-200;
+Vic_peak_end = Vic_locs(end);
+
+Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+
+Vic_time = (Frames_used)/100;
+Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
@@ -64,90 +108,36 @@ jerkMid = diff(accelerationMid);             %accel to jerk
 jerkMid = [0,[1 3];jerkMid];
 positionMid = trapz(tMid,gyroMid);
 distanceMid = cumtrapz(tMid,gyroMid);     % vel to distance
+distanceMid(:,2) = distanceMid(:,2) + 90;
+
+accelerationBase = diff(gyroBase);             % vel to accel 
+accelerationBase = [0,[1 3];accelerationBase];
+jerkBase = diff(accelerationBase);             %accel to jerk
+jerkBase = [0,[1 3];jerkBase];
+positionBase = trapz(tBase,gyroBase);
+distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
+distanceBase(:,2) = distanceBase(:,2) + 90;
+
+[SMid_pks , SMid_locs] = findpeaks(tMid, gyroMid, 'MinPeakProminence', .5);
+
+SMid_peak_beg = SMid_locs(1);
+SMid_peak_end = SMid_locs(end);
+
+Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+
+Vic_time = (Frames_used)/100;
+Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 
-subplot(3,1,1)
-plot(tMid,distanceMid(:,1))
-title('Angular Distance (deg)')
-ylabel('x'),xlabel('Time (s)')
-ylim([-200 200])
 
-subplot(3,1,2)
-plot(tMid,distanceMid(:,2))
-ylabel('y'),xlabel('Time (s)')
-ylim([-200 200])
-
-subplot(3,1,3)
-plot(tMid,distanceMid(:,3))
-ylabel('z'),xlabel('Time (s)')
-ylim([-200 200])
-
-
-%results
-%abs_distance = cumtrapz(t,abs(gyro));
-
-%result_duration = t(end);                   %report duration of test
-%result_Fs = length(gyro)/t(end);       %Fs = sampling frequency
-%result_xdistance = abs(abs_distance(end,1));      %report final distance
-%result_ydistance = abs(abs_distance(end,2));
-%result_zdistance = abs(abs_distance(end,3));  
-%result_drift = abs(gyro(end,1)-gyro(onepercent,1));
-%result_bfdrift = abs(c_velocity(end)-c_velocity(1)); %difference in begin to end of best fit velocity
-%result_mean_vel = abs(mean(gyro(:,3)));   %report mean velocity
-
-
-%subplot(3,1,3)
-%plot(t,c_velocity(:,1))
-%ylim([-2 0])
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-%{
-%correction
-vdelta = v1 - v1(1);            %discrepancy between velocity and best fit
 
 
-vel_corrected = velocity - abs(vdelta);     %subtract discprepancy from velocity
-dist_corrected = cumtrapz(t,vel_corrected);  %find absolute distance
-
-%p2 = polyfit(transpose(t),vel_corrected,1);
-%v2 = transpose(polyval(0.13,t));
-
-%frequency consistency
-delta_t = 0;
-for n=2:length(t)
-    delta_t(end+1)=t(n)-t(n-1);
-end;
-
-%results:
-
-result_corrected_distance = dist_corrected(end);     %report final corrected distance
-result_distance = distance(end);    %report final distance
-result_mean_vel = abs(mean(velocity));   %report mean velocity
-
-%plotting
-set(gcf,'color','white')
-subplot(3,1,1)
-plot (t,velocity)
-title('Angular Velocity vs Time')
-ylabel('Velocity (deg/s)'), %xlabel('Time (s)')
-xlim([0 t(end)])
-
-subplot(3,1,2)
-plot (t,v1)
-title('Best Fit Angular Velocity vs Time')
-ylabel('Best Fit Velocity (deg/s)'), %xlabel('Time (s)')
-xlim([0 t(end)])
-
-subplot(3,1,3)
-plot(t,distance)
-title('Angular Distance vs Time')
-ylabel('Distance(deg)'), xlabel ('Time (s)')
-xlim([0 t(end)])
-
-%subplot(4,1,4)
-%plot(t,transpose(delta_t))
-%ylabel('delta t (s)'), xlabel ('time (s)')
-%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
