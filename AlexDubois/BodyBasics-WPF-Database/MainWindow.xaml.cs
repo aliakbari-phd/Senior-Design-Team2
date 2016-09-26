@@ -164,6 +164,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private StreamWriter spineshoulderSW;
         private static FileStream fs_kinect_rightshoulder;
         private StreamWriter rightshoulderSW;
+        private static FileStream fs_kinect_flexAndSagittalAngle;
+        private StreamWriter flexAndSagittalAngleSW;
         private static FileStream fs_sensor1;
         private StreamWriter sw2;
         private static FileStream fs_sensor2;
@@ -459,17 +461,22 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             //Now we can collect positions of RS, SS, and SB to collect sets of vectors
                             List<float> rightShoulderPos = new List<float>();
                             List<float> spineShoulderPos = new List<float>();
+                            List<float> spineMidPos = new List<float>();
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            spineMidPos.Add(body.Joints[JointType.SpineMid].Position.X);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            spineMidPos.Add(body.Joints[JointType.SpineMid].Position.Y);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
-
+                            spineMidPos.Add(body.Joints[JointType.SpineMid].Position.Z);
                             //Calculate the Sagittal Angle and Flex Angle
-                            kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
-                            kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                            kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(spineMidPos);
+                            kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineMidPos);
                             dataAnalysis.timeStampsAngleAt0.Add(timestamp);
+                            flexAndSagittalAngleSW.WriteLine(kinectFeedback.sagittalAngles[kinectFeedback.index] + " " + kinectFeedback.flexAngles[kinectFeedback.index] + " " + timestamp);
+                            kinectFeedback.index++;
                         }
 
                         //Collect Spine Base Data
@@ -741,7 +748,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         //  start create files for Kinect and sensor and start to record data
         private void startRecording_Click(object sender, RoutedEventArgs e)
         {
-            string fpath = "C:/Users/Alex/Documents/ECEN403Github/AlexDubois/BodyBasics-WPF-Database/SD01/";
+            string fpath = "C:/Users/Alex/Documents/ECEN403GithubFixed/AlexDubois/BodyBasics-WPF-Database/SD01/";
             //string fpath = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
             //string fpath = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
             //string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
@@ -758,6 +765,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
             rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
+
+            fs_kinect_flexAndSagittalAngle = new FileStream(string.Concat(fpath, "flexAndSagittalAngle.txt"), FileMode.Create);
+            flexAndSagittalAngleSW = new StreamWriter(fs_kinect_flexAndSagittalAngle);
 
             fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
             sw2 = new StreamWriter(fs_sensor1);
@@ -817,29 +827,32 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             stop = 1;
             spineBaseSW.Close();
             spinemidSW.Close();
+            flexAndSagittalAngleSW.Close();
             spineshoulderSW.Close();
             rightshoulderSW.Close();
             sw2.Close();
             sw3.Close();
-            //sw4.Close();
-            //sw5.Close();
 
             fs_kinect_spinebase.Close();
             fs_kinect_spinemid.Close();
             fs_kinect_spineshoulder.Close();
             fs_kinect_rightshoulder.Close();
+            fs_kinect_flexAndSagittalAngle.Close();
             fs_sensor1.Close();
             fs_sensor2.Close();
-            //fs_sensor3.Close();
-            //fs_sensor4.Close();
 
             dataAnalysis.InitAngles(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles);
             dataAnalysis.QuantifyLBD();
 
             SqlCommand cmd = new SqlCommand();
-            SqlDataReader dr;
+            //SqlDataReader dr;
+
+            //cmd.CommandText = "SELECT * FROM Patients";
+            //cmd.CommandType = CommandType.Text;
 
             cmd.Connection = connection;
+
+            //dr = cmd.ExecuteReader();
 
             //@TODO: Fix potential SQL Code Injections
             if (dataAnalysis.gender == true)
@@ -1102,6 +1115,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 spineBaseSW.Close();
                 spinemidSW.Close();
                 spineshoulderSW.Close();
+                flexAndSagittalAngleSW.Close();
                 sw2.Close();
                 sw3.Close();
                 sw4.Close();
@@ -1110,6 +1124,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 fs_kinect_spinemid.Close();
                 fs_kinect_spineshoulder.Close();
                 fs_kinect_rightshoulder.Close();
+                fs_kinect_flexAndSagittalAngle.Close();
                 fs_sensor1.Close();
                 fs_sensor2.Close();
                 fs_sensor3.Close();

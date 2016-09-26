@@ -12,6 +12,7 @@ public class KinectFeedback
     public List<float> flexAngles;
     public float currentSagittalAngle;
     public float currentFlexAngle;
+    public int index;
     public List<float> initialPosRS;
     public List<float> initialPosSS;
     public List<float> initialPosSB;
@@ -24,6 +25,7 @@ public class KinectFeedback
 
     public KinectFeedback()
     {
+        index = 0;
         isInitial = true;
         isZero = "False";
         isFifteen = "False";
@@ -123,5 +125,6 @@ public class KinectFeedback
         sagittalAngles.Clear();
         flexAngles.Clear();
         isInitial = true;
+        index = 0;
     }
 }
