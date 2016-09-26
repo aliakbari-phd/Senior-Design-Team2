@@ -210,7 +210,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private KinectFeedback kinectFeedback = new KinectFeedback();
 
         //Define Database connection string required to open a connection and insert SQL into
-        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alex\Documents\ECEN403Github\AlexDubois\BodyBasics-WPF-Database\PatientData.mdf;Integrated Security=True");
+        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alex\Documents\ECEN403GithubFixed\AlexDubois\BodyBasics-WPF-Database\PatientData.mdf;Integrated Security=True");
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -775,12 +775,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             fs_sensor2 = new FileStream(string.Concat(fpath, string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
             sw3 = new StreamWriter(fs_sensor2);
 
-            //fs_sensor3 = new FileStream(string.Concat("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kevin/", string.Concat((num + 4).ToString(), ".txt")), FileMode.Create);
-            //sw4 = new StreamWriter(fs_sensor3);
-
-            //fs_sensor4 = new FileStream(string.Concat("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kevin/", string.Concat((num + 5).ToString(), ".txt")), FileMode.Create);
-            //sw5 = new StreamWriter(fs_sensor4);
-
             try
             {
                 connection.Open();
@@ -820,7 +814,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             ButtonStop.IsEnabled = true;
         }
 
-
+        // Stop recording button
         private void button3_Click(object sender, RoutedEventArgs e)
         {
             kinect_start = 0;
@@ -844,16 +838,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             dataAnalysis.InitAngles(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles);
             dataAnalysis.QuantifyLBD();
 
+            SqlCommand cmdRead = new SqlCommand();
             SqlCommand cmd = new SqlCommand();
-            //SqlDataReader dr;
+            SqlDataReader dr;
 
-            //cmd.CommandText = "SELECT * FROM Patients";
-            //cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM Patient";
+            cmd.CommandType = CommandType.Text;
 
             cmd.Connection = connection;
 
-            //dr = cmd.ExecuteReader();
+            dr = cmd.ExecuteReader();
 
+            connection.Close();
+
+            connection.Open();
+            cmd.Connection = connection;
             //@TODO: Fix potential SQL Code Injections
             if (dataAnalysis.gender == true)
             {
