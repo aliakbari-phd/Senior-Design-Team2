@@ -1,10 +1,12 @@
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filename = 'ViconTest1.txt';
+filenameSMID = 'T1S1.txt';
+filenameSBASE = 'T1S2.txt';
 delimiterIn = ' ';
 headerlinesIn = 1;
-A = importdata(filename, delimiterIn, headerlinesIn);
+SMID = importdata(filenameSMID, delimiterIn, headerlinesIn);
+SBASE = importdata(filenameSBASE, delimiterIn, headerlinesIn);
 
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
