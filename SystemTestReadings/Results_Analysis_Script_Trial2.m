@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 01.csv';
-V_Data = xlsread(filename, 'A12:N1582');
+filename = 'Ben_Johnston Cal 02.csv';
+V_Data = xlsread(filename, 'A12:N1619');
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -30,7 +30,7 @@ alpha_deg = alpha.*(180/pi);
 %Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
 
-Vic_peak_beg = Vic_locs(1)-200;
+Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
 
 Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
@@ -45,12 +45,12 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T1S1.txt';
-filenameSBase = 'T1S2.txt';
+filenameSMid = 'T2S1.txt';
+filenameSBase = 'T2S2.txt';
 delimiterIn = ' ';
-headerlinesIn_IMU = 1;
-SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
-SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
+headerlinesIn = 1;
+SMid = importdata(filenameSMid, delimiterIn, headerlinesIn);
+SBase = importdata(filenameSBase, delimiterIn, headerlinesIn);
 
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
@@ -118,17 +118,33 @@ positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
 
-[SMid_pks , SMid_locs] = findpeaks(tMid, gyroMid, 'MinPeakProminence', .5);
+[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
+
+% plot(tMid, distanceMid(:,2), tMid(SMid_locs), SMid_pks, 'or');
+
+IMU_str2end_frame = SMid_locs(end)-SMid_locs(1);
+IMU_str2end_time = tMid(SMid_locs(end))-tMid(SMid_locs(1));
+IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
+
+IMU_prev_time = IMU_str2end_time;
+IMU_prev_frms = 2/IMU_timesteps;
+
+SMid_y_axis = distanceMid(:,2);
 
 SMid_peak_beg = SMid_locs(1);
 SMid_peak_end = SMid_locs(end);
 
-Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+% 
+% Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+% 
+SMid_time = IMU_prev_time;
+SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
+SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
-Vic_time = (Frames_used)/100;
-Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
-Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -139,3 +155,18 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% subplot(3,1,1)
+plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis)
+xlim([0 Vic_time])
+title('Angular Distance (deg)')
+ylabel('x'),xlabel('Time (s)')
+
+% subplot(3,1,2)
+
+% xlim([0 SMid_time])
+% ylabel('y'),xlabel('Time (s)')
+
+
+%subplot(3,1,3)
+%plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
+%ylabel('z'),xlabel('Time (s)')

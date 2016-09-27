@@ -118,17 +118,88 @@ positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
 
-[SMid_pks , SMid_locs] = findpeaks(tMid, gyroMid, 'MinPeakProminence', .5);
+[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
 
-SMid_peak_beg = SMid_locs(1);
+% plot(tMid, distanceMid(:,2), tMid(SMid_locs), SMid_pks, 'or');
+
+IMU_str2end_frame = SMid_locs(end)-SMid_locs(1);
+IMU_str2end_time = tMid(SMid_locs(end))-tMid(SMid_locs(1));
+IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
+
+IMU_prev_time = IMU_str2end_time+2;
+IMU_prev_frms = 2/IMU_timesteps;
+
+SMid_y_axis = distanceMid(:,2);
+
+SMid_peak_beg = SMid_locs(1)-IMU_prev_frms;
 SMid_peak_end = SMid_locs(end);
 
-Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+% 
+% Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+% 
+SMid_time = IMU_prev_time;
+SMid_plot_yaxis = SMid_y_axis(109:SMid_peak_end);
+SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
-Vic_time = (Frames_used)/100;
-Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
-Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+filename1_Kin = 'spinebaseT1.txt';
+filename2_Kin = 'spinemidT1.txt';
+delimiterIn = ' ';
+headerlinesIn_Kin = 0;
+spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
+spinemidData = importdata(filename2_Kin, delimiterIn, headerlinesIn_Kin);
+
+time = spinebaseData.data(:,1);
+time = time - time(1);
+time = time./1000;
+
+pnts_base_Kin(:,1) = str2double(spinebaseData.textdata(:,1));          %base points
+pnts_base_Kin(:,2) = str2double(spinebaseData.textdata(:,2));
+pnts_base_Kin(:,3) = str2double(spinebaseData.textdata(:,3));
+
+pnts_upper_Kin(:,1) = str2double(spinemidData.textdata(:,1));         %upper points
+pnts_upper_Kin(:,2) = str2double(spinemidData.textdata(:,2));
+pnts_upper_Kin(:,3) = str2double(spinemidData.textdata(:,3));
+
+kinect_yunit = ([0 1 0]);            %create z unit vector
+
+kinect_pntpnt = pnts_upper_Kin - pnts_base_Kin;      %point to point vector
+
+iterator_a=1;
+kinect_length = size(kinect_pntpnt);
+l = kinect_length(1,1);
+while iterator_a<l
+kinect_pnt_norm = kinect_pntpnt(iterator_a,:)./norm(kinect_pntpnt(iterator_a,:));
+iterator_a = iterator_a+1;
+theta_Kin(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_yunit));
+end
+alpha_Kin = (pi/2)-theta_Kin;
+alpha_deg_Kin = alpha_Kin.*(180/pi);
+
+kin_filter = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',15e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+
+alpha_deg_Kin_filt = filtfilt(kin_filter, alpha_deg_Kin);
+
+[Kin_pks , Kin_locs] = findpeaks(alpha_deg_Kin_filt, 'MinPeakProminence', 2);
+
+Kin_Frames=Kin_locs(end)-Kin_locs(1);
+Kin_time_diff = time(Kin_locs(end))-time(Kin_locs(1));
+Kin_time_step = Kin_time_diff/Kin_Frames;
+Kin_added_time = round(2/.0333);
+
+
+
+Kin_pks_begin = Kin_locs(1)-Kin_added_time;
+Kin_pks_end = Kin_locs(end);
+
+Kin_plot_time = 0:Kin_Frames/(Kin_time_diff):Kin_time_diff+2;
+Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
+
+plot(Kin_plot_time, Kin_plot_y)
 
 
 
@@ -139,3 +210,19 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% subplot(3,1,1)
+plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis)
+xlim([0 Vic_time])
+title('Angular Distance (deg)')
+ylabel('x'),xlabel('Time (s)')
+legend('Vicon','IMU')
+
+% subplot(3,1,2)
+
+% xlim([0 SMid_time])
+% ylabel('y'),xlabel('Time (s)')
+
+
+%subplot(3,1,3)
+%plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
+%ylabel('z'),xlabel('Time (s)')
