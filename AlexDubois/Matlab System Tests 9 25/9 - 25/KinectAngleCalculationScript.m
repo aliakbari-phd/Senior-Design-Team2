@@ -31,4 +31,29 @@ theta(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_yunit));
 end
 alpha = (pi/2)-theta;
 alpha_deg = alpha.*(180/pi);
-plot(time,alpha_deg)
+
+kin_filter = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',15e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+alpha_deg_fil = filtfilt(kin_filter, alpha_deg);
+subplot(2,1,1),plot(time,alpha_deg_fil)
+title('Kinect Flex Angle')
+xlabel('seconds')
+ylabel('degrees')
+xlim([0 16])
+
+filenameA = 'flexAndSagittalAngleT2.txt';
+A = importdata(filenameA, delimiterIn, headerlinesIn);
+
+sagittalAngle = A(:,1)-75;
+
+sagittalAngle = filtfilt(kin_filter, sagittalAngle);
+
+t = A(:,3);
+TestDuration = t-t(1);
+TestDuration = TestDuration./1000;
+
+subplot(2, 1, 2), plot(TestDuration, sagittalAngle), ylabel('degrees');
+title('Sagittal Angle');
+xlabel('seconds');
+ylim([-45 45]);
