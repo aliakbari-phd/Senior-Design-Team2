@@ -30,7 +30,7 @@ alpha_deg = alpha.*(180/pi);
 %Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
 
-Vic_peak_beg = Vic_locs(1)-200;
+Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
 
 Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
@@ -126,19 +126,19 @@ IMU_str2end_frame = SMid_locs(end)-SMid_locs(1);
 IMU_str2end_time = tMid(SMid_locs(end))-tMid(SMid_locs(1));
 IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
 
-IMU_prev_time = IMU_str2end_time+2;
+IMU_prev_time = IMU_str2end_time;
 IMU_prev_frms = 2/IMU_timesteps;
 
 SMid_y_axis = distanceMid(:,2);
 
-SMid_peak_beg = SMid_locs(1)-IMU_prev_frms;
+SMid_peak_beg = SMid_locs(1);
 SMid_peak_end = SMid_locs(end);
 
 % 
 % Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
 % 
 SMid_time = IMU_prev_time;
-SMid_plot_yaxis = SMid_y_axis(109:SMid_peak_end);
+SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 
@@ -193,11 +193,11 @@ Kin_added_time = round(2/.0333);
 
 
 
-Kin_pks_begin = Kin_locs(1)-Kin_added_time;
+Kin_pks_begin = Kin_locs(1);
 Kin_pks_end = Kin_locs(end);
 
-Kin_plot_time = 0:Kin_time_diff/(Kin_locs(end)-Kin_locs(1)):Kin_time_diff+2;
-Kin_plot_time(end+1) = 13.06;
+Kin_plot_time = 0:Kin_time_diff/(Kin_locs(end)-Kin_locs(1)):Kin_time_diff;
+% Kin_plot_time(end+1) = 13.06;
 Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 %plot(Kin_plot_time, Kin_plot_y)
 
