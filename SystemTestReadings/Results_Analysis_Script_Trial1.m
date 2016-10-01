@@ -153,7 +153,7 @@ spinemidData = importdata(filename2_Kin, delimiterIn, headerlinesIn_Kin);
 
 time = spinebaseData.data(:,1);
 time = time - time(1);
-time = time./1000;
+time = transpose(time./1000);
 
 pnts_base_Kin(:,1) = str2double(spinebaseData.textdata(:,1));          %base points
 pnts_base_Kin(:,2) = str2double(spinebaseData.textdata(:,2));
@@ -196,10 +196,10 @@ Kin_added_time = round(2/.0333);
 Kin_pks_begin = Kin_locs(1)-Kin_added_time;
 Kin_pks_end = Kin_locs(end);
 
-Kin_plot_time = 0:Kin_Frames/(Kin_time_diff):Kin_time_diff+2;
+Kin_plot_time = 0:Kin_time_diff/(Kin_locs(end)-Kin_locs(1)):Kin_time_diff+2;
+Kin_plot_time(end+1) = 13.06;
 Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
-
-plot(Kin_plot_time, Kin_plot_y)
+%plot(Kin_plot_time, Kin_plot_y)
 
 
 
@@ -211,11 +211,11 @@ plot(Kin_plot_time, Kin_plot_y)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % subplot(3,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis)
+plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
 ylabel('x'),xlabel('Time (s)')
-legend('Vicon','IMU')
+legend('Vicon','IMU', 'Kinect')
 
 % subplot(3,1,2)
 
@@ -226,3 +226,11 @@ legend('Vicon','IMU')
 %subplot(3,1,3)
 %plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
 %ylabel('z'),xlabel('Time (s)')
+
+SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
+SMid_plot_xaxis = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
+Kin_plot_y = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
+Kin_plot_time = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
+
+angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis).^2))
+angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_y).^2))
