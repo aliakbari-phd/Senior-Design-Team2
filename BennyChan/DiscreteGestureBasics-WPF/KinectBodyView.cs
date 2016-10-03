@@ -217,12 +217,15 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                             {
                                 kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
                                 kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                                kinectFeedback.initialPosSM.Add(body.Joints[JointType.SpineMid].Position.X);
                                 kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.X);
                                 kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
                                 kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                                kinectFeedback.initialPosSM.Add(body.Joints[JointType.SpineMid].Position.Y);
                                 kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Y);
                                 kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                                 kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                                kinectFeedback.initialPosSM.Add(body.Joints[JointType.SpineMid].Position.Z);
                                 kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Z);
                                 kinectFeedback.isInitial = false;
                             }
@@ -230,15 +233,15 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                             else
                             {
                                 List<float> rightShoulderPos = new List<float>();
-                                List<float> spineShoulderPos = new List<float>();
+                                List<float> spineMidPos = new List<float>();
                                 rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
-                                spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                                spineMidPos.Add(body.Joints[JointType.SpineMid].Position.X);
                                 rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
-                                spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                                spineMidPos.Add(body.Joints[JointType.SpineMid].Position.Y);
                                 rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
-                                spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                                spineMidPos.Add(body.Joints[JointType.SpineMid].Position.Z);
                                 kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
-                                kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                                kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineMidPos);
                                 if (kinectFeedback.currentSagittalAngle >= -5.0f && kinectFeedback.currentSagittalAngle <= 5.0f)
                                 {
                                     kinectFeedback.isZero = "True";

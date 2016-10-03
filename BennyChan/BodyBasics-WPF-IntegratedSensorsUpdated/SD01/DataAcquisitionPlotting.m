@@ -1,7 +1,7 @@
 delimiterIn = ' ';
 headerlinesIn = 0;
 
-filenameA = 'spinebaseVT1.txt';
+filenameA = 'spinebaseT2.txt';
 A = importdata(filenameA, delimiterIn, headerlinesIn);
 SpineBaseX = str2double(A.textdata(:,1));
 SpineBaseY = str2double(A.textdata(:,2));

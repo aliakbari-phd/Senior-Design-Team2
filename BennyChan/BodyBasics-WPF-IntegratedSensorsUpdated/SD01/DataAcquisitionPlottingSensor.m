@@ -63,6 +63,7 @@ positionS2(:,2) = -1+cosd(a_distanceS2(:,1))+sind(a_distanceS2(:,3));
 positionS2(:,3) = -1+cosd(a_distanceS2(:,2))+sind(a_distanceS2(:,1));
 
 %plotting
+hold on;
 set(gcf,'color','white')
 subplot(4,1,1)
 plot3(positionS1(:,2),positionS1(:,1),positionS1(:,3))
@@ -76,16 +77,19 @@ grid on
 % title('Z Axis Position Sensor 1 (Top)')
 % ylabel('Position (Normalized)'),xlabel('Time (s)')
 
+hold on;
 subplot(4,1,2)
 plot(TestDurationS2,positionS2(:,1))
 title('X Axis Position Sensor 2 (Bottom)')
 ylabel('Position (Normalized)'),xlabel('Time (s)')
 
+hold on;
 subplot(4,1,3)
 plot(TestDurationS2,positionS2(:,2))
 title('Y Axis Position Sensor 2 (Bottom)')
 ylabel('Position (Normalized)'),xlabel('Time (s)')
 
+hold on;
 subplot(4,1,4)
 plot(TestDurationS2,positionS2(:,3))
 title('Z Axis Position Sensor 2 (Bottom)')
