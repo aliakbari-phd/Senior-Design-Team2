@@ -14,6 +14,7 @@ public class KinectFeedback
     public float currentFlexAngle;
     public List<float> initialPosRS;
     public List<float> initialPosSS;
+    public List<float> initialPosSM;
     public List<float> initialPosSB;
     public string flexAngleTxt;
     public string sagittalAngleTxt;
@@ -31,6 +32,7 @@ public class KinectFeedback
         isFlex = "False";
         initialPosRS = new List<float>();
         initialPosSS = new List<float>();
+        initialPosSM = new List<float>();
         initialPosSB = new List<float>();
         sagittalAngle = new List<float>();
         flexAngle = new List<float>();
@@ -78,7 +80,7 @@ public class KinectFeedback
         for (int i = 0; i < jointPos.Count; i++)
         {
             //0 is the reference point of the Kinect
-            float posDiff = 0 - initialPosSS[i];
+            float posDiff = 0 - initialPosSM[i];
             vector1.Add(posDiff);
         }
 

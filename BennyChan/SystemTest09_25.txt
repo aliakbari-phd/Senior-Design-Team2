@@ -1,0 +1,37 @@
+Lab Testing (9/25)
+	Exercises
+		No bending on knees
+		Fast as possible but not hurt
+		Hands on chest
+		
+1. Trial (10 exercises)
+	1. 0 degree (15.71)
+		1. T1
+		2. Cal 1
+	2. 0 degree (16.08)
+		1. T2
+		2. Cal 2
+	3. 0 degree (15.51)
+		1. T4 (T3 crashed)
+		2. Cal 4 (Cal 3 crashed)
+	4. 45 degrees left (15.46)
+		1. T5
+		2. Cal 5
+	5. 45 degrees left (15.71)
+		1. T6
+		2. Cal 6
+	6. 45 degrees left (15.49)
+		1. T7
+		2. Cal 7
+	7. 45 degrees right (15.75)
+		1. T8
+		2. Cal 8
+	8. 45 degrees right (15.74)
+		1. T9
+		2. Cal 9
+	9. 45 degrees right (15.46)
+		1. T10
+		2. Cal 10
+	10. sagittal twist (15.57)
+		1. T11
+		2. Cal 11

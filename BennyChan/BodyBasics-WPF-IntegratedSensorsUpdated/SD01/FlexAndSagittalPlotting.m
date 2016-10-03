@@ -12,8 +12,8 @@ flexAngle = A(:,2)-15;
 x_filter = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',10e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
-sagittalAngle = filter(x_filter,sagittalAngle);
-flexAngle = filter(x_filter,flexAngle);
+sagittalAngle = filtfilt(x_filter,sagittalAngle);
+flexAngle = filtfilt(x_filter,flexAngle);
 
 t = A(:,3);
 TestDuration = t-t(1);

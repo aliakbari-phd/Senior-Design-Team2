@@ -1,0 +1,8 @@
+1. Fixed calculation of flex angle to reflect joint between spineMid and spineBase instead of spineShoulder.
+Justification: This is because the location of one of the IMU is located right below the chest, which the SpineMid is closer to compared with the SpineShoulder.
+2. Cleaned IMU data from the kinect integration
+Justification: The IMU showed unecessary amount of noise, which a low-pass filter of 1K was applied
+
+Tasks:
+Test the database of gesture detector to provide more reliable feedback 
+Modify GUI as required for patient ease

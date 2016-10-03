@@ -20,6 +20,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Data;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Windows.Threading;
+
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
@@ -199,15 +201,77 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// Current status text to display
         /// </summary>
         private string statusText = null;
-
         private SensorData sensorData = new SensorData();
+        private DispatcherTimer Timer;
+        private int time = 15;
+
         private DataAnalysis dataAnalysis;
         private KinectFeedback kinectFeedback = new KinectFeedback();
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if (time > 0)
+            {
+                if (time <= 6)
+                {
+                    TBCountDown.Foreground = Brushes.Red;
+                }
+                else
+                {
+
+                }
+                time--;
+                TBCountDown.Text = string.Format("0{0}:{1}", time / 60, time % 60);
+            }
+            else
+            {
+                kinect_start = 0;
+                stop = 1;
+                spineBaseSW.Close();
+                spinemidSW.Close();
+                spineshoulderSW.Close();
+                rightshoulderSW.Close();
+                sagittalangleSW.Close();
+                flexangleSW.Close();
+                sw2.Close();
+                sw3.Close();
+                //sw4.Close();
+                //sw5.Close();
+
+                fs_kinect_spinebase.Close();
+                fs_kinect_spinemid.Close();
+                fs_kinect_spineshoulder.Close();
+                fs_kinect_rightshoulder.Close();
+                fs_kinect_sagittalangle.Close();
+                fs_kinect_flexangle.Close();
+                fs_sensor1.Close();
+                fs_sensor2.Close();
+                //fs_sensor3.Close();
+                //fs_sensor4.Close();
+
+                kinectFeedback.initialPosRS.Clear();
+                kinectFeedback.initialPosSM.Clear();
+                kinectFeedback.initialPosSB.Clear();
+                kinectFeedback.sagittalAngle.Clear();
+                kinectFeedback.flexAngle.Clear();
+                kinectFeedback.isInitial = true;
+
+                button1.IsEnabled = true;
+                ButtonStop.IsEnabled = false;
+                TBCountDown.Text = string.Format("0{0}:{1}", time / 60, time % 60);
+                Timer.Stop();
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
         public MainWindow()
         {
+            Timer = new DispatcherTimer();
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += timer_Tick;
+            //Timer.Start();
 
             // one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
@@ -409,6 +473,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 {
                     if (body.IsTracked == true)
                     {
+                        Timer.Start();
                         DateTime datenow = DateTime.Now;
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
@@ -425,12 +490,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         {
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.X);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            kinectFeedback.initialPosSM.Add(body.Joints[JointType.SpineMid].Position.X);
                             kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.X);
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Y);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            kinectFeedback.initialPosSM.Add(body.Joints[JointType.SpineMid].Position.Y);
                             kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Y);
                             kinectFeedback.initialPosRS.Add(body.Joints[JointType.ShoulderRight].Position.Z);
                             kinectFeedback.initialPosSS.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            kinectFeedback.initialPosSM.Add(body.Joints[JointType.SpineMid].Position.Z);
                             kinectFeedback.initialPosSB.Add(body.Joints[JointType.SpineBase].Position.Z);
                             kinectFeedback.isInitial = false;
                         }
@@ -438,15 +506,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         else
                         {
                             List<float> rightShoulderPos = new List<float>();
-                            List<float> spineShoulderPos = new List<float>();
+                            List<float> spineMidPos = new List<float>();
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
-                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
+                            spineMidPos.Add(body.Joints[JointType.SpineMid].Position.X);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);
-                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Y);
+                            spineMidPos.Add(body.Joints[JointType.SpineMid].Position.Y);
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Z);
-                            spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.Z);
+                            spineMidPos.Add(body.Joints[JointType.SpineMid].Position.Z);
                             kinectFeedback.CalcSagittalAngleWithRespectToInitialPos(rightShoulderPos);
-                            kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineShoulderPos);
+                            kinectFeedback.CalcFlexAngleWithRespectToInitialPos(spineMidPos);
                             sagittalAngle.Text = kinectFeedback.sagittalAngleTxt;
                             flexAngle.Text = kinectFeedback.flexAngleTxt;
                         }
@@ -792,7 +860,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //fs_sensor4.Close();
 
             kinectFeedback.initialPosRS.Clear();
-            kinectFeedback.initialPosSS.Clear();
+            kinectFeedback.initialPosSM.Clear();
             kinectFeedback.initialPosSB.Clear();
             kinectFeedback.sagittalAngle.Clear();
             kinectFeedback.flexAngle.Clear();

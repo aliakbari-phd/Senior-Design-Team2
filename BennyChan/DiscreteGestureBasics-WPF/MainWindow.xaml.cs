@@ -48,6 +48,9 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// <summary> List of gesture detectors, there will be one detector created for each potential body (max of 6) </summary>
         private List<GestureDetector> gestureDetectorList = null;
 
+        // Creates Timer
+        
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class
         /// </summary>
@@ -161,6 +164,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         {
             kinectBodyView.kinectFeedback.initialPosRS.Clear();
             kinectBodyView.kinectFeedback.initialPosSS.Clear();
+            kinectBodyView.kinectFeedback.initialPosSM.Clear();
             kinectBodyView.kinectFeedback.initialPosSB.Clear();
             kinectBodyView.kinectFeedback.sagittalAngle.Clear();
             kinectBodyView.kinectFeedback.flexAngle.Clear();
@@ -286,7 +290,6 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
                 sagittalAngle.Text = kinectBodyView.kinectFeedback.sagittalAngleTxt;
                 flexAngle.Text = kinectBodyView.kinectFeedback.flexAngleTxt;
                 zeroBool.Text = kinectBodyView.kinectFeedback.isZero;
-                fifteenBool.Text = kinectBodyView.kinectFeedback.isFifteen;
                 thirtyBool.Text = kinectBodyView.kinectFeedback.isThirty;
                 isFullFlex.Text = kinectBodyView.kinectFeedback.isFlex;
 
