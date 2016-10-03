@@ -152,11 +152,11 @@ SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 
 
-
+%Vic_plot_yaxis
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % subplot(3,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis)
+plot(Vic_plot_xaxis,Vic_plot_yaxis-mean(Vic_plot_yaxis),SMid_plot_xaxis, SMid_plot_yaxis-mean(SMid_plot_yaxis))
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
 ylabel('x'),xlabel('Time (s)')

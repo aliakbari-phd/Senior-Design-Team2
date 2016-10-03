@@ -82,8 +82,9 @@ title('Angular Distance (deg)')
 %ylabel('x'),xlabel('Time (s)')
 
 %subplot(3,1,2)
+set(gcf,'color','white')
 plot(tMid,distanceMid(:,2),tBase,distanceBase(:,2))
-ylabel('y'),xlabel('Time (s)')
+ylabel('Y Axis Angular Distance (deg)'),xlabel('Time (s)')
 legend('Middle Sensor', 'Base Sensor')
 
 %subplot(3,1,3)
