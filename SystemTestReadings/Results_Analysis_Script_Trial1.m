@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 01.csv';
 V_Data = xlsread(filename, 'A12:N1582');
 
@@ -27,7 +27,7 @@ end
 alpha = (pi/2)-theta;
 alpha_deg = alpha.*(180/pi);
 
-%Syncing
+%% Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
 
 Vic_peak_beg = Vic_locs(1);
@@ -40,7 +40,7 @@ Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
 Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
@@ -101,7 +101,7 @@ gyroBase = filtfilt(x_filter,gyroBase);
 
 
 
-%differentiation and integration
+%% differentiation and integration
 accelerationMid = diff(gyroMid);             % vel to accel 
 accelerationMid = [0,[1 3];accelerationMid];
 jerkMid = diff(accelerationMid);             %accel to jerk
@@ -142,7 +142,7 @@ SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 filename1_Kin = 'spinebaseT1.txt';
 filename2_Kin = 'spinemidT1.txt';
@@ -209,7 +209,7 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % subplot(3,1,1)
 plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
 xlim([0 Vic_time])

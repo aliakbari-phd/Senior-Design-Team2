@@ -1,6 +1,6 @@
-%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 01.csv';
-V_Data = xlsread(filename, 'A12:N1582');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+filename = 'Ben_Johnston Cal 11.csv';
+V_Data = xlsread(filename, 'A12:N1568');
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -27,7 +27,7 @@ end
 alpha = (pi/2)-theta;
 alpha_deg = alpha.*(180/pi);
 
-%% Syncing
+%Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
 
 Vic_peak_beg = Vic_locs(1);
@@ -40,13 +40,13 @@ Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
 Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 
 
-%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T1S1.txt';
-filenameSBase = 'T1S2.txt';
+filenameSMid = 'T11S1.txt';
+filenameSBase = 'T11S2.txt';
 delimiterIn = ' ';
 headerlinesIn_IMU = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
@@ -101,7 +101,7 @@ gyroBase = filtfilt(x_filter,gyroBase);
 
 
 
-%% differentiation and integration
+%differentiation and integration
 accelerationMid = diff(gyroMid);             % vel to accel 
 accelerationMid = [0,[1 3];accelerationMid];
 jerkMid = diff(accelerationMid);             %accel to jerk
@@ -118,7 +118,7 @@ positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
 
-[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
+[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,1), 'MinPeakProminence', 2);
 
 % plot(tMid, distanceMid(:,2), tMid(SMid_locs), SMid_pks, 'or');
 
@@ -129,7 +129,7 @@ IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
 IMU_prev_time = IMU_str2end_time;
 IMU_prev_frms = 2/IMU_timesteps;
 
-SMid_y_axis = distanceMid(:,2);
+SMid_y_axis = distanceMid(:,1);
 
 SMid_peak_beg = SMid_locs(1);
 SMid_peak_end = SMid_locs(end);
@@ -142,10 +142,10 @@ SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 
-%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filename1_Kin = 'spinebaseT1.txt';
-filename2_Kin = 'spinemidT1.txt';
+filename1_Kin = 'spinebaseT11.txt';
+filename2_Kin = 'spinemidT11.txt';
 delimiterIn = ' ';
 headerlinesIn_Kin = 0;
 spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
@@ -203,35 +203,24 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 
 
-%% SENSOR FUSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%kinect corrections
-IMU_coeff = polyfit(transpose(SMid_plot_xaxis),SMid_plot_yaxis,1);
-IMU_bestfit = transpose(polyval(IMU_coeff,SMid_plot_xaxis));
-
-mean_kinect = mean(Kin_plot_y);
-mean_kinect_line = ones([length(Kin_plot_y),1]);
-mean_kinect_line = mean_kinect_line .* mean_kinect;
-
-IMU_fusion = IMU_bestfit.*(-1);
-IMU_fusion = IMU_fusion + mean_kinect;
-IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
-mean_IMU_line = ones([length(SMid_plot_yaxis),1]).*mean_kinect;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, IMU_corrected_func, Kin_plot_time, Kin_plot_y)
+plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
 ylabel('x'),xlabel('Time (s)')
 legend('Vicon','IMU', 'Kinect')
 
 subplot(2,1,2)
-plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, mean_IMU_line)
-xlim([0 Vic_time])
-legend('Uncorrected', 'Uncorrected Mean', 'Corrected', 'Corrected Mean')
+plot(tMid, gyroMid)
+legend('x','y','z')
+% xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
 
 
@@ -243,6 +232,8 @@ SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_pl
 SMid_plot_xaxis = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
 Kin_plot_y = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
 Kin_plot_time = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
+
+
 
 angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis).^2))
 angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_y).^2))
