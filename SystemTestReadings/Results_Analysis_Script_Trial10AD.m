@@ -118,7 +118,7 @@ positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
 
-[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
+[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,1), 'MinPeakProminence', 2);
 
 % plot(tMid, distanceMid(:,2), tMid(SMid_locs), SMid_pks, 'or');
 
@@ -129,7 +129,7 @@ IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
 IMU_prev_time = IMU_str2end_time;
 IMU_prev_frms = 2/IMU_timesteps;
 
-SMid_y_axis = distanceMid(:,2);
+SMid_y_axis = distanceMid(:,1);
 
 SMid_peak_beg = SMid_locs(1);
 SMid_peak_end = SMid_locs(end);
