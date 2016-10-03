@@ -22,13 +22,14 @@ l = v_length(1,1);
 while iterator_a<l
 v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
 iterator_a = iterator_a+1;
+arg_check(iterator_a,:) = dot(v_pnt_norm, y_zunit);
 theta(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
 end
 alpha = (pi/2)-theta;
 alpha_deg = alpha.*(180/pi);
 
 %Syncing
-[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
+[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', 2);
 
 Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
@@ -210,15 +211,17 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% subplot(3,1,1)
+subplot(2,1,1)
 plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
 ylabel('x'),xlabel('Time (s)')
 legend('Vicon','IMU', 'Kinect')
 
-% subplot(3,1,2)
-
+arg_check_x = 0:1:1440;
+subplot(2,1,2)
+plot(arg_check_x(),arg_check(90:1530))
+xlim([0 1440])
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
 
