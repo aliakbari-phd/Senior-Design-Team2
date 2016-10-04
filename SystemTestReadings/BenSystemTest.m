@@ -1,3 +1,8 @@
+addpath('9 - 25');
+clear;
+clc;
+
+
 %%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 01.csv';
 V_Data = xlsread(filename, 'A12:N1582');
@@ -206,12 +211,17 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 %% SENSOR FUSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %kinect corrections
-IMU_coeff = polyfit(transpose(SMid_plot_xaxis),SMid_plot_yaxis,1);
+%IMU_coeff = polyfit(transpose(SMid_plot_xaxis),SMid_plot_yaxis,1);
+%IMU_bestfit = transpose(polyval(IMU_coeff,SMid_plot_xaxis));
+[IMU_peaks, IMU_locs] = findpeaks(SMid_plot_yaxis, 'MinPeakProminence', 2);
+IMU_coeff = polyfit(IMU_locs, IMU_peaks,1); 
 IMU_bestfit = transpose(polyval(IMU_coeff,SMid_plot_xaxis));
 
-mean_kinect = mean(Kin_plot_y);
+
+Kinect_peaks = findpeaks(Kin_plot_y, 'MinPeakProminence', 5);
+mean_kinect = mean(Kinect_peaks);
 mean_kinect_line = ones([length(Kin_plot_y),1]);
-mean_kinect_line = mean_kinect_line .* mean_kinect;
+mean_kinect_line = mean_kinect_line .* Kinect_peaks(1);
 
 IMU_fusion = IMU_bestfit.*(-1);
 IMU_fusion = IMU_fusion + mean_kinect;

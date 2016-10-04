@@ -210,17 +210,35 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+[IMU_peaks, IMU_locs] = findpeaks(SMid_plot_yaxis, 'MinPeakProminence', 2);
+IMU_coeff = polyfit(IMU_locs, IMU_peaks,1); 
+IMU_bestfit = transpose(polyval(IMU_coeff,SMid_plot_xaxis));
 
+
+Kinect_peaks = findpeaks(Kin_plot_y, 'MinPeakProminence', 5);
+mean_kinect = mean(Kinect_peaks);
+mean_kinect_line = ones([length(Kin_plot_y),1]);
+mean_kinect_line = mean_kinect_line .* Kinect_peaks(1);
+
+IMU_fusion = IMU_bestfit.*(-1);
+IMU_fusion = IMU_fusion + mean_kinect;
+IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
+mean_IMU_line = ones([length(SMid_plot_yaxis),1]).*mean_kinect;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% subplot(3,1,1)
+subplot(2,1,1)
 plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
 ylabel('x'),xlabel('Time (s)')
 legend('Vicon','IMU', 'Kinect')
 
+
+subplot(2,1,2)
+plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, mean_IMU_line)
+xlim([0 Vic_time])
+legend('Uncorrected', 'Uncorrected Mean', 'Corrected', 'Corrected Mean')
 % subplot(3,1,2)
 
 % xlim([0 SMid_time])
