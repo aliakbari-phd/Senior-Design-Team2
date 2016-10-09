@@ -10,12 +10,13 @@ pnts_upper(:,1) = V_Data(:,9);          %upper points
 pnts_upper(:,2) = V_Data(:,10);
 pnts_upper(:,3) = V_Data(:,11);
 
-y_zunit = ([0 -1 0]);            %create z unit vector
+% y_zunit = ([0 -1 0]);
+
 Vic_frames = V_Data(:,1);
 
 
 v_pntpnt = pnts_shoulder - pnts_upper;      %point to point vector
-
+y_zunit = v_pntpnt(1,:)./norm(v_pntpnt(1,:));            %create z unit vector
 iterator_a=1;
 v_length = size(v_pntpnt);
 l = v_length(1,1);
@@ -26,11 +27,10 @@ arg_check(iterator_a,:) = dot(v_pnt_norm, y_zunit);
 theta(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
 end
 alpha = (pi/2)-theta;
-alpha_deg = alpha.*(180/pi);
-
+alpha_deg_img = alpha.*(180/pi);
+alpha_deg = real(alpha_deg_img);
 %Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', 2);
-
 Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
 
@@ -211,17 +211,17 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
-xlim([0 Vic_time])
+% subplot(2,1,1)
+plot(Vic_plot_xaxis,Vic_plot_yaxis, Kin_plot_time, Kin_plot_y)%,SMid_plot_xaxis, SMid_plot_yaxis)
+xlim([0 SMid_time])
 title('Angular Distance (deg)')
-ylabel('x'),xlabel('Time (s)')
-legend('Vicon','IMU', 'Kinect')
+ylabel('Angle (degrees)'),xlabel('Time (s)')
+legend('Vicon', 'Kinect')
 
-arg_check_x = 0:1:1440;
-subplot(2,1,2)
-plot(arg_check_x(),arg_check(90:1530))
-xlim([0 1440])
+% arg_check_x = 0:1:1440;
+% subplot(2,1,2)
+% plot(arg_check_x(),arg_check(90:1530))
+% xlim([0 1440])
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
 
