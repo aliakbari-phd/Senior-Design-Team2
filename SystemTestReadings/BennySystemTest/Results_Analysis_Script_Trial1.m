@@ -219,6 +219,7 @@ mean_kinect = mean(Kin_plot_y)
 mean_kinect_line = ones([length(Kin_plot_y),1]);
 mean_kinect_line = mean_kinect_line .* mean_kinect;
 
+set(gcf,'color','white');
 plot(Vic_plot_xaxis,Vic_plot_yaxis, Kin_plot_time, Kin_plot_y, Vic_plot_xaxis, mean_vicon_line, Kin_plot_time, mean_kinect_line)
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
