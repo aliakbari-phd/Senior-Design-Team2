@@ -21,6 +21,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Threading;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -218,7 +219,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 }
                 else
                 {
-
+                    TBCountDown.Foreground = Brushes.Black;
                 }
                 time--;
                 TBCountDown.Text = string.Format("0{0}:{1}", time / 60, time % 60);
@@ -235,8 +236,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 flexangleSW.Close();
                 sw2.Close();
                 sw3.Close();
-                //sw4.Close();
-                //sw5.Close();
 
                 fs_kinect_spinebase.Close();
                 fs_kinect_spinemid.Close();
@@ -246,8 +245,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 fs_kinect_flexangle.Close();
                 fs_sensor1.Close();
                 fs_sensor2.Close();
-                //fs_sensor3.Close();
-                //fs_sensor4.Close();
 
                 kinectFeedback.initialPosRS.Clear();
                 kinectFeedback.initialPosSM.Clear();
@@ -260,18 +257,27 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 ButtonStop.IsEnabled = false;
                 TBCountDown.Text = string.Format("0{0}:{1}", time / 60, time % 60);
                 Timer.Stop();
+                time = 15;
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the MainWindow class.
-        /// </summary>
-        public MainWindow()
+        private void BrowseFolderButton_Click(object sender, EventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+            comboBox3.Text = dialog.SelectedPath;
+            BrowseFolderButton.IsEnabled = true;
+        }
+
+    /// <summary>
+    /// Initializes a new instance of the MainWindow class.
+    /// </summary>
+    public MainWindow()
         {
             Timer = new DispatcherTimer();
             Timer.Interval = TimeSpan.FromSeconds(1);
             Timer.Tick += timer_Tick;
-            //Timer.Start();
 
             // one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
@@ -469,11 +475,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             if (kinect_start != 0)
             {
+                Timer.Start();
                 foreach (Body body in bodies)
                 {
                     if (body.IsTracked == true)
                     {
-                        Timer.Start();
                         DateTime datenow = DateTime.Now;
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
@@ -786,46 +792,44 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                                             : Properties.Resources.SensorNotAvailableStatusText;
         }
 
-
         //  start create files for Kinect and sensor and start to record data
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            //string fpath = "C:/Users/Alex/Documents/BodyBasics-WPF-IntegratedSensors/SD01/";
-            //string fpath = "C:/Users/BennyChan/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01";
-            //string fpath = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
-            //string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
-            string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/BennyChan/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
+
+            string trial = comboBox4.Text;
+            
+            //string fpath = "C:/Users/BennyChan/Desktop/";
+            string fpath = comboBox3.Text.Replace("\\","/") + "/" + trial + "/";
+            if (String.IsNullOrEmpty(fpath))
+            {
+                fpath = Directory.GetCurrentDirectory().Replace("\\","/") + "/SD01/" + trial + "/";
+            }
+
             string[] dirs = Directory.GetFiles(fpath);
             int num = dirs.Length;
-            fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase.txt"), FileMode.Create);
+            fs_kinect_spinebase = new FileStream(string.Concat(fpath,"spinebase"+ trial +".txt"), FileMode.Create);
             spineBaseSW = new StreamWriter(fs_kinect_spinebase);
 
-            fs_kinect_spinemid = new FileStream(string.Concat(fpath,"spinemid.txt"), FileMode.Create);
+            fs_kinect_spinemid = new FileStream(string.Concat(fpath, "spinemid" + trial + ".txt"), FileMode.Create);
             spinemidSW = new StreamWriter(fs_kinect_spinemid);
 
-            fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder.txt"), FileMode.Create);
+            fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder" + trial + ".txt"), FileMode.Create);
             spineshoulderSW = new StreamWriter(fs_kinect_spineshoulder);
 
-            fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
+            fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder" + trial + ".txt"), FileMode.Create);
             rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
 
-            fs_kinect_sagittalangle = new FileStream(string.Concat(fpath, "sagittalangle.txt"), FileMode.Create);
+            fs_kinect_sagittalangle = new FileStream(string.Concat(fpath, "sagittalangle" + trial + ".txt"), FileMode.Create);
             sagittalangleSW = new StreamWriter(fs_kinect_sagittalangle);
 
-            fs_kinect_flexangle = new FileStream(string.Concat(fpath, "flexangle.txt"), FileMode.Create);
+            fs_kinect_flexangle = new FileStream(string.Concat(fpath, "flexangle" + trial + ".txt"), FileMode.Create);
             flexangleSW = new StreamWriter(fs_kinect_flexangle);
 
-            fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
+            fs_sensor1 = new FileStream(string.Concat(fpath, "IMUmid" + trial + ".txt"), FileMode.Create);
             sw2 = new StreamWriter(fs_sensor1);
 
-            fs_sensor2 = new FileStream(string.Concat(fpath, string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
+            fs_sensor2 = new FileStream(string.Concat(fpath, "IMUbase" + trial + ".txt"), FileMode.Create);
             sw3 = new StreamWriter(fs_sensor2);
-
-            //fs_sensor3 = new FileStream(string.Concat("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kevin/", string.Concat((num + 4).ToString(), ".txt")), FileMode.Create);
-            //sw4 = new StreamWriter(fs_sensor3);
-
-            //fs_sensor4 = new FileStream(string.Concat("C:/Users/Jian/01. Personal research/01. Sensor location calibration using kinect/data_collection/Jian/Kevin/", string.Concat((num + 5).ToString(), ".txt")), FileMode.Create);
-            //sw5 = new StreamWriter(fs_sensor4);
 
             kinect_start = 1;
             button1.IsEnabled = false;
@@ -845,8 +849,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             flexangleSW.Close();
             sw2.Close();
             sw3.Close();
-            //sw4.Close();
-            //sw5.Close();
 
             fs_kinect_spinebase.Close();
             fs_kinect_spinemid.Close();
@@ -856,8 +858,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             fs_kinect_flexangle.Close();
             fs_sensor1.Close();
             fs_sensor2.Close();
-            //fs_sensor3.Close();
-            //fs_sensor4.Close();
 
             kinectFeedback.initialPosRS.Clear();
             kinectFeedback.initialPosSM.Clear();
@@ -866,8 +866,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             kinectFeedback.flexAngle.Clear();
             kinectFeedback.isInitial = true;
 
+            Timer.Stop();
+            time = 0;
             button1.IsEnabled = true;
             ButtonStop.IsEnabled = false;
+            time = 15;
         }
 
         private void DataReceivedHandler1(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -1257,26 +1260,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 serialPort2.StopBits = StopBits.One;
                 serialPort2.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler2);
                 serialPort2.Open();
-            }
-
-            if (comboBox3.Text != "")
-            {
-                serialPort3.PortName = "COM" + comboBox3.Text;
-                serialPort3.BaudRate = 115200;
-                serialPort3.Parity = Parity.None;
-                serialPort3.StopBits = StopBits.One;
-                serialPort3.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler3);
-                serialPort3.Open();
-            }
-
-            if (comboBox4.Text != "")
-            {
-                serialPort4.PortName = "COM" + comboBox4.Text;
-                serialPort4.BaudRate = 115200;
-                serialPort4.Parity = Parity.None;
-                serialPort4.StopBits = StopBits.One;
-                serialPort4.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler4);
-                serialPort4.Open();
             }
 
             button4.IsEnabled = false;
