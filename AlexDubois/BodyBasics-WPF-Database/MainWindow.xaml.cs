@@ -200,8 +200,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         Thread[] ProcessSensorData;
         private string statusText = null;
 
-        //Data structure to collect set of kinect joint data and wearable data
-        private SensorData sensorData = new SensorData();
+        //Data structures to collect IMU data
+        private List<Int16> gyroXMid = new List<Int16>();
+        private List<Int16> gyroYMid = new List<Int16>();
+        private List<Int16> gyroZMid = new List<Int16>();
+        private List<int> timeStampsMid = new List<int>();
+        private List<Int16> gyroXBase = new List<Int16>();
+        private List<Int16> gyroYBase = new List<Int16>();
+        private List<Int16> gyroZBase = new List<Int16>();
+        private List<int> timeStampsBase = new List<int>();
 
         //Data structure to collect patient data and analyze it to quantify LBD
         private DataAnalysis dataAnalysis = new DataAnalysis();
@@ -830,6 +837,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             fs_sensor1.Close();
             fs_sensor2.Close();
 
+            // Collect the two IMU's Data
+            IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase);
+            imuData.getAngles();
+
             dataAnalysis.InitAngles(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles);
             dataAnalysis.QuantifyLBD();
 
@@ -1010,24 +1021,37 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     {
                         //Create timestamp
                         DateTime datenow = DateTime.Now;
-                        List<Int16> wearable = new List<Int16>();
+                        //List<Int16> wearable = new List<Int16>();
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
                         //Collect data into list
-                        wearable.Add(BitConverter.ToInt16(convert, 22));
-                        wearable.Add(BitConverter.ToInt16(convert, 20));
-                        wearable.Add(BitConverter.ToInt16(convert, 18));
-                        wearable.Add(BitConverter.ToInt16(convert, 16));
-                        wearable.Add(BitConverter.ToInt16(convert, 14));
-                        wearable.Add(BitConverter.ToInt16(convert, 12));
-                        wearable.Add(BitConverter.ToInt16(convert, 10));
-                        wearable.Add(BitConverter.ToInt16(convert, 8));
-                        wearable.Add(BitConverter.ToInt16(convert, 6));
-                        wearable.Add((Int16)(timestampS));
-                        wearableData.Add(wearable);
+
+                        //// Add Accelerometer
+                        //wearable.Add(BitConverter.ToInt16(convert, 22));
+                        //wearable.Add(BitConverter.ToInt16(convert, 20));
+                        //wearable.Add(BitConverter.ToInt16(convert, 18));
+
+                        //// Add Gyroscope data
+                        //wearable.Add(BitConverter.ToInt16(convert, 16));
+                        //wearable.Add(BitConverter.ToInt16(convert, 14));
+                        //wearable.Add(BitConverter.ToInt16(convert, 12));
+                        gyroXMid.Add(BitConverter.ToInt16(convert, 16));
+                        gyroYMid.Add(BitConverter.ToInt16(convert, 14));
+                        gyroZMid.Add(BitConverter.ToInt16(convert, 12));
+                        timeStampsMid.Add(timestampS);
+
+
+                        //// Add Magnetometer data
+                        //wearable.Add(BitConverter.ToInt16(convert, 10));
+                        //wearable.Add(BitConverter.ToInt16(convert, 8));
+                        //wearable.Add(BitConverter.ToInt16(convert, 6));
+
+                        //// Add timestamp
+                        //wearable.Add((Int16)(timestampS));
+                        //wearableData.Add(wearable);
 
                         //Write to file
                         sw2.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS);
@@ -1090,6 +1114,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestampS2 = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+
+                        gyroXBase.Add(BitConverter.ToInt16(convert, 16));
+                        gyroYBase.Add(BitConverter.ToInt16(convert, 14));
+                        gyroZBase.Add(BitConverter.ToInt16(convert, 12));
+                        timeStampsMid.Add(timestampS2);
+
                         sw3.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS2);
                     }
                 }
