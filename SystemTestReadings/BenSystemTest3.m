@@ -1,3 +1,6 @@
+clc;
+clear;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 04.csv';
 V_Data = xlsread(filename, 'A12:N1562');
@@ -205,48 +208,83 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+freqMid = length(tMid)/(tMid(end)-tMid(1));
 [IMU_peaks, IMU_locs] = findpeaks(SMid_plot_yaxis, 'MinPeakProminence', 2);
-IMU_coeff = polyfit(IMU_locs, IMU_peaks,1); 
-IMU_bestfit = transpose(polyval(IMU_coeff,SMid_plot_xaxis));
+
+IMU_locs = [1; IMU_locs];
+IMU_locs = [IMU_locs; length(SMid_plot_xaxis)];
+IMU_peaks = [SMid_plot_yaxis(1); IMU_peaks];
+IMU_peaks = [IMU_peaks; SMid_plot_yaxis(end)];
+IMU_times = IMU_locs./freqMid;
+
+IMU_coeff = zeros([length(IMU_times)-1 2]);
+
+for i = 1:length(IMU_peaks)-1
+    IMU_coeff(i,1) = (IMU_peaks(i+1) - IMU_peaks(i))/(IMU_times(i+1)-IMU_times(i));
+    IMU_coeff(i,2) = IMU_peaks(i)-(IMU_coeff(i,1)*IMU_times(i));
+end
+IMU_bestfit = zeros(length(SMid_plot_xaxis),1);
+
+for i = 1:length(IMU_peaks)-1
+    IMU_bestfit(IMU_locs(i):IMU_locs(i+1)) = transpose(polyval(IMU_coeff(i,:),SMid_plot_xaxis(IMU_locs(i):IMU_locs(i+1))));
+end
 
 
-Kinect_peaks = findpeaks(Kin_plot_y, 'MinPeakProminence', 5);
-mean_kinect = mean(Kinect_peaks);
-mean_kinect_line = ones([length(Kin_plot_y),1]);
-mean_kinect_line = mean_kinect_line .* Kinect_peaks(1);
+freqKin = length(time)/(time(end)-time(1));
+[Kin_peaks, Kin_locations] = findpeaks(Kin_plot_y, 'MinPeakProminence', 2);
+Kin_locations = [1; Kin_locations];
+Kin_locations = [Kin_locations; length(Kin_plot_time)];
+Kin_peaks = [Kin_plot_y(1); Kin_peaks];
+Kin_peaks = [Kin_peaks; Kin_plot_y(end)];
+Kin_times = Kin_locations./freqKin;
+Kin_coeff = zeros([length(Kin_times)-1 2]);
 
-IMU_fusion = IMU_bestfit.*(-1);
-IMU_fusion = IMU_fusion + mean_kinect;
-IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
-mean_IMU_line = ones([length(SMid_plot_yaxis),1]).*mean_kinect;
+for i = 1:length(Kin_peaks)-1
+    Kin_coeff(i,1) = (Kin_peaks(i+1) - Kin_peaks(i))/(Kin_times(i+1)-Kin_times(i));
+    Kin_coeff(i,2) = Kin_peaks(i)-(Kin_coeff(i,1)*Kin_times(i));
+end
+Kin_bestfit = zeros(length(SMid_plot_xaxis),1);
 
+for i = 1:length(Kin_peaks)-1
+    Kin_bestfit(IMU_locs(i):IMU_locs(i+1)) = transpose(polyval(Kin_coeff(i,:),SMid_plot_xaxis(IMU_locs(i):IMU_locs(i+1))));
+end
+
+
+%IMU_fusion = Kin_bestfit - IMU_bestfit;
+%IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, IMU_corrected_func, Kin_plot_time, Kin_plot_y)
-xlim([0 Vic_time])
-title('Angular Distance (deg)')
-ylabel('x'),xlabel('Time (s)')
-legend('Vicon','IMU', 'Kinect')
+%subplot(2,1,1)
+%plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, IMU_corrected_func, 'green', SMid_plot_xaxis, SMid_plot_yaxis,'red')
+%xlim([0 Vic_time])
+%title('Angular Distance (deg)')
+%ylabel('x'),xlabel('Time (s)')
+%legend('Vicon','Corrected', 'Uncorrected')
 
-% subplot(3,1,2)
-subplot(2,1,2)
-plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, mean_IMU_line)
-xlim([0 Vic_time])
-legend('Uncorrected', 'Uncorrected Mean', 'Corrected', 'Corrected Mean')
+t = 0:length(Kin_bestfit)-1;
+t = t./freqMid;
+
+plot(t, Kin_bestfit, Kin_plot_time, Kin_plot_y, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, SMid_plot_yaxis)
+legend('Kinect Best Fit', 'Kinect', 'IMU Best Fit', 'IMU')
+
+%subplot(2,1,2)
+%plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, Kin_bestfit)
+%xlim([0 Vic_time])
+%legend('Uncorrected', 'Uncorrected Mean', 'Corrected', 'Corrected Mean')
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
 
 
-%subplot(3,1,3)
-%plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
-%ylabel('z'),xlabel('Time (s)')
+%SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
+%IMU_corrected_func = resample(IMU_corrected_func,length(Vic_plot_yaxis),length(IMU_corrected_func));
+%SMid_plot_xaxis = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
 
-SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
-SMid_plot_xaxis = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
-Kin_plot_y = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
-Kin_plot_time = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
 
-angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis).^2))
-angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_y).^2))
+%Kin_plot_y = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
+%Kin_plot_time = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
+
+%angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis).^2));
+
+%angleRMSE_Corrected = sqrt(mean((Vic_plot_yaxis - IMU_corrected_func).^2));
+%angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_y).^2));
