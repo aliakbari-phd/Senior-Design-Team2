@@ -91,6 +91,7 @@
     <Compile Include="DDI.xaml.cs">
       <DependentUpon>DDI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IMUData.cs" />
     <Compile Include="KinectFeedback.cs" />
     <Compile Include="SensorData.cs" />
     <Page Include="DDI.xaml">
