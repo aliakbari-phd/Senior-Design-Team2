@@ -170,3 +170,12 @@ ylabel('x'),xlabel('Time (s)')
 %subplot(3,1,3)
 %plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
 %ylabel('z'),xlabel('Time (s)')
+
+
+SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
+SMid_plot_xaxis = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
+% Kin_plot_y = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
+% Kin_plot_time = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
+
+angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis).^2))
+% angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_y).^2))

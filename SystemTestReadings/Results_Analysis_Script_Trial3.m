@@ -214,7 +214,7 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, SMid_plot_yaxis, Kin_plot_time, Kin_plot_y)
 xlim([0 Vic_time])
 title('Angular Distance (deg)')
-ylabel('x'),xlabel('Time (s)')
+ylabel('Angle (degrees)'),xlabel('Time (s)')
 legend('Vicon','IMU', 'Kinect')
 
 % subplot(3,1,2)

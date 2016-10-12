@@ -799,10 +799,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             string trial = comboBox4.Text;
             
             //string fpath = "C:/Users/BennyChan/Desktop/";
-            string fpath = comboBox3.Text.Replace("\\","/") + "/" + trial + "/";
+            string fpath = comboBox3.Text.Replace("\\","/") + "/";
             if (String.IsNullOrEmpty(fpath))
             {
-                fpath = Directory.GetCurrentDirectory().Replace("\\","/") + "/SD01/" + trial + "/";
+                fpath = Directory.GetCurrentDirectory().Replace("\\","/") + "/SD01/";
             }
 
             string[] dirs = Directory.GetFiles(fpath);
