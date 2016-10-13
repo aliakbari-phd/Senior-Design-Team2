@@ -28,7 +28,7 @@ theta(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
 end
 alpha = (pi/2)-theta;
 alpha_deg_img = alpha.*(180/pi);
-alpha_deg = real(alpha_deg_img);
+alpha_deg = abs(alpha_deg_img);
 %Syncing
 [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', 2);
 Vic_peak_beg = Vic_locs(1);
@@ -212,11 +212,11 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis, Kin_plot_time, Kin_plot_y)%,SMid_plot_xaxis, SMid_plot_yaxis)
+plot(Vic_plot_xaxis,Vic_plot_yaxis, Kin_plot_time, Kin_plot_y,SMid_plot_xaxis, SMid_plot_yaxis)
 xlim([0 SMid_time])
 title('Angular Distance (deg)')
 ylabel('Angle (degrees)'),xlabel('Time (s)')
-legend('Vicon', 'Kinect')
+legend('Vicon', 'Kinect', 'IMU')
 
 % arg_check_x = 0:1:1440;
 % subplot(2,1,2)

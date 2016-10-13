@@ -16,6 +16,9 @@ namespace TestProgram
             List<double> Timestamps2 = new List<double>();
             List<double> Input1 = new List<double>();
             List<double> Input2 = new List<double>();
+            List<double> Peaks_Kinect = new List<double>();
+            List<double> Peaks_IMU1 = new List<double>();
+            List<double> Peaks_IMU2 = new List<double>();
             int I1Eletracker = 0;
             int I2Eletracker = 0;
             double I1max = 0;

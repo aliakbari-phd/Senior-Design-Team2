@@ -1,3 +1,5 @@
+clc;
+clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 09.csv';
 V_Data = xlsread(filename, 'A12:N1585');

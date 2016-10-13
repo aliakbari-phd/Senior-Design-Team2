@@ -1,3 +1,5 @@
+clc;
+clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 04.csv';
 V_Data = xlsread(filename, 'A12:N1562');
@@ -184,7 +186,7 @@ kin_filter = designfilt('lowpassiir','FilterOrder',3,...
 
 alpha_deg_Kin_filt = filtfilt(kin_filter, alpha_deg_Kin);
 
-[Kin_pks , Kin_locs] = findpeaks(alpha_deg_Kin_filt, 'MinPeakProminence', 2);
+[Kin_pks , Kin_locs] = findpeaks(alpha_deg_Kin_filt, 'MinPeakProminence', .3);
 
 Kin_Frames=Kin_locs(end)-Kin_locs(1);
 Kin_time_diff = time(Kin_locs(end))-time(Kin_locs(1));
