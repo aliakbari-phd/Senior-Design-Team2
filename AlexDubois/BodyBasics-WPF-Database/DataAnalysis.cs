@@ -35,10 +35,6 @@ public class DataAnalysis
     public double maxSPCCWAngle;
 
     public List<float> kinectSPAngleAt0;
-    public List<float> timeStampsAngleAt0;
-    List<float> velTimeStampsAt0;
-    List<float> accelTimeStampsAt0;
-    List<float> jerkTimeStampsAt0;
     List<float> kinectFlexAngleAt0;
     List<float> angularSPVel;
     List<float> angularFlexVel;
@@ -47,9 +43,14 @@ public class DataAnalysis
     List<float> angularFlexAccel;
     List<float> angularFlexJerk;
 
+    public List<float> timeStampsAngleAt0;
+    public List<float> angularSPAccelIMU;
+    public List<float> angularSPJerkIMU;
+
     public double severityLBD;
 
-    SensorData correctedData;
+    //SensorData correctedData;
+    IMUData imuData;
 
     public DataAnalysis()
     {
@@ -64,17 +65,17 @@ public class DataAnalysis
         angularFlexAccel = new List<float>();
         angularSPJerk = new List<float>();
         angularFlexJerk = new List<float>();
-        correctedData = new SensorData();
         timeStampsAngleAt0 = new List<float>();
-        velTimeStampsAt0 = new List<float>();
-        accelTimeStampsAt0 = new List<float>();
-        jerkTimeStampsAt0 = new List<float>();
-    }
+        angularSPAccelIMU = new List<float>();
+        angularSPJerkIMU = new List<float>();
 
-    public void InitAngles(List<float> kinectSPAngles, List<float> kinectFlexAngles)
+}
+
+    public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu)
     {
         kinectSPAngleAt0 = kinectSPAngles;
         kinectFlexAngleAt0 = kinectFlexAngles;
+        imuData = imu;
     }
 
     private void MergeSensorData(SensorData correctedData)
@@ -121,12 +122,17 @@ public class DataAnalysis
         //angularFlexJerk = CalcStepDerivative(angularFlexAccel, step);
 
 
-        angularSPVel = CalcStepDerivative(kinectSPAngleAt0, timeStampsAngleAt0, velTimeStampsAt0);
-        angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, timeStampsAngleAt0, velTimeStampsAt0);
-        angularSPAccel = CalcStepDerivative(angularSPVel, velTimeStampsAt0, accelTimeStampsAt0);
-        angularFlexAccel = CalcStepDerivative(angularFlexVel, velTimeStampsAt0, accelTimeStampsAt0);
-        angularSPJerk = CalcStepDerivative(angularSPAccel, accelTimeStampsAt0, jerkTimeStampsAt0);
-        angularFlexJerk = CalcStepDerivative(angularFlexAccel, accelTimeStampsAt0, jerkTimeStampsAt0);
+        //angularSPVel = CalcStepDerivative(kinectSPAngleAt0, imuData.timeStampsMid);
+        //angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, imuData.timeStampsMid);
+        //angularSPAccel = CalcStepDerivative(angularSPVel, imuData.timeStampsMid);
+        //angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
+        //angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
+        //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
+
+        angularSPAccelIMU = CalcStepDerivative(imuData.anglesMid, imuData.timeStampsMid);
+        //angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
+        angularSPJerkIMU = CalcStepDerivative(angularSPAccelIMU, imuData.timeStampsMid);
+        //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
 
         peakSPAngle = FindMax(kinectSPAngleAt0);
         peakFlexAngle = FindMax(kinectFlexAngleAt0);
@@ -237,27 +243,20 @@ public class DataAnalysis
         //Define integration alg
     }
 
-    private List<float> CalcStepDerivative(List<float> floatList, List<float> timeStamps, List<float> derivTimeStamps)
+    private List<float> CalcStepDerivative(List<float> floatList, List<int> timeStamps)
     {
         // Originally the step was passed in
         List<float> derivative = new List<float>();
-        derivTimeStamps = new List<float>();
         float derivValue = 0;
         float step = 0;
-        for(int i = 0; i < floatList.Count - 1; i ++)
+        // Add a leading 0 in order to make the sizes of the new
+        // derivative list the same as the corresponding time stamps
+        derivative.Add(0);
+        for (int i = 0; i < floatList.Count - 1; i ++)
         {
-            if (floatList[i + 1] == floatList[i])
-            {
-                derivative.Add(0);
-            }
-
-            else
-            {
-                step = timeStampsAngleAt0[i + 1] - timeStampsAngleAt0[i];
-                derivValue = ((floatList[i + 1] - floatList[i]) / step);
-                derivative.Add(derivValue);
-                derivTimeStamps.Add(step);
-            }
+            step = imuData.timeIntervals;
+            derivValue = ((floatList[i + 1] - floatList[i]) / step);
+            derivative.Add(derivValue);
         }
         return derivative;
     }

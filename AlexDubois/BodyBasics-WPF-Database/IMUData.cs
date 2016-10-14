@@ -6,7 +6,7 @@ public class IMUData
     // Index corresponds to a single frame, (ie:
     // gyroXMid[1] corresponds to gyroYMid[1] and timeStampsMid[1])
     public List<Int16> gyroXMid;
-    public List<Int16> gyroYMid;
+    public List<float> gyroYMid;
     public List<Int16> gyroZMid;
     public List<int> timeStampsMid;
     public List<Int16> gyroXBase;
@@ -22,10 +22,12 @@ public class IMUData
 
     private static double gyroCorrectionFactor = 32.75;
 
+    public float timeIntervals = 0;
+
     public IMUData
     (
         List<Int16> gXMid, 
-        List<Int16> gYMid, 
+        List<float> gYMid, 
         List<Int16> gZMid, 
         List<int> timeSMid,
         List<Int16> gXBase,
@@ -52,18 +54,19 @@ public class IMUData
     {
         int begTimeStampMid = timeStampsMid[0];
         float time = 0;
-        foreach(int ts in timeStampsMid)
-        {
-            time = ts - begTimeStampMid;
-            time = time / 1000;
-            transposedTSMid.Add(time);
-        }
-
         //int begTimeStampBase = timeStampsBase[0];
         //foreach (int ts in timeStampsBase)
         //{
         //    transposedTSBase.Add((ts - begTimeStampBase) / 1000);
         //}
+        float timePassed = (timeStampsMid[timeStampsMid.Count - 1] - timeStampsMid[0])/1000;
+        timeIntervals = timePassed / timeStampsMid.Count;
+        for (int i = 0; i < timeStampsMid.Count; i++)
+        {
+            time = (timeStampsMid[i] - begTimeStampMid);
+            time = time/1000;
+            transposedTSMid.Add(time);
+        }
     }
 
     void cumTrapz()
@@ -72,11 +75,11 @@ public class IMUData
         for(int i = 0; i < transposedTSMid.Count - 1; i++)
         {
             // Trapezoidal rule
-            // angle = (b - a)*(f(b)-f(a)/2)
+            // angle = (b - a)*(f(b)+f(a)/2)
             // Multiply by correction factor
             float timeDiff = transposedTSMid[i + 1] - transposedTSMid[i];
-            float correctedDiff = ((float)(gyroCorrectionFactor) * (gyroYMid[i + 1] - gyroYMid[i]))/2;
-            angle = timeDiff*correctedDiff;
+            float correctedDiff = (gyroYMid[i+1] + gyroYMid[i])/(2);
+            angle = angle + (timeDiff*correctedDiff);
             anglesMid.Add(angle + 90);
         }
     }
