@@ -48,32 +48,50 @@ VPosderiv = diff(alpha_deg);
 VTimderiv = diff(Vic_t);
 VVel = VPosderiv./VTimderiv;
 
+%%%%% Velocity Filter
+VVelFilt = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',15e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+
 %%%%% Second Derivative for flex (Angular Acceleration)
 VVelderiv = diff(VPosderiv);
 VAcc = VVelderiv./VTimderiv(1:1549);
+
+%%%%% Acceleration Filter
+VAccFilt = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',15e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+VAcc_Filtered = filtfilt(VAccFilt,VAcc);
 
 %%%%% Third Derivative for flex (Angular Jerk)
 VAccderiv = diff(VVelderiv);
 VJer = VAccderiv./VTimderiv(1:1548);
 
+%%%%% Jerk Filter
+VJerFilt = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',50e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+VJer_Filtered = filtfilt(VJerFilt,VJer);
+
 %%%%% Plotting
 subplot(4,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis)
-xlim([0 Vic_time])
-title('Angular Distance (deg)')
-ylabel('Angle (degrees)'),xlabel('Time (s)')
-legend('Vicon','IMU', 'Kinect')
+plot(Vic_frames./100,alpha_deg)
+title('Vicon Parameters')
+ylabel('degrees'),xlabel('Time (s)')
 
 subplot(4,1,2)
 plot(Vic_frames(1:1550)./100,VVel)
+ylabel('degrees/s'),xlabel('Time (s)')
 
 subplot(4,1,3)
-plot(Vic_frames(1:1549)./100,VAcc)
+plot(Vic_frames(1:1549)./100,VAcc_Filtered)
 ylim([-11 11])
+ylabel('degrees/s^2'),xlabel('Time (s)')
 
 subplot (4,1,4)
-plot(Vic_frames(1:1548)./100,VJer)
+plot(Vic_frames(1:1548)./100,VJer_Filtered)
 ylim([-14 14])
+ylabel('degrees/s^3'),xlabel('Time (s)')
 
 %%%%% Maximums
 VVel_abs = abs(VVel);

@@ -1,76 +1,54 @@
-clc;
-clear;
-close all;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 11.csv';
-V_Data = xlsread(filename, 'A12:N1568');
+clear
+clc
+%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+filename = 'Ben_Johnston Cal 01.csv';
+V_Data = xlsread(filename, 'A12:N1582');
 
-pnts_shoulder(:,1) = V_Data(:,12);           %base points
-pnts_shoulder(:,2) = V_Data(:,13);
-pnts_shoulder(:,3) = V_Data(:,14);
+pnts_base(:,1) = V_Data(:,3);           %base points
+pnts_base(:,2) = V_Data(:,4);
+pnts_base(:,3) = V_Data(:,5);
 
 pnts_upper(:,1) = V_Data(:,9);          %upper points
 pnts_upper(:,2) = V_Data(:,10);
 pnts_upper(:,3) = V_Data(:,11);
 
-% y_zunit = ([0 -1 0]);
-
+v_zunit = ([0 0 1]);            %create z unit vector
 Vic_frames = V_Data(:,1);
 
 
-v_pntpnt = pnts_shoulder - pnts_upper;      %point to point vector
-z_zunit = ([0 0 1]);           %create z unit vector
-y_zunit = v_pntpnt(1,:)./norm(v_pntpnt(1,:)); 
+v_pntpnt = pnts_upper - pnts_base;      %point to point vector
+
 iterator_a=1;
 v_length = size(v_pntpnt);
 l = v_length(1,1);
 while iterator_a<l
 v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
 iterator_a = iterator_a+1;
-v_sag_vect(iterator_a,:) = cross(v_pnt_norm, z_zunit);
-arg_check(iterator_a,:) = dot(v_pnt_norm, y_zunit);
-theta(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
-phi(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
-phi_check(iterator_a,:) = acos(dot(v_sag_vect(iterator_a),v_sag_vect(iterator_a-1)));
+theta(iterator_a,:) = acos(dot(v_pnt_norm,v_zunit));
 end
-for i=1:length(phi)
-    if v_pntpnt(i,1)>y_zunit(1)
-        phi(i)=-1*(phi(i));
-    end
-end
+alpha = (pi/2)-theta;
+alpha_deg = alpha.*(180/pi);
 
+%% Syncing
+[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
 
-
-phi = (pi/2)-phi;
-phi_deg = abs(phi.*(180/pi));
-phi_deg = phi_deg-90;
-
-% for i=1:length(phi_deg)
-%     if v_pntpnt(i,2)<-24
-%         phi_deg(i)=-1*((phi_deg(i))+180);
-%     end
-% end
-
-% alpha_deg = real(alpha_deg_img);
-%Syncing
-[Vic_pks, Vic_locs] = findpeaks(phi_deg, 'MinPeakProminence', 2);
 Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
 
 Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
 
 Vic_time = (Frames_used)/100;
-Vic_plot_yaxis = phi_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
 Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T11S1.txt';
-filenameSBase = 'T11S2.txt';
+filenameSMid = 'T1S1.txt';
+filenameSBase = 'T1S2.txt';
 delimiterIn = ' ';
 headerlinesIn_IMU = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
@@ -125,7 +103,7 @@ gyroBase = filtfilt(x_filter,gyroBase);
 
 
 
-%differentiation and integration
+%% differentiation and integration
 accelerationMid = diff(gyroMid);             % vel to accel 
 accelerationMid = [0,[1 3];accelerationMid];
 jerkMid = diff(accelerationMid);             %accel to jerk
@@ -142,7 +120,7 @@ positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
 
-[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,1), 'MinPeakProminence', 2);
+[SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
 
 % plot(tMid, distanceMid(:,2), tMid(SMid_locs), SMid_pks, 'or');
 
@@ -153,7 +131,7 @@ IMU_timesteps = IMU_str2end_time/IMU_str2end_frame;
 IMU_prev_time = IMU_str2end_time;
 IMU_prev_frms = 2/IMU_timesteps;
 
-SMid_y_axis = distanceMid(:,1);
+SMid_y_axis = distanceMid(:,2);
 
 SMid_peak_beg = SMid_locs(1);
 SMid_peak_end = SMid_locs(end);
@@ -166,30 +144,30 @@ SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filename1_Kin = 'spineshoulderT11.txt';
-filename2_Kin = 'spinemidT11.txt';
+filename1_Kin = 'spinebaseT1.txt';
+filename2_Kin = 'spinemidT1.txt';
 delimiterIn = ' ';
 headerlinesIn_Kin = 0;
-spineShoulderData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
+spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
 spinemidData = importdata(filename2_Kin, delimiterIn, headerlinesIn_Kin);
 
-time = spineShoulderData.data(:,1);
+time = spinebaseData.data(:,1);
 time = time - time(1);
 time = transpose(time./1000);
 
-pnts_shoulder_Kin(:,1) = str2double(spineShoulderData.textdata(:,1));          %base points
-pnts_shoulder_Kin(:,2) = str2double(spinemidData.textdata(:,2));
-pnts_shoulder_Kin(:,3) = str2double(spineShoulderData.textdata(:,3));
+pnts_base_Kin(:,1) = str2double(spinebaseData.textdata(:,1));          %base points
+pnts_base_Kin(:,2) = str2double(spinebaseData.textdata(:,2));
+pnts_base_Kin(:,3) = str2double(spinebaseData.textdata(:,3));
 
 pnts_upper_Kin(:,1) = str2double(spinemidData.textdata(:,1));         %upper points
 pnts_upper_Kin(:,2) = str2double(spinemidData.textdata(:,2));
 pnts_upper_Kin(:,3) = str2double(spinemidData.textdata(:,3));
 
-kinect_xunit = ([1 0 0]);            %create z unit vector
+kinect_yunit = ([0 1 0]);            %create z unit vector
 
-kinect_pntpnt = pnts_shoulder_Kin - pnts_upper_Kin;      %point to point vector
+kinect_pntpnt = pnts_upper_Kin - pnts_base_Kin;      %point to point vector
 
 iterator_a=1;
 kinect_length = size(kinect_pntpnt);
@@ -197,7 +175,7 @@ l = kinect_length(1,1);
 while iterator_a<l
 kinect_pnt_norm = kinect_pntpnt(iterator_a,:)./norm(kinect_pntpnt(iterator_a,:));
 iterator_a = iterator_a+1;
-theta_Kin(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_xunit));
+theta_Kin(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_yunit));
 end
 alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
@@ -233,23 +211,15 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-plot(Vic_frames./100,phi_deg,SMid_plot_xaxis, SMid_plot_yaxis,Vic_frames./100,v_pntpnt(:,1),Vic_frames./100,v_pntpnt(:,2))
+%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+plot(time, alpha_deg_Kin, tMid, gyroMid)
 title('Angular Distance (deg)')
-ylabel('Angle (degrees)'),xlabel('Time (s)')
+ylabel('x'),xlabel('Time (s)')
+legend('Kinect','IMU')
 
-% 
-% subplot(2,1,2)
-% plot(Vic_frames, phi_check)
+% subplot(3,1,2)
 
-% plot(Vic_frames, v_pntpnt(:,1),Vic_frames, v_pntpnt(:,2),Vic_frames,v_pntpnt(:,3))
-% hold on
-
-% arg_check_x = 0:1:1440;
-% subplot(2,1,2)
-% plot(arg_check_x(),arg_check(90:1530))
-% xlim([0 1440])
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
 

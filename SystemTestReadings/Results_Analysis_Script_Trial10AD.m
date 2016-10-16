@@ -4,7 +4,7 @@ V_Data = xlsread(filename, 'A12:N1568');
 
 pnts_shoulder(:,1) = V_Data(:,12);           %base points
 pnts_shoulder(:,2) = V_Data(:,13);
-pnts_shoulder(:,3) = V_Data(:,11);
+pnts_shoulder(:,3) = V_Data(:,14);
 
 pnts_upper(:,1) = V_Data(:,9);          %upper points
 pnts_upper(:,2) = V_Data(:,10);
