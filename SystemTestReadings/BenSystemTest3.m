@@ -70,7 +70,8 @@ LtimeMid = (SMid.data(:,10));
 LtimeBase = (SBase.data(:,10));
 tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms to s
 tBase = transpose((LtimeBase-LtimeBase(1))./1000);
-
+freqMid = length(tMid)/(tMid(end)-tMid(1));
+tMid = 0:1/freqMid:tMid(end-1);
 
 
 %*******low pass filter*****
@@ -103,20 +104,16 @@ gyroBase = filtfilt(x_filter,gyroBase);
 %mean_IMU_line = ones([length(IMU_plot_func),1]).*mean_kinect;
 
 
-
 %differentiation and integration
-accelerationMid = diff(gyroMid);             % vel to accel 
-accelerationMid = [0,[1 3];accelerationMid];
-jerkMid = diff(accelerationMid);             %accel to jerk
-jerkMid = [0,[1 3];jerkMid];
+
 positionMid = trapz(tMid,gyroMid);
 distanceMid = cumtrapz(tMid,gyroMid);     % vel to distance
 distanceMid(:,2) = distanceMid(:,2) + 90;
 
-accelerationBase = diff(gyroBase);             % vel to accel 
-accelerationBase = [0,[1 3];accelerationBase];
-jerkBase = diff(accelerationBase);             %accel to jerk
-jerkBase = [0,[1 3];jerkBase];
+accMid = diff(gyroMid)./(1/freqMid);             % vel to accel 
+accMid = [0,[1 3];accMid];
+jMid = diff(accMid)./(1/freqMid);             %accel to jerk
+jMid = [0,[1 3];jMid];
 positionBase = trapz(tBase,gyroBase);
 distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
 distanceBase(:,2) = distanceBase(:,2) + 90;
@@ -208,7 +205,7 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-freqMid = length(tMid)/(tMid(end)-tMid(1));
+
 [IMU_peaks, IMU_locs] = findpeaks(SMid_plot_yaxis, 'MinPeakProminence', 2);
 
 IMU_locs = [1; IMU_locs];
@@ -250,8 +247,15 @@ for i = 1:length(Kin_peaks)-1
 end
 
 
-%IMU_fusion = Kin_bestfit - IMU_bestfit;
-%IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
+IMU_fusion = Kin_bestfit - IMU_bestfit;
+IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
+
+velMid = diff(IMU_corrected_func)./(1/freqMid);
+velMid = [0;velMid];
+accelerationMid = diff(velMid)./(1/freqMid);             % vel to accel 
+accelerationMid = [0;accelerationMid];
+jerkMid = diff(accelerationMid)./(1/freqMid);             %accel to jerk
+jerkMid = [0;jerkMid];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,8 +269,39 @@ end
 t = 0:length(Kin_bestfit)-1;
 t = t./freqMid;
 
-plot(t, Kin_bestfit, Kin_plot_time, Kin_plot_y, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, SMid_plot_yaxis)
-legend('Kinect Best Fit', 'Kinect', 'IMU Best Fit', 'IMU')
+%plot(t, Kin_bestfit, Kin_plot_time, Kin_plot_y, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, SMid_plot_yaxis)
+%legend('Kinect Best Fit', 'Kinect', 'IMU Best Fit', 'IMU')
+figure(1)
+subplot(4,1,1)
+plot(SMid_plot_xaxis, IMU_corrected_func)
+ylabel('Angle (deg)')
+subplot(4,1,2)
+plot(SMid_plot_xaxis, velMid)
+ylabel('Velocity (deg/s)')
+subplot(4,1,3)
+plot(SMid_plot_xaxis, accelerationMid)
+ylabel('Acceleration (deg/s^2)')
+ylim([-2000 2000])
+subplot(4,1,4)
+plot(SMid_plot_xaxis, jerkMid)
+ylim([-50000 50000])
+ylabel('(deg/s^3)'), xlabel('Time (s)')
+
+figure(2)
+subplot(4,1,1)
+plot(tMid, distanceMid(:,1))
+ylabel('Angle (deg)')
+subplot(4,1,2)
+plot(tMid, gyroMid(:,1))
+ylabel('Velocity (deg/s)')
+subplot(4,1,3)
+plot(tMid, accMid(:,1))
+ylabel('Acceleration (deg/s^2)')
+ylim([-600 600])
+subplot(4,1,4)
+plot(tMid, jMid(:,1))
+ylim([-50000 50000])
+ylabel('(deg/s^3)'), xlabel('Time (s)')
 
 %subplot(2,1,2)
 %plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, Kin_bestfit)
