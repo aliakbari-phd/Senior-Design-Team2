@@ -199,6 +199,13 @@ kinect_pnt_norm = kinect_pntpnt(iterator_a,:)./norm(kinect_pntpnt(iterator_a,:))
 iterator_a = iterator_a+1;
 theta_Kin(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_xunit));
 end
+
+for i=1:length(theta_Kin)
+    if v_pntpnt(i,1)>y_zunit(1)
+        theta_Kin(i)=-1*(theta_Kin(i));
+    end
+end
+
 alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
 
@@ -229,73 +236,73 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameters  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-phi_deg_filt = filtfilt(kin_filter, phi_deg);
+phiKin_deg_filt = filtfilt(kin_filter, theta_Kin);
 
 %%%%% First Derivative for flex (Angular Velocity)
-VPosderiv = diff(phi_deg_filt);
-VTimderiv = diff(Vic_frames./100);
-VVel = VPosderiv./VTimderiv;
+KPosderiv = diff(phiKin_deg_filt);
+KTimderiv = diff(transpose(time));
+KVel = KPosderiv./KTimderiv;
 
 %%%%% Velocity Filter
-VVelFilt = designfilt('lowpassiir','FilterOrder',3,...
+KVelFilt = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',15e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 
 %%%%% Second Derivative for flex (Angular Acceleration)
-VVelderiv = diff(VPosderiv);
-VAcc = VVelderiv./VTimderiv(1:1555);
+KVelderiv = diff(KPosderiv);
+KAcc = KVelderiv./KTimderiv(1:468);
 
 %%%%% Acceleration Filter
-VAccFilt = designfilt('lowpassiir','FilterOrder',3,...
+KAccFilt = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',5e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
-VAcc_Filtered = filtfilt(VAccFilt,VAcc);
+KAcc_Filtered = filtfilt(KAccFilt,KAcc);
 
 %%%%% Third Derivative for flex (Angular Jerk)
-VAccderiv = diff(VVelderiv);
-VJer = VAccderiv./VTimderiv(1:1554);
+KAccderiv = diff(KVelderiv);
+KJer = KAccderiv./KTimderiv(1:467);
 
 %%%%% Jerk Filter
-VJerFilt = designfilt('lowpassiir','FilterOrder',3,...
+KJerFilt = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',10e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
-VJer_Filtered = filtfilt(VJerFilt,VJer);
+KJer_Filtered = filtfilt(KJerFilt,KJer);
 
 %%%%% Plotting
-% subplot(4,1,1)
-% plot(Vic_frames./100,phi_deg_filt)
-% title('Vicon Parameters')
-% ylabel('degrees'),xlabel('Time (s)')
-% 
-% subplot(4,1,2)
-% plot(Vic_frames(1:1556)./100,VVel)
-% ylabel('degrees/s'),xlabel('Time (s)')
-% 
-% subplot(4,1,3)
-% plot(Vic_frames(1:1555)./100,VAcc_Filtered)
-% ylim([-11 11])
-% ylabel('degrees/s^2'),xlabel('Time (s)')
-% 
-% subplot (4,1,4)
-% plot(Vic_frames(1:1554)./100,VJer_Filtered)
-% ylim([-14 14])
-% ylabel('degrees/s^3'),xlabel('Time (s)')
-% 
-% %%%%% Maximums
-% VVel_abs = abs(VVel);
-% VAcc_abs = abs(VAcc(2:1549));
-% VJer_abs = abs(VJer(2:1548));
-% 
-% VVel_max = max(VVel_abs)
-% VAcc_max = max(VAcc_abs)
-% VJer_max = max(VJer_abs)
-% hold on
+subplot(4,1,1)
+plot(time,phiKin_deg_filt)
+title('Vicon Parameters')
+ylabel('degrees'),xlabel('Time (s)')
+
+subplot(4,1,2)
+plot(time(1:468),KVel)
+ylabel('degrees/s'),xlabel('Time (s)')
+
+subplot(4,1,3)
+plot(time(1:467),KAcc_Filtered)
+ylim([-11 11])
+ylabel('degrees/s^2'),xlabel('Time (s)')
+
+subplot (4,1,4)
+plot(time(1:466),KJer_Filtered)
+ylim([-14 14])
+ylabel('degrees/s^3'),xlabel('Time (s)')
+
+%%%%% Maximums
+VVel_abs = abs(KVel);
+VAcc_abs = abs(KAcc(2:1549));
+VJer_abs = abs(KJer(2:1548));
+
+VVel_max = max(VVel_abs)
+VAcc_max = max(VAcc_abs)
+VJer_max = max(VJer_abs)
+hold on
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % phi_deg_filt = filtfilt(kin_filter, phi_deg);
 
-plot(Vic_frames./100,phi_deg_filt)%,SMid_plot_xaxis, SMid_plot_yaxis)%Vic_frames./100,v_pntpnt(:,1),Vic_frames./100,v_pntpnt(:,2))
+% plot(Vic_frames./100,phi_deg_filt)%,SMid_plot_xaxis, SMid_plot_yaxis,Vic_frames./100,v_pntpnt(:,1),Vic_frames./100,v_pntpnt(:,2))
 
 title('Sagittal Rotation')
 ylabel('Angle (degrees)'),xlabel('Time (s)')

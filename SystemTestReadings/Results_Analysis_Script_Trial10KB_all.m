@@ -262,40 +262,40 @@ VJerFilt = designfilt('lowpassiir','FilterOrder',3,...
 VJer_Filtered = filtfilt(VJerFilt,VJer);
 
 %%%%% Plotting
-% subplot(4,1,1)
-% plot(Vic_frames./100,phi_deg_filt)
-% title('Vicon Parameters')
-% ylabel('degrees'),xlabel('Time (s)')
-% 
-% subplot(4,1,2)
-% plot(Vic_frames(1:1556)./100,VVel)
-% ylabel('degrees/s'),xlabel('Time (s)')
-% 
-% subplot(4,1,3)
-% plot(Vic_frames(1:1555)./100,VAcc_Filtered)
-% ylim([-11 11])
-% ylabel('degrees/s^2'),xlabel('Time (s)')
-% 
-% subplot (4,1,4)
-% plot(Vic_frames(1:1554)./100,VJer_Filtered)
-% ylim([-14 14])
-% ylabel('degrees/s^3'),xlabel('Time (s)')
-% 
-% %%%%% Maximums
-% VVel_abs = abs(VVel);
-% VAcc_abs = abs(VAcc(2:1549));
-% VJer_abs = abs(VJer(2:1548));
-% 
-% VVel_max = max(VVel_abs)
-% VAcc_max = max(VAcc_abs)
-% VJer_max = max(VJer_abs)
-% hold on
+subplot(4,1,1)
+plot(Vic_frames./100,phi_deg_filt)
+title('Vicon Parameters')
+ylabel('degrees'),xlabel('Time (s)')
+
+subplot(4,1,2)
+plot(Vic_frames(1:1556)./100,VVel)
+ylabel('degrees/s'),xlabel('Time (s)')
+
+subplot(4,1,3)
+plot(Vic_frames(1:1555)./100,VAcc_Filtered)
+ylim([-11 11])
+ylabel('degrees/s^2'),xlabel('Time (s)')
+
+subplot (4,1,4)
+plot(Vic_frames(1:1554)./100,VJer_Filtered)
+ylim([-14 14])
+ylabel('degrees/s^3'),xlabel('Time (s)')
+
+%%%%% Maximums
+VVel_abs = abs(VVel);
+VAcc_abs = abs(VAcc(2:1549));
+VJer_abs = abs(VJer(2:1548));
+
+VVel_max = max(VVel_abs)
+VAcc_max = max(VAcc_abs)
+VJer_max = max(VJer_abs)
+hold on
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % phi_deg_filt = filtfilt(kin_filter, phi_deg);
 
-plot(Vic_frames./100,phi_deg_filt)%,SMid_plot_xaxis, SMid_plot_yaxis)%Vic_frames./100,v_pntpnt(:,1),Vic_frames./100,v_pntpnt(:,2))
+% plot(Vic_frames./100,phi_deg_filt)%,SMid_plot_xaxis, SMid_plot_yaxis,Vic_frames./100,v_pntpnt(:,1),Vic_frames./100,v_pntpnt(:,2))
 
 title('Sagittal Rotation')
 ylabel('Angle (degrees)'),xlabel('Time (s)')

@@ -1,8 +1,8 @@
 clc;
 clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 04.csv';
-V_Data = xlsread(filename, 'A12:N1562');
+filename = 'Ben_Johnston Cal 02.csv';
+V_Data = xlsread(filename, 'A6:N1568');
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -55,7 +55,7 @@ VVelFilt = designfilt('lowpassiir','FilterOrder',3,...
 
 %%%%% Second Derivative for flex (Angular Acceleration)
 VVelderiv = diff(VPosderiv);
-VAcc = VVelderiv./(VTimderiv(1:1549)).^2;
+VAcc = VVelderiv./VTimderiv(1:1561);
 
 %%%%% Acceleration Filter
 VAccFilt = designfilt('lowpassiir','FilterOrder',3,...
@@ -65,7 +65,7 @@ VAcc_Filtered = filtfilt(VAccFilt,VAcc);
 
 %%%%% Third Derivative for flex (Angular Jerk)
 VAccderiv = diff(VVelderiv);
-VJer = VAccderiv./(VTimderiv(1:1548).^3);
+VJer = VAccderiv./VTimderiv(1: 1560);
 
 %%%%% Jerk Filter
 VJerFilt = designfilt('lowpassiir','FilterOrder',3,...
@@ -80,23 +80,23 @@ title('Vicon Parameters')
 ylabel('degrees'),xlabel('Time (s)')
 
 subplot(4,1,2)
-plot(Vic_frames(1:1550)./100,VVel)
+plot(Vic_frames(1:1562)./100,VVel)
 ylabel('degrees/s'),xlabel('Time (s)')
 
 subplot(4,1,3)
-plot(Vic_frames(1:1549)./100,VAcc_Filtered)
-ylim([-2000 2000])
+plot(Vic_frames(1:1561)./100,VAcc_Filtered)
+ylim([-11 11])
 ylabel('degrees/s^2'),xlabel('Time (s)')
 
 subplot (4,1,4)
-plot(Vic_frames(1:1548)./100,VJer_Filtered)
-ylim([-5e5 5e5])
+plot(Vic_frames(1:1560)./100,VJer_Filtered)
+ylim([-14 14])
 ylabel('degrees/s^3'),xlabel('Time (s)')
 
 %%%%% Maximums
 VVel_abs = abs(VVel);
-VAcc_abs = abs(VAcc_Filtered(50:1549));
-VJer_abs = abs(VJer_Filtered(50:1548));
+VAcc_abs = abs(VAcc(2:1549));
+VJer_abs = abs(VJer(2:1548));
 
 VVel_max = max(VVel_abs)
 VAcc_max = max(VAcc_abs)

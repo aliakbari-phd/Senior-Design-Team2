@@ -218,21 +218,27 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 % title('Angular Distance (deg)')
 % ylabel('Angle (degrees)'),xlabel('Time (s)')
 % legend('Vicon','IMU', 'Kinect')
-plot(time,alpha_deg_Kin,tMid,distanceMid(:,2))
+plot(time,alpha_deg_Kin,tMid+0.0894,distanceMid(:,2))
 % subplot(3,1,2)
-
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
-
-
 %subplot(3,1,3)
 %plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
 %ylabel('z'),xlabel('Time (s)')
+
+
 
 SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
 SMid_plot_xaxis = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
 Kin_plot_y = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
 Kin_plot_time = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
+
+[Kin_pks_rs , Kin_locs_rs] = findpeaks(Kin_plot_y, 'MinPeakProminence', .3);
+[SMid_pks_rs , SMid_locs_rs] = findpeaks(SMid_plot_yaxis, 'MinPeakProminence', 2);
+
+SMid_plot_xaxis= SMid_plot_xaxis + .0894;
+
+% plot(SMid_plot_xaxis,SMid_plot_yaxis,Kin_plot_time,Kin_plot_y)
 
 angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis).^2))
 angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_y).^2))
