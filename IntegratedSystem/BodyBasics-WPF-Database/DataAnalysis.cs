@@ -44,8 +44,8 @@ public class DataAnalysis
     List<float> angularFlexJerk;
 
     public List<float> timeStampsAngleAt0;
-    public List<float> angularSPAccelIMU;
-    public List<float> angularSPJerkIMU;
+    //public List<float> angularSPAccelIMU;
+    //public List<float> angularSPJerkIMU;
 
     public double severityLBD;
 
@@ -66,9 +66,6 @@ public class DataAnalysis
         angularSPJerk = new List<float>();
         angularFlexJerk = new List<float>();
         timeStampsAngleAt0 = new List<float>();
-        angularSPAccelIMU = new List<float>();
-        angularSPJerkIMU = new List<float>();
-
 }
 
     public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu)
@@ -129,13 +126,15 @@ public class DataAnalysis
         //angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
         //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
 
-        angularSPAccelIMU = CalcStepDerivative(imuData.anglesMid, imuData.timeStampsMid);
-        //angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
-        angularSPJerkIMU = CalcStepDerivative(angularSPAccelIMU, imuData.timeStampsMid);
-        //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
+        angularSPVel = CalcStepDerivative(imuData.spAnglesMid, imuData.timeStampsMid);
+        angularFlexVel = CalcStepDerivative(imuData.flexAnglesMid, imuData.timeStampsMid);
+        angularSPAccel = CalcStepDerivative(angularSPVel, imuData.timeStampsMid);
+        angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
+        angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
+        angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
 
-        peakSPAngle = FindMax(kinectSPAngleAt0);
-        peakFlexAngle = FindMax(kinectFlexAngleAt0);
+        peakSPAngle = FindMax(imuData.spAnglesMid);
+        peakFlexAngle = FindMax(imuData.flexAnglesMid);
         peakSPAngVelocityAt0 = FindMax(angularSPVel);
         peakSPAngAccelerationAt0 = FindMax(angularSPAccel);
         peakSPAngJerkAt0 = FindMax(angularSPJerk);
