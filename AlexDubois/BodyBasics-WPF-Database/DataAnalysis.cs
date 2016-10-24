@@ -46,6 +46,8 @@ public class DataAnalysis
     public List<float> timeStampsAngleAt0;
     public List<float> angularSPAccelIMU;
     public List<float> angularSPJerkIMU;
+    public List<float> angularFlexAccelIMU;
+    public List<float> angularFlexJerkIMU;
 
     public double severityLBD;
 
@@ -68,8 +70,9 @@ public class DataAnalysis
         timeStampsAngleAt0 = new List<float>();
         angularSPAccelIMU = new List<float>();
         angularSPJerkIMU = new List<float>();
-
-}
+        angularFlexAccelIMU = new List<float>();
+        angularFlexJerkIMU = new List<float>();
+    }
 
     public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu)
     {
@@ -129,9 +132,11 @@ public class DataAnalysis
         //angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
         //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
 
-        angularSPAccelIMU = CalcStepDerivative(imuData.anglesMid, imuData.timeStampsMid);
+        angularFlexAccelIMU = CalcStepDerivative(imuData.anglesMid, imuData.timeStampsMid);
+        //angularSPAccelIMU = CalcStepDerivative(imuData.anglesMid, imuData.timeStampsMid);
         //angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
-        angularSPJerkIMU = CalcStepDerivative(angularSPAccelIMU, imuData.timeStampsMid);
+       // angularSPJerkIMU = CalcStepDerivative(angularSPAccelIMU, imuData.timeStampsMid);
+        angularFlexJerkIMU = CalcStepDerivative(angularSPAccelIMU, imuData.timeStampsMid);
         //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
 
         peakSPAngle = FindMax(kinectSPAngleAt0);

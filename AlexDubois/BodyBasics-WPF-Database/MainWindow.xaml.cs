@@ -827,8 +827,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             // Collect the two IMU's Data
             IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase);
-            imuData.getAngles();
-
+            try
+            {
+                imuData.getAngles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("IMU did not collect data, check connection! ");
+            }
             dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData);
             dataAnalysis.QuantifyLBD();
 
@@ -837,8 +843,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 flexAndSagittalAngleSW.WriteLine(imuData.anglesMid[i] + " " + 
                     imuData.gyroYMid[i] + " " +
-                    dataAnalysis.angularSPAccelIMU[i]+ " " +
-                    dataAnalysis.angularSPJerkIMU[i] + " " +
+                    dataAnalysis.angularFlexAccelIMU[i]+ " " +
+                    dataAnalysis.angularFlexJerkIMU[i] + " " +
                     imuData.transposedTSMid[i]);
             }
             flexAndSagittalAngleSW.Close();
@@ -894,6 +900,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             startRecording.IsEnabled = true;
             ButtonStop.IsEnabled = false;
+            timeStampsMid.Clear();
+            gyroYMid.Clear();
 
             ApplicationState.dataAnalysis = dataAnalysis;
 
@@ -993,7 +1001,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         Monitor.Wait(data1);
                     }
 
-
+                    //Read the bits off the data queue
                     int i = 1;
                     while (i == 1)
                     {
@@ -1027,42 +1035,23 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     {
                         convert[i] = RxPkt1[i];
                     }
-                    Array.Reverse(convert);//operating system is little endians while the package is big endians, reverse the array.
+                    // OS is little endians while the package is big endians, reverse the array.
+                    Array.Reverse(convert);
                     if (kinect_start != 0)
                     {
                         //Create timestamp
                         DateTime datenow = DateTime.Now;
-                        //List<Int16> wearable = new List<Int16>();
                         int hour = datenow.Hour;
                         int minute = datenow.Minute;
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
-                        //Collect data into list
 
-                        //// Add Accelerometer
-                        //wearable.Add(BitConverter.ToInt16(convert, 22));
-                        //wearable.Add(BitConverter.ToInt16(convert, 20));
-                        //wearable.Add(BitConverter.ToInt16(convert, 18));
-
-                        //// Add Gyroscope data
-                        //wearable.Add(BitConverter.ToInt16(convert, 16));
-                        //wearable.Add(BitConverter.ToInt16(convert, 14));
-                        //wearable.Add(BitConverter.ToInt16(convert, 12));
+                        // Use bit converter to convert the read bits into integers
                         gyroXMid.Add(BitConverter.ToInt16(convert, 16));
                         gyroYMid.Add((float)(BitConverter.ToInt16(convert, 14)/32.75));
                         gyroZMid.Add(BitConverter.ToInt16(convert, 12));
                         timeStampsMid.Add(timestampS);
-
-
-                        //// Add Magnetometer data
-                        //wearable.Add(BitConverter.ToInt16(convert, 10));
-                        //wearable.Add(BitConverter.ToInt16(convert, 8));
-                        //wearable.Add(BitConverter.ToInt16(convert, 6));
-
-                        //// Add timestamp
-                        //wearable.Add((Int16)(timestampS));
-                        //wearableData.Add(wearable);
 
                         //Write to file
                         sw2.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS);
