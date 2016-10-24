@@ -1,3 +1,6 @@
+clc;
+clear;
+close all;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 11.csv';
 V_Data = xlsread(filename, 'A12:N1568');
@@ -16,28 +19,48 @@ Vic_frames = V_Data(:,1);
 
 
 v_pntpnt = pnts_shoulder - pnts_upper;      %point to point vector
-y_zunit = v_pntpnt(1,:)./norm(v_pntpnt(1,:));            %create z unit vector
+z_zunit = ([0 0 1]);           %create z unit vector
+y_zunit = v_pntpnt(1,:)./norm(v_pntpnt(1,:)); 
 iterator_a=1;
 v_length = size(v_pntpnt);
 l = v_length(1,1);
 while iterator_a<l
 v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
 iterator_a = iterator_a+1;
+v_sag_vect(iterator_a,:) = cross(v_pnt_norm, z_zunit);
 arg_check(iterator_a,:) = dot(v_pnt_norm, y_zunit);
 theta(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
+phi(iterator_a,:) = acos(dot(v_pnt_norm,y_zunit));
+phi_check(iterator_a,:) = acos(dot(v_sag_vect(iterator_a),v_sag_vect(iterator_a-1)));
 end
-alpha = (pi/2)-theta;
-alpha_deg_img = alpha.*(180/pi);
-alpha_deg = abs(alpha_deg_img);
+for i=1:length(phi)
+    if v_pntpnt(i,1)>y_zunit(1)
+        phi(i)=-1*(phi(i));
+    end
+end
+
+
+
+phi = (pi/2)-phi;
+phi_deg = abs(phi.*(180/pi));
+phi_deg = phi_deg-90;
+
+% for i=1:length(phi_deg)
+%     if v_pntpnt(i,2)<-24
+%         phi_deg(i)=-1*((phi_deg(i))+180);
+%     end
+% end
+
+% alpha_deg = real(alpha_deg_img);
 %Syncing
-[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', 2);
+[Vic_pks, Vic_locs] = findpeaks(phi_deg, 'MinPeakProminence', 2);
 Vic_peak_beg = Vic_locs(1);
 Vic_peak_end = Vic_locs(end);
 
 Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
 
 Vic_time = (Frames_used)/100;
-Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+Vic_plot_yaxis = phi_deg(Vic_peak_beg:Vic_peak_end);
 Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 
 
@@ -176,6 +199,13 @@ kinect_pnt_norm = kinect_pntpnt(iterator_a,:)./norm(kinect_pntpnt(iterator_a,:))
 iterator_a = iterator_a+1;
 theta_Kin(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_xunit));
 end
+
+for i=1:length(theta_Kin)
+    if v_pntpnt(i,1)>y_zunit(1)
+        theta_Kin(i)=-1*(theta_Kin(i));
+    end
+end
+
 alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
 
@@ -204,19 +234,85 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENTER NAME  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameters  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+phiKin_deg_filt = filtfilt(kin_filter, theta_Kin);
 
+%%%%% First Derivative for flex (Angular Velocity)
+KPosderiv = diff(phiKin_deg_filt);
+KTimderiv = diff(transpose(time));
+KVel = KPosderiv./KTimderiv;
 
+%%%%% Velocity Filter
+KVelFilt = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',15e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+
+%%%%% Second Derivative for flex (Angular Acceleration)
+KVelderiv = diff(KPosderiv);
+KAcc = KVelderiv./KTimderiv(1:468);
+
+%%%%% Acceleration Filter
+KAccFilt = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+KAcc_Filtered = filtfilt(KAccFilt,KAcc);
+
+%%%%% Third Derivative for flex (Angular Jerk)
+KAccderiv = diff(KVelderiv);
+KJer = KAccderiv./KTimderiv(1:467);
+
+%%%%% Jerk Filter
+KJerFilt = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',10e3,'PassbandRipple',0.5,...
+            'SampleRate',200e3);
+KJer_Filtered = filtfilt(KJerFilt,KJer);
+
+%%%%% Plotting
+subplot(4,1,1)
+plot(time,phiKin_deg_filt)
+title('Vicon Parameters')
+ylabel('degrees'),xlabel('Time (s)')
+
+subplot(4,1,2)
+plot(time(1:468),KVel)
+ylabel('degrees/s'),xlabel('Time (s)')
+
+subplot(4,1,3)
+plot(time(1:467),KAcc_Filtered)
+ylim([-11 11])
+ylabel('degrees/s^2'),xlabel('Time (s)')
+
+subplot (4,1,4)
+plot(time(1:466),KJer_Filtered)
+ylim([-14 14])
+ylabel('degrees/s^3'),xlabel('Time (s)')
+
+%%%%% Maximums
+VVel_abs = abs(KVel);
+VAcc_abs = abs(KAcc(2:1549));
+VJer_abs = abs(KJer(2:1548));
+
+VVel_max = max(VVel_abs)
+VAcc_max = max(VAcc_abs)
+VJer_max = max(VJer_abs)
+hold on
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis, Kin_plot_time, Kin_plot_y,SMid_plot_xaxis, SMid_plot_yaxis)
-xlim([0 SMid_time])
-title('Angular Distance (deg)')
+% phi_deg_filt = filtfilt(kin_filter, phi_deg);
+
+% plot(Vic_frames./100,phi_deg_filt)%,SMid_plot_xaxis, SMid_plot_yaxis,Vic_frames./100,v_pntpnt(:,1),Vic_frames./100,v_pntpnt(:,2))
+
+title('Sagittal Rotation')
 ylabel('Angle (degrees)'),xlabel('Time (s)')
-legend('Vicon', 'Kinect', 'IMU')
+
+% 
+% subplot(2,1,2)
+% plot(Vic_frames, phi_check)
+
+% plot(Vic_frames, v_pntpnt(:,1),Vic_frames, v_pntpnt(:,2),Vic_frames,v_pntpnt(:,3))
+% hold on
 
 % arg_check_x = 0:1:1440;
 % subplot(2,1,2)
