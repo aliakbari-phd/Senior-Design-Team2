@@ -1,7 +1,7 @@
 clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename = 'Ben_Johnston Cal 02.csv';
-V_Data = xlsread(filename, 'A12:N1619');
+V_Data = xlsread(filename, 'A6:N1568');
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -46,12 +46,12 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T2S1.txt';
-filenameSBase = 'T2S2.txt';
+filenameSMid = '9.txt';
+%filenameSBase = 'T2S2.txt';
 delimiterIn = ' ';
 headerlinesIn = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn);
-SBase = importdata(filenameSBase, delimiterIn, headerlinesIn);
+%SBase = importdata(filenameSBase, delimiterIn, headerlinesIn);
 
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
@@ -61,13 +61,13 @@ SBase = importdata(filenameSBase, delimiterIn, headerlinesIn);
 gyroMid(:,1) = (SMid.data(:,4))./32.75;  
 gyroMid(:,2) = (SMid.data(:,5))./32.75;  
 gyroMid(:,3) = (SMid.data(:,6))./32.75;          %Gyroscope correction factor
-gyroBase(:,1) = (SBase.data(:,4))./32.75;  
-gyroBase(:,2) = (SBase.data(:,5))./32.75;  
-gyroBase(:,3) = (SBase.data(:,6))./32.75;          %Gyroscope correction factor
+% gyroBase(:,1) = (SBase.data(:,4))./32.75;  
+% gyroBase(:,2) = (SBase.data(:,5))./32.75;  
+% gyroBase(:,3) = (SBase.data(:,6))./32.75;          %Gyroscope correction factor
 LtimeMid = (SMid.data(:,10));
-LtimeBase = (SBase.data(:,10));
+% LtimeBase = (SBase.data(:,10));
 tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms to s
-tBase = transpose((LtimeBase-LtimeBase(1))./1000);
+% tBase = transpose((LtimeBase-LtimeBase(1))./1000);
 
 
 
@@ -76,7 +76,7 @@ x_filter = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',10e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 gyroMid = filtfilt(x_filter,gyroMid);
-gyroBase = filtfilt(x_filter,gyroBase);
+%gyroBase = filtfilt(x_filter,gyroBase);
 
 
 %best fit code
@@ -111,13 +111,13 @@ positionMid = trapz(tMid,gyroMid);
 distanceMid = cumtrapz(tMid,gyroMid);     % vel to distance
 distanceMid(:,2) = distanceMid(:,2) + 90;
 
-accelerationBase = diff(gyroBase);             % vel to accel 
-accelerationBase = [0,[1 3];accelerationBase];
-jerkBase = diff(accelerationBase);             %accel to jerk
-jerkBase = [0,[1 3];jerkBase];
-positionBase = trapz(tBase,gyroBase);
-distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
-distanceBase(:,2) = distanceBase(:,2) + 90;
+% accelerationBase = diff(gyroBase);             % vel to accel 
+% accelerationBase = [0,[1 3];accelerationBase];
+% jerkBase = diff(accelerationBase);             %accel to jerk
+% jerkBase = [0,[1 3];jerkBase];
+% positionBase = trapz(tBase,gyroBase);
+% distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
+% distanceBase(:,2) = distanceBase(:,2) + 90;
 
 [SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
 
@@ -145,8 +145,8 @@ SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filename1_Kin = 'spinebaseT2.txt';
-filename2_Kin = 'spinemidT2.txt';
+filename1_Kin = 'spinebase.txt';
+filename2_Kin = 'spinemid.txt';
 delimiterIn = ' ';
 headerlinesIn_Kin = 0;
 spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
@@ -233,3 +233,15 @@ legend('Vicon','Kinect','Vicon Mean', 'Kinect Mean')
 %subplot(3,1,3)
 %plot(tMid,distanceMid(:,3), tBase,distanceBase(:,3))
 %ylabel('z'),xlabel('Time (s)')
+
+SMid_plot_yaxis_resample = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
+SMid_plot_xaxis_resample = resample(SMid_plot_xaxis,length(Vic_plot_xaxis),length(SMid_plot_xaxis));
+Kin_plot_yaxis_resample = resample(Kin_plot_y,length(Vic_plot_yaxis),length(Kin_plot_y));
+Kin_plot_timeaxis_resample = resample(Kin_plot_time,length(Vic_plot_xaxis),length(Kin_plot_time));
+
+angleRMSE_IMU = sqrt(mean((Vic_plot_yaxis - SMid_plot_yaxis_resample).^2))
+angleRMSE_Kin = sqrt(mean((Vic_plot_yaxis - Kin_plot_yaxis_resample).^2))
+
+Kin_SMid_y = resample(Kin_plot_y,length(SMid_plot_yaxis),length(Kin_plot_y));
+Kin_SMid_x = resample(Kin_plot_time,length(SMid_plot_xaxis),length(Kin_plot_time));
+angleRMSE_Kin_IMU = sqrt(mean((SMid_plot_yaxis - Kin_SMid_y).^2))

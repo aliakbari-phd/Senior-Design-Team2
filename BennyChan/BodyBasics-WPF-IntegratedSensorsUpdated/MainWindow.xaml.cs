@@ -798,8 +798,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             string trial = comboBox4.Text;
             
-            //string fpath = "C:/Users/BennyChan/Desktop/";
-            string fpath = comboBox3.Text.Replace("\\","/") + "/";
+            string fpath = "C:/Users/BennyChan/Downloads/BodyBasics-WPF-Database/SD01/";
+            //string fpath = comboBox3.Text.Replace("\\","/") + "/";
             if (String.IsNullOrEmpty(fpath))
             {
                 fpath = Directory.GetCurrentDirectory().Replace("\\","/") + "/SD01/";

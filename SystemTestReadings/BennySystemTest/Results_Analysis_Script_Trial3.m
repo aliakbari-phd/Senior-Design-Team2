@@ -1,7 +1,7 @@
 clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 04.csv';
-V_Data = xlsread(filename, 'A12:N1562');
+filename = 'Ben_Johnston Cal 03.csv';
+V_Data = xlsread(filename, 'A6:N1558');
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -46,12 +46,12 @@ Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T4S1.txt';
-filenameSBase = 'T4S2.txt';
+filenameSMid = '9.txt';
+% filenameSBase = '10.txt';
 delimiterIn = ' ';
 headerlinesIn_IMU = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
-SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
+% SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
 
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
@@ -61,13 +61,13 @@ SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
 gyroMid(:,1) = (SMid.data(:,4))./32.75;  
 gyroMid(:,2) = (SMid.data(:,5))./32.75;  
 gyroMid(:,3) = (SMid.data(:,6))./32.75;          %Gyroscope correction factor
-gyroBase(:,1) = (SBase.data(:,4))./32.75;  
-gyroBase(:,2) = (SBase.data(:,5))./32.75;  
-gyroBase(:,3) = (SBase.data(:,6))./32.75;          %Gyroscope correction factor
+% gyroBase(:,1) = (SBase.data(:,4))./32.75;  
+% gyroBase(:,2) = (SBase.data(:,5))./32.75;  
+% gyroBase(:,3) = (SBase.data(:,6))./32.75;          %Gyroscope correction factor
 LtimeMid = (SMid.data(:,10));
-LtimeBase = (SBase.data(:,10));
+% LtimeBase = (SBase.data(:,10));
 tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms to s
-tBase = transpose((LtimeBase-LtimeBase(1))./1000);
+% tBase = transpose((LtimeBase-LtimeBase(1))./1000);
 
 
 
@@ -76,7 +76,7 @@ x_filter = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',10e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 gyroMid = filtfilt(x_filter,gyroMid);
-gyroBase = filtfilt(x_filter,gyroBase);
+% gyroBase = filtfilt(x_filter,gyroBase);
 
 
 %best fit code
@@ -111,13 +111,13 @@ positionMid = trapz(tMid,gyroMid);
 distanceMid = cumtrapz(tMid,gyroMid);     % vel to distance
 distanceMid(:,2) = distanceMid(:,2) + 90;
 
-accelerationBase = diff(gyroBase);             % vel to accel 
-accelerationBase = [0,[1 3];accelerationBase];
-jerkBase = diff(accelerationBase);             %accel to jerk
-jerkBase = [0,[1 3];jerkBase];
-positionBase = trapz(tBase,gyroBase);
-distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
-distanceBase(:,2) = distanceBase(:,2) + 90;
+% accelerationBase = diff(gyroBase);             % vel to accel 
+% accelerationBase = [0,[1 3];accelerationBase];
+% jerkBase = diff(accelerationBase);             %accel to jerk
+% jerkBase = [0,[1 3];jerkBase];
+% positionBase = trapz(tBase,gyroBase);
+% distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
+% distanceBase(:,2) = distanceBase(:,2) + 90;
 
 [SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
 
@@ -145,8 +145,8 @@ SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  KINECT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filename1_Kin = 'spinebaseT4.txt';
-filename2_Kin = 'spinemidT4.txt';
+filename1_Kin = 'spinebase.txt';
+filename2_Kin = 'spinemid.txt';
 delimiterIn = ' ';
 headerlinesIn_Kin = 0;
 spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);

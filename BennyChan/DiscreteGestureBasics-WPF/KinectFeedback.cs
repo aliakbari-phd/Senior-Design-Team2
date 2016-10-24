@@ -58,6 +58,10 @@ public class KinectFeedback
         float dotProduct = DotProduct(vector0, vector1);
         float magnitudeVector0 = CalcMagnitude(vector0);
         float magnitudeVector1 = CalcMagnitude(vector1);
+        if (vector1[vector1.Count - 1] < 0)
+        {
+            magnitudeVector1 = magnitudeVector1 * (-1);
+        }
         float cos = dotProduct / (magnitudeVector0 * magnitudeVector1);
         sagittalAngle.Add((float)(Math.Acos(cos) * (180 / Math.PI)));
         double angle = Math.Acos(cos) * (180 / Math.PI);
