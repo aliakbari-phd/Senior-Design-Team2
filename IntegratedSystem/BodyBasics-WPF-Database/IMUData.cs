@@ -5,7 +5,7 @@ public class IMUData
 {
     // Index corresponds to a single frame, (ie:
     // gyroXMid[1] corresponds to gyroYMid[1] and timeStampsMid[1])
-    public List<Int16> gyroXMid;
+    public List<float> gyroXMid;
     public List<float> gyroYMid;
     public List<Int16> gyroZMid;
     public List<int> timeStampsMid;
@@ -15,10 +15,11 @@ public class IMUData
     public List<int> timeStampsBase;
 
     public List<float> transposedTSMid;
-    public List<double> transposedTSBase;
+    public List<float> transposedTSBase;
 
-    public List<float> anglesMid;
-    public List<double> anglesBase;
+    public List<float> flexAnglesMid;
+    public List<float> spAnglesMid;
+    public List<float> anglesBase;
 
     private static double gyroCorrectionFactor = 32.75;
 
@@ -26,7 +27,7 @@ public class IMUData
 
     public IMUData
     (
-        List<Int16> gXMid, 
+        List<float> gXMid, 
         List<float> gYMid, 
         List<Int16> gZMid, 
         List<int> timeSMid,
@@ -45,7 +46,8 @@ public class IMUData
         gyroZBase = gZBase;
         timeStampsBase = timeSBase;
         transposedTSMid = new List<float>();
-        anglesMid = new List<float>();
+        flexAnglesMid = new List<float>();
+        spAnglesMid = new List<float>();
     }
 
 
@@ -71,16 +73,24 @@ public class IMUData
 
     void cumTrapz()
     {
-        float angle = 0;
+        float flexAngle = 0;
+        float spAngle = 0;
+        float timeDiff = 0;
+        float correctedDiffFlex = 0;
+        float correctedDiffSP = 0;
         for(int i = 0; i < transposedTSMid.Count - 1; i++)
         {
             // Trapezoidal rule
             // angle = (b - a)*(f(b)+f(a)/2)
             // Multiply by correction factor
-            float timeDiff = transposedTSMid[i + 1] - transposedTSMid[i];
-            float correctedDiff = (gyroYMid[i+1] + gyroYMid[i])/(2);
-            angle = angle + (timeDiff*correctedDiff);
-            anglesMid.Add(angle + 90);
+            timeDiff = transposedTSMid[i + 1] - transposedTSMid[i];
+
+            correctedDiffFlex = (gyroYMid[i+1] + gyroYMid[i])/(2);
+            correctedDiffSP = (gyroXMid[i + 1] + gyroXMid[i]) / (2);
+            flexAngle = flexAngle + (timeDiff*correctedDiffFlex);
+            flexAnglesMid.Add(flexAngle + 90);
+            spAngle = spAngle + (timeDiff * correctedDiffSP);
+            spAnglesMid.Add(spAngle);
         }
     }
 

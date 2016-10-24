@@ -204,7 +204,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private string statusText = null;
 
         //Data structures to collect IMU data
-        private List<Int16> gyroXMid = new List<Int16>();
+        private List<float> gyroXMid = new List<float>();
         private List<float> gyroYMid = new List<float>();
         private List<Int16> gyroZMid = new List<Int16>();
         private List<int> timeStampsMid = new List<int>();
@@ -244,105 +244,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             else
             {
-                kinect_start = 0;
-                stop = 1;
-                spineBaseSW.Close();
-                spinemidSW.Close();
-                spineshoulderSW.Close();
-                rightshoulderSW.Close();
-                sw2.Close();
-                sw3.Close();
-
-                fs_kinect_spinebase.Close();
-                fs_kinect_spinemid.Close();
-                fs_kinect_spineshoulder.Close();
-                fs_kinect_rightshoulder.Close();
-                fs_sensor1.Close();
-                fs_sensor2.Close();
-
-                // Collect the two IMU's Data
-                IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase);
-                imuData.getAngles();
-
-                dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData);
-                dataAnalysis.QuantifyLBD();
-
-
-                for (int i = 0; i < imuData.anglesMid.Count; i++)
-                {
-                    flexAndSagittalAngleSW.WriteLine(imuData.anglesMid[i] + " " +
-                        imuData.gyroYMid[i] + " " +
-                        dataAnalysis.angularSPAccelIMU[i] + " " +
-                        dataAnalysis.angularSPJerkIMU[i] + " " +
-                        imuData.transposedTSMid[i]);
-                }
-                flexAndSagittalAngleSW.Close();
-                fs_kinect_flexAndSagittalAngle.Close();
-
-
-                //try
-                //{
-                //    connection.Open();
-                //    SqlCommand cmdRead = new SqlCommand();
-                //    SqlCommand cmd = new SqlCommand();
-                //    SqlDataReader dr;
-
-                //    cmd.CommandText = "SELECT TOP 1 PatientNum FROM Patients ORDER BY PatientNum DESC";
-                //    cmd.CommandType = CommandType.Text;
-
-                //    cmd.Connection = connection;
-
-                //    dr = cmd.ExecuteReader();
-
-                //    // Read first entry corresponding to patient number
-                //    int patientIDNum = 0;
-                //    if (dr.Read())
-                //    {
-                //        patientIDNum = Convert.ToInt32(dr["PatientNum"]);
-                //        // Increment to get next patient ID
-                //        patientIDNum++;
-                //    }
-                //    connection.Close();
-
-                //    connection.Open();
-                //    cmd.Connection = connection;
-                //    //@TODO: Fix potential SQL Code Injections
-                //    if (dataAnalysis.gender == true)
-                //    {
-                //        cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + patientIDNum.ToString() + "','" + ageBox.Text + "', '" + "1" + "','" + dataAnalysis.peakSPAngVelocityAt0.ToString() + "', '" + dataAnalysis.peakSPAngAccelerationAt0.ToString() + "', '" + dataAnalysis.peakSPAngJerkAt0.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
-                //    }
-                //    else
-                //    {
-                //        cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + patientIDNum.ToString() + "','" + ageBox.Text + "', '" + "0" + "','" + dataAnalysis.peakSPAngVelocityAt0.ToString() + "', '" + dataAnalysis.peakSPAngAccelerationAt0.ToString() + "', '" + dataAnalysis.peakSPAngJerkAt0.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
-                //    }
-
-                //    cmd.ExecuteNonQuery();
-
-                //    connection.Close();
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("Can not open connection ! ");
-                //}
-
-
-                startRecording.IsEnabled = true;
-                ButtonStop.IsEnabled = false;
-                timeStampsMid.Clear();
-                gyroYMid.Clear();
-
-                ApplicationState.dataAnalysis = dataAnalysis;
-
-                var form = new DDI();
-                form.Show(); // if you need non-modal window
-
-                //Reset all of the kinect feedback status
-                kinectFeedback.Reset();
-                ButtonStop.IsEnabled = false;
-                TBCountDown.Text = string.Format("0{0}:{1}", time / 60, time % 60);
-                Timer.Stop();
-                time = 15;
+                finishTest();
             }
         }
 
@@ -911,27 +813,33 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //string fpath = "C:/Users/BennyChan/Documents/BodyBasics-WPF-IntegratedSensors -MatlabUpdate/BodyBasics-WPF-IntegratedSensors/SD01/";
             //string fpath = "E:/OneDrive/Documentos/ECEN 403/Team7/AlexDubois/BodyBasics-WPF-IntegratedSensorsUpdated/SD01/";
             int num = dirs.Length;
-            fs_kinect_spinebase = new FileStream(string.Concat(fpath, "spinebase.txt"), FileMode.Create);
-            spineBaseSW = new StreamWriter(fs_kinect_spinebase);
+            try
+            {
+                fs_kinect_spinebase = new FileStream(string.Concat(fpath, "spinebase.txt"), FileMode.Create);
+                spineBaseSW = new StreamWriter(fs_kinect_spinebase);
 
-            fs_kinect_spinemid = new FileStream(string.Concat(fpath, "spinemid.txt"), FileMode.Create);
-            spinemidSW = new StreamWriter(fs_kinect_spinemid);
+                fs_kinect_spinemid = new FileStream(string.Concat(fpath, "spinemid.txt"), FileMode.Create);
+                spinemidSW = new StreamWriter(fs_kinect_spinemid);
 
-            fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder.txt"), FileMode.Create);
-            spineshoulderSW = new StreamWriter(fs_kinect_spineshoulder);
+                fs_kinect_spineshoulder = new FileStream(string.Concat(fpath, "spineshoulder.txt"), FileMode.Create);
+                spineshoulderSW = new StreamWriter(fs_kinect_spineshoulder);
 
-            fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
-            rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
+                fs_kinect_rightshoulder = new FileStream(string.Concat(fpath, "rightshoulder.txt"), FileMode.Create);
+                rightshoulderSW = new StreamWriter(fs_kinect_rightshoulder);
 
-            fs_kinect_flexAndSagittalAngle = new FileStream(string.Concat(fpath, "AngularData.txt"), FileMode.Create);
-            flexAndSagittalAngleSW = new StreamWriter(fs_kinect_flexAndSagittalAngle);
+                fs_kinect_flexAndSagittalAngle = new FileStream(string.Concat(fpath, "AngularData.txt"), FileMode.Create);
+                flexAndSagittalAngleSW = new StreamWriter(fs_kinect_flexAndSagittalAngle);
 
-            fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
-            sw2 = new StreamWriter(fs_sensor1);
+                fs_sensor1 = new FileStream(string.Concat(fpath, string.Concat((num + 2).ToString(), ".txt")), FileMode.Create);
+                sw2 = new StreamWriter(fs_sensor1);
 
-            fs_sensor2 = new FileStream(string.Concat(fpath, string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
-            sw3 = new StreamWriter(fs_sensor2);
-
+                fs_sensor2 = new FileStream(string.Concat(fpath, string.Concat((num + 3).ToString(), ".txt")), FileMode.Create);
+                sw3 = new StreamWriter(fs_sensor2);
+            }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show("Could not open file streams, check that the file path is correct");
+            }
             if (ageBox.Text != "")
             {
                 dataAnalysis.age = Int32.Parse(ageBox.Text);
@@ -956,32 +864,37 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             ButtonStop.IsEnabled = true;
         }
 
-        // Stop recording button
-        private void button3_Click(object sender, RoutedEventArgs e)
+        private void finishTest()
         {
             kinect_start = 0;
             stop = 1;
-            spineBaseSW.Close();
-            spinemidSW.Close();
-            spineshoulderSW.Close();
-            rightshoulderSW.Close();
-            sw2.Close();
-            sw3.Close();
+            try
+            {
+                spineBaseSW.Close();
+                spinemidSW.Close();
+                spineshoulderSW.Close();
+                rightshoulderSW.Close();
+                sw2.Close();
+                sw3.Close();
 
-            fs_kinect_spinebase.Close();
-            fs_kinect_spinemid.Close();
-            fs_kinect_spineshoulder.Close();
-            fs_kinect_rightshoulder.Close();
-            fs_sensor1.Close();
-            fs_sensor2.Close();
-
+                fs_kinect_spinebase.Close();
+                fs_kinect_spinemid.Close();
+                fs_kinect_spineshoulder.Close();
+                fs_kinect_rightshoulder.Close();
+                fs_sensor1.Close();
+                fs_sensor2.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Incorrect file path, could not close");
+            }
             // Collect the two IMU's Data
             IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase);
             try
             {
                 imuData.getAngles();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("IMU Data did not collect data, check connection!");
             }
@@ -990,18 +903,24 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             dataAnalysis.QuantifyLBD();
 
 
-            for (int i = 0; i < imuData.anglesMid.Count; i++)
+            for (int i = 0; i < imuData.flexAnglesMid.Count; i++)
             {
-                flexAndSagittalAngleSW.WriteLine(imuData.anglesMid[i] + " " + 
+                flexAndSagittalAngleSW.WriteLine(imuData.flexAnglesMid[i] + " " +
                     imuData.gyroYMid[i] + " " +
-                    dataAnalysis.angularSPAccelIMU[i]+ " " +
+                    dataAnalysis.angularSPAccelIMU[i] + " " +
                     dataAnalysis.angularSPJerkIMU[i] + " " +
                     imuData.transposedTSMid[i]);
             }
-            flexAndSagittalAngleSW.Close();
-            fs_kinect_flexAndSagittalAngle.Close();
+            try
+            {
+                flexAndSagittalAngleSW.Close();
+                fs_kinect_flexAndSagittalAngle.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Could not open file streams, check that the file path is correct");
+            }
 
-            
             //try
             //{
             //    connection.Open();
@@ -1064,6 +983,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             Timer.Stop();
             time = 0;
             time = 15;
+        }
+
+        // Stop recording button
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            finishTest();
         }
 
         private void DataReceivedHandler1(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -1211,7 +1136,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         //wearable.Add(BitConverter.ToInt16(convert, 16));
                         //wearable.Add(BitConverter.ToInt16(convert, 14));
                         //wearable.Add(BitConverter.ToInt16(convert, 12));
-                        gyroXMid.Add(BitConverter.ToInt16(convert, 16));
+                        gyroXMid.Add((float)(BitConverter.ToInt16(convert, 16)/32.75));
                         gyroYMid.Add((float)(BitConverter.ToInt16(convert, 14)/32.75));
                         gyroZMid.Add(BitConverter.ToInt16(convert, 12));
                         timeStampsMid.Add(timestampS);
