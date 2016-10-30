@@ -15,6 +15,7 @@ public class KinectFeedback
     public int index;
     public List<float> initialPosRS;
     public List<float> initialPosSS;
+    public List<float> initialPosSM;
     public List<float> initialPosSB;
     public string flexAngleTxt;
     public string sagittalAngleTxt;
