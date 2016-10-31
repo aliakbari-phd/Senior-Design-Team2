@@ -21,7 +21,7 @@ public class IMUData
     public List<float> spAnglesMid;
     public List<float> anglesBase;
 
-    private static double gyroCorrectionFactor = 32.75;
+    //private static double gyroCorrectionFactor = 32.75;
 
     public float timeIntervals = 0;
 
