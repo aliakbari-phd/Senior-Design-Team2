@@ -39,6 +39,7 @@ public class TrialTracker
         flexAt30RightT1Index = 0;
         flexAt30RightT2Index = 0;
         flexAt30RightT3Index = 0;
+        trialsCompleted = new List<bool>();
         for(int i = 0; i < totalNumTrials; i++)
         {
             trialsCompleted.Add(false);
