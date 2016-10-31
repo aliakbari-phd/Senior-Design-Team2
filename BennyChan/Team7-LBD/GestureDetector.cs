@@ -37,7 +37,6 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// </summary>
         /// <param name="kinectSensor">Active sensor to initialize the VisualGestureBuilderFrameSource object with</param>
         /// <param name="stadingResultView">GestureResultView object to store gesture results of a single body to</param>
-        /// /// <param name="armsCrossedResultView">GestureResultView object to store gesture results of a single body to</param>
         public GestureDetector(KinectSensor kinectSensor, StandingResultView standingResultView, ArmsCrossedResultView armsCrossedResultView)
         {
             if (kinectSensor == null)
@@ -73,15 +72,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
             // load the 'Seated' gesture from the gesture database
             using (VisualGestureBuilderDatabase database = new VisualGestureBuilderDatabase(this.gestureDatabase))
             {
-                //Need WORK
-                try
-                {
-                    this.vgbFrameSource.AddGestures(database.AvailableGestures);
-                }
-                catch
-                {
-
-                }
+                this.vgbFrameSource.AddGestures(database.AvailableGestures);
             }
         }
 
@@ -89,7 +80,10 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         public StandingResultView StandingResultView { get; private set; }
         public ArmsCrossedResultView ArmsCrossedResultView { get; private set; }
 
-
+        /// <summary>
+        /// Gets or sets the body tracking ID associated with the current detector
+        /// The tracking ID can change whenever a body comes in/out of scope
+        /// </summary>
         public ulong TrackingId
         {
             get
