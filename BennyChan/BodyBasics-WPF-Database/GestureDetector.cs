@@ -27,10 +27,10 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         private readonly string armsCrossedGestureName = "ArmsCrossed";
 
         /// <summary> Gesture frame source which should be tied to a body tracking ID </summary>
-        private VisualGestureBuilderFrameSource vgbFrameSource = null;
+        public VisualGestureBuilderFrameSource vgbFrameSource = null;
 
         /// <summary> Gesture frame reader which will handle gesture events coming from the sensor </summary>
-        private VisualGestureBuilderFrameReader vgbFrameReader = null;
+        public VisualGestureBuilderFrameReader vgbFrameReader = null;
 
         /// <summary>
         /// Initializes a new instance of the GestureDetector class along with the gesture frame source and reader
