@@ -95,6 +95,7 @@
     <Compile Include="IMUData.cs" />
     <Compile Include="KinectFeedback.cs" />
     <Compile Include="SensorData.cs" />
+    <Compile Include="TrialTracker.cs" />
     <Page Include="DDI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
