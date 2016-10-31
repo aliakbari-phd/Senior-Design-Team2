@@ -24,9 +24,6 @@ public class DataAnalysis
     public float peakSPAngVelocityAt0;
     public float peakSPAngAccelerationAt0;
     public float peakSPAngJerkAt0;
-    public float peakFlexAngVelocityAt0;
-    public float peakFlexAngAccelerationAt0;
-    public float peakFlexAngJerkAt0;
     public bool fpROM = true;
     public bool spROM15 = true;
     public bool spROM30 = true;
@@ -39,12 +36,12 @@ public class DataAnalysis
 
     public List<float> kinectSPAngleAt0;
     List<float> kinectFlexAngleAt0;
-    public List<float> angularSPVel;
-    public List<float> angularFlexVel;
-    public List<float> angularSPAccel;
-    public List<float> angularSPJerk;
-    public List<float> angularFlexAccel;
-    public List<float> angularFlexJerk;
+    List<float> angularSPVel;
+    List<float> angularFlexVel;
+    List<float> angularSPAccel;
+    List<float> angularSPJerk;
+    List<float> angularFlexAccel;
+    List<float> angularFlexJerk;
 
     public List<float> timeStampsAngleAt0;
     //public List<float> angularSPAccelIMU;
@@ -59,7 +56,7 @@ public class DataAnalysis
     {
         patientID = 0;
         gender = true;
-        age = 20;
+        age = 0;
         kinectSPAngleAt0 = new List<float>();
         kinectFlexAngleAt0 = new List<float>();
         angularSPVel = new List<float>();
@@ -91,9 +88,9 @@ public class DataAnalysis
         double rating = 0;
         //float step = 1;
         float ageFactor = 0;
-        float maxVel = 250;
-        float maxAcc = 500;
-        float maxJerk = 1000;
+        float maxVel = 30;
+        float maxAcc = 50;
+        float maxJerk = 70;
 
         float peakSPAngle = 0;
         float peakFlexAngle = 0;
@@ -102,9 +99,9 @@ public class DataAnalysis
         peakSPAngAccelerationAt0 = 0;
         peakSPAngJerkAt0 = 0;
 
-        peakFlexAngVelocityAt0 = 0;
-        peakFlexAngAccelerationAt0 = 0;
-        peakFlexAngJerkAt0 = 0;
+        float peakFlexAngVelocityAt0 = 0;
+        float peakFlexAngAccelerationAt0 = 0;
+        float peakFlexAngJerkAt0 = 0;
         float minFlexAngle = 0;
         //Retrieve SP Angular Velocity, Acceleration, and Jerk
         //List<Int16> spAngVelocityAt0 = correctedData.wearableSensor1Data[0];
@@ -136,30 +133,24 @@ public class DataAnalysis
         angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
         angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
 
-        List<int> extensionIndices = new List<int>();
-        extensionIndices = FindChangeInDirectionIndices(imuData.flexAnglesMid);
-        peakFlexAngVelocityAt0 = FindMaxExtension(angularFlexVel, extensionIndices)*-1;
-        peakFlexAngAccelerationAt0 = FindMaxExtension(angularFlexAccel, extensionIndices)*-1;
-        peakFlexAngJerkAt0 = FindMaxExtension(angularFlexJerk, extensionIndices)*-1;
-
         peakSPAngle = FindMax(imuData.spAnglesMid);
         peakFlexAngle = FindMax(imuData.flexAnglesMid);
         peakSPAngVelocityAt0 = FindMax(angularSPVel);
         peakSPAngAccelerationAt0 = FindMax(angularSPAccel);
         peakSPAngJerkAt0 = FindMax(angularSPJerk);
-        //peakFlexAngVelocityAt0 = FindMax(angularFlexVel);
-        //peakFlexAngAccelerationAt0 = FindMax(angularFlexAccel);
-        //peakFlexAngJerkAt0 = FindMax(angularFlexJerk);
-        minFlexAngle = FindMin(imuData.flexAnglesMid);
+        peakFlexAngVelocityAt0 = FindMax(angularSPVel);
+        peakFlexAngAccelerationAt0 = FindMax(angularSPAccel);
+        peakFlexAngJerkAt0 = FindMax(angularSPJerk);
+        minFlexAngle = FindMin(kinectFlexAngleAt0);
 
 
         maxSPCWAngle = peakSPAngle;
-        maxSPCCWAngle = FindMin(imuData.spAnglesMid);
+        maxSPCCWAngle = FindMin(kinectSPAngleAt0);
 
         //Normalize peaks to a corresponding rating factor
-        rating += QuantifyPeak(maxVel, peakFlexAngVelocityAt0, peakAngVelFactor);
-        rating += QuantifyPeak(maxAcc, peakFlexAngAccelerationAt0, peakAngAccFactor);
-        rating += QuantifyPeak(maxJerk, peakFlexAngJerkAt0, peakAngJerkFactor);
+        rating += QuantifyPeak(maxVel, peakSPAngVelocityAt0, peakAngVelFactor);
+        rating += QuantifyPeak(maxAcc, peakSPAngAccelerationAt0, peakAngAccFactor);
+        rating += QuantifyPeak(maxJerk, peakSPAngJerkAt0, peakAngJerkFactor);
 
         //Calculate twisting ROM
         twistingROM = maxSPCWAngle - maxSPCCWAngle;
@@ -230,35 +221,6 @@ public class DataAnalysis
             }
         }
         return max;
-    }
-
-    private List<int> FindChangeInDirectionIndices(List<float> list)
-    {
-        List<int> directionChangeIndices = new List<int>();
-        int index = 1;
-        float diff = 0;
-        for(; index < list.Count; index++)
-        {
-            diff = list[index] - list[index - 1];
-            if(diff < 0)
-            {
-                directionChangeIndices.Add(index);
-            }
-        }
-        return directionChangeIndices;
-    }
-
-    private float FindMaxExtension(List<float> list, List<int> changeInDirectionIndices)
-    {
-        float min = 0;
-        foreach (int i in changeInDirectionIndices)
-        {
-            if (min > list[i])
-            {
-                min = list[i];
-            }
-        }
-        return min;
     }
 
     //potentially change to sensor data, keep a running min in main program

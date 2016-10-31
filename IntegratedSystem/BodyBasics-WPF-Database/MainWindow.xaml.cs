@@ -213,9 +213,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private List<Int16> gyroZBase = new List<Int16>();
         private List<int> timeStampsBase = new List<int>();
 
-        //Data structure to track trials
-        private TrialTracker trialTracker = new TrialTracker();
-
         //Data structure to collect patient data and analyze it to quantify LBD
         private DataAnalysis dataAnalysis = new DataAnalysis();
 
@@ -360,17 +357,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             ProcessSensorData = new Thread[threadCount];
             (ProcessSensorData[0] = new Thread(Processing1)).Start();
             (ProcessSensorData[1] = new Thread(Processing2)).Start();
-
-            trialBox.Items.Add(TrialTracker.flexAt0Trial1);
-            trialBox.Items.Add(TrialTracker.flexAt0Trial2);
-            trialBox.Items.Add(TrialTracker.flexAt0Trial3);
-            trialBox.Items.Add(TrialTracker.flexAt30LeftTrial1);
-            trialBox.Items.Add(TrialTracker.flexAt30LeftTrial2);
-            trialBox.Items.Add(TrialTracker.flexAt30LeftTrial3);
-            trialBox.Items.Add(TrialTracker.flexAt30RightTrial1);
-            trialBox.Items.Add(TrialTracker.flexAt30RightTrial2);
-            trialBox.Items.Add(TrialTracker.flexAt30RightTrial3);
-            trialBox.Items.Add(TrialTracker.spROMTrial);
         }
 
         /// <summary>
@@ -813,8 +799,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         //  start create files for Kinect and sensor and start to record data
         private void startRecording_Click(object sender, RoutedEventArgs e)
         {
-            string trial = trialBox.Text;
-            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count - 1, trial);
+            string trial = comboBox4.Text;
             string fpath = comboBox3.Text.Replace("\\","/") + "/";
             if (String.IsNullOrEmpty(fpath))
             {
@@ -921,9 +906,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             for (int i = 0; i < imuData.flexAnglesMid.Count; i++)
             {
                 flexAndSagittalAngleSW.WriteLine(imuData.flexAnglesMid[i] + " " +
-                    dataAnalysis.angularSPVel[i] + " " +
-                    dataAnalysis.angularSPAccel[i] + " " +
-                    dataAnalysis.angularSPJerk[i] + " " +
+                    imuData.gyroYMid[i] + " " +
+                    dataAnalysis.angularSPAccelIMU[i] + " " +
+                    dataAnalysis.angularSPJerkIMU[i] + " " +
                     imuData.transposedTSMid[i]);
             }
             try
@@ -1167,15 +1152,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         //wearableData.Add(wearable);
 
                         //Write to file
-                        try
-                        {
-                            sw2.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Windows.MessageBox.Show("Failed to write to file");
-                        }
-                        }
+                        sw2.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS);
+                    }
                 }
             }
         }
