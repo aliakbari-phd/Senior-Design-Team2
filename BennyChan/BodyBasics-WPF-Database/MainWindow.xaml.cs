@@ -8,6 +8,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -21,9 +22,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Threading;
     using System.Windows.Threading;
     using System.Windows.Forms;
+    using System.Windows.Controls;
+    using Microsoft.Kinect.VisualGestureBuilder;
 
     //Library added to allow for SQL database interactions
     using System.Data.SqlClient;
+    using DiscreteGestureBasics;
 
     /// Interaction logic for MainWindow
     public partial class MainWindow : Window, INotifyPropertyChanged
@@ -353,6 +357,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             comboBox3.Text = dialog.SelectedPath;
             BrowseFolderButton.IsEnabled = true;
+        }
+
+        private void FeedbackDisplayButton_Click(object sender, EventArgs e)
+        {
+            var form = new FeedbackDisplay();
+            form.Show(); // if you need non-modal window
+            FeedbackDisplayButton.IsEnabled = true;
         }
 
         /// <summary>
@@ -899,8 +910,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             string trial = comboBox4.Text;
 
-            string fpath = "C:/Users/BennyChan/Downloads/BodyBasics-WPF-Database/SD01/";
-            //string fpath = comboBox3.Text.Replace("\\","/") + "/";
+            //string fpath = "C:/Users/BennyChan/Downloads/BodyBasics-WPF-Database/SD01/";
+            string fpath = comboBox3.Text.Replace("\\","/") + "/";
             if (String.IsNullOrEmpty(fpath))
             {
                 fpath = Directory.GetCurrentDirectory().Replace("\\", "/") + "/SD01/";

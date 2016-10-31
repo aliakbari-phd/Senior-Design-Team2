@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/displayfeedback.gbd")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("patientdata.mdf")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("patientdata_log.ldf")]
 

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\
+E:\Google Drive\Senior Design\BennyChan\DiscreteGestureBasics-WPF\obj\x86\Debug\
 Microsoft.Samples.Kinect.DiscreteGestureBasics
 none
 false
 DEBUG;TRACE
-C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\DiscreteGestureBasics-WPF\App.xaml
+E:\Google Drive\Senior Design\BennyChan\DiscreteGestureBasics-WPF\App.xaml
 11151548125
 2807188008
 111310822883
 141998064385
 MainWindow.xaml;
 
-True
+False
 
