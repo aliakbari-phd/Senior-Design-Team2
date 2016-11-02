@@ -188,3 +188,27 @@ C:\Users\Alex\Documents\ECEN403GithubFixed\IntegratedSystem\BodyBasics-WPF-Datab
 C:\Users\Alex\Documents\ECEN403GithubFixed\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.g.resources
 C:\Users\Alex\Documents\ECEN403GithubFixed\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\Microsoft.Samples.Kinect.BodyBasics.Properties.Resources.resources
 C:\Users\Alex\Documents\ECEN403GithubFixed\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\PatientData.mdf
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\PatientData_log.ldf
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\BodyBasics-WPF.exe
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\BodyBasics-WPF.pdb
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\Microsoft.Kinect.dll
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\Microsoft.Kinect.xml
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.csprojResolveAssemblyReference.cache
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\MainWindow.baml
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\DDI.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\MainWindow.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\App.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF_Content.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF_MarkupCompile.cache
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF_MarkupCompile.lref
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\DDI.baml
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.g.resources
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\Microsoft.Samples.Kinect.BodyBasics.Properties.Resources.resources
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.exe
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.pdb
+E:\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+E:\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.exe
+E:\Google Drive\Senior Design\IntegratedSystem\BodyBasics-WPF-Database\obj\Debug\BodyBasics-WPF.pdb

@@ -208,3 +208,31 @@ E:\Downloads\Team7-LBD\obj\x86\Debug\FeedbackDisplay.baml
 E:\Downloads\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.g.resources
 E:\Downloads\Team7-LBD\obj\x86\Debug\Microsoft.Samples.Kinect.DiscreteGestureBasics.Properties.Resources.resources
 E:\Downloads\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.csproj.GenerateResource.Cache
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\DiscreteGestureBasics-WPF.exe.config
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.exe
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.pdb
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\PatientData.mdf
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\PatientData_log.ldf
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\Database\DisplayFeedback.gbd
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\Database\Seated.gbd
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\DiscreteGestureBasics-WPF.exe
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\DiscreteGestureBasics-WPF.pdb
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\Microsoft.Kinect.dll
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\Microsoft.Kinect.VisualGestureBuilder.dll
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\Microsoft.Kinect.xml
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\Microsoft.Kinect.VisualGestureBuilder.xml
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.csprojResolveAssemblyReference.cache
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\MainWindow.baml
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DDI.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\FeedbackDisplay.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\MainWindow.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\App.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF_Content.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF_MarkupCompile.cache
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF_MarkupCompile.lref
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DDI.baml
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\FeedbackDisplay.baml
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.g.resources
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\Microsoft.Samples.Kinect.DiscreteGestureBasics.Properties.Resources.resources
+C:\Users\BennyChan\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.csproj.GenerateResource.Cache
