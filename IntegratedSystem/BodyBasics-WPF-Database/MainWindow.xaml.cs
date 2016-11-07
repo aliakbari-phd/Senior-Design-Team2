@@ -371,6 +371,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             trialBox.Items.Add(TrialTracker.flexAt30RightTrial2);
             trialBox.Items.Add(TrialTracker.flexAt30RightTrial3);
             trialBox.Items.Add(TrialTracker.spROMTrial);
+
+            genderBox.Items.Add("Male");
+            genderBox.Items.Add("Female");
         }
 
         /// <summary>
