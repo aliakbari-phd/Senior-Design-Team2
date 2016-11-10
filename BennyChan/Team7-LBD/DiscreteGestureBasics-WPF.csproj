@@ -104,6 +104,9 @@
     </Compile>
     <Compile Include="SensorData.cs" />
     <Compile Include="StandingResultView.cs" />
+    <Compile Include="DisplayGraph.xaml.cs">
+      <DependentUpon>DisplayGraph.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZeroResultView.cs" />
     <Page Include="DDI.xaml">
       <SubType>Designer</SubType>
@@ -124,6 +127,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DisplayGraph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
