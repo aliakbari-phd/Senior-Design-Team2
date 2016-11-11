@@ -49,5 +49,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //}
             //anglesList.DataContext = stringList;
         }
+
+        private void GraphDisplayButton_Click(object sender, EventArgs e)
+        {
+            var form = new Graph.DisplayGraph();
+            form.Show(); // if you need non-modal window
+            GraphDisplayButton.IsEnabled = true;
+        }
     }
 }

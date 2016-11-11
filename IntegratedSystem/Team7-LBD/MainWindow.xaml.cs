@@ -271,6 +271,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             FeedbackDisplayButton.IsEnabled = true;
         }
 
+        private void GraphDisplayButton_Click(object sender, EventArgs e)
+        {
+            var form = new Graph.DisplayGraph();
+            form.Show(); // if you need non-modal window
+            GraphDisplayButton.IsEnabled = true;
+        }
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>

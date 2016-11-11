@@ -97,6 +97,9 @@
     <Compile Include="DDI.xaml.cs">
       <DependentUpon>DDI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DisplayGraph.xaml.cs">
+      <DependentUpon>DisplayGraph.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IMUData.cs" />
     <Compile Include="KinectFeedback.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -107,6 +110,10 @@
     <Compile Include="TrialTracker.cs" />
     <Compile Include="ZeroResultView.cs" />
     <Page Include="DDI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DisplayGraph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
