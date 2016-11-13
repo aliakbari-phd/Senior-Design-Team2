@@ -35,6 +35,7 @@ public class KinectFeedback
         initialPosRS = new List<float>();
         initialPosSS = new List<float>();
         initialPosSB = new List<float>();
+        initialPosSM = new List<float>();
         sagittalAngles = new List<float>();
         flexAngles = new List<float>();
     }

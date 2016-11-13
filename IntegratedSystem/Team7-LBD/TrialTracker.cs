@@ -27,6 +27,18 @@ public class TrialTracker
     public int flexAt30RightT1Index;
     public int flexAt30RightT2Index;
     public int flexAt30RightT3Index;
+    public int sagittalTrialIndex;
+
+    public int flexAt0T1IndexEnd;
+    public int flexAt0T2IndexEnd;
+    public int flexAt0T3IndexEnd;
+    public int flexAt30LeftT1IndexEnd;
+    public int flexAt30LeftT2IndexEnd;
+    public int flexAt30LeftT3IndexEnd;
+    public int flexAt30RightT1IndexEnd;
+    public int flexAt30RightT2IndexEnd;
+    public int flexAt30RightT3IndexEnd;
+    public int sagittalTrialIndexEnd;
 
     public TrialTracker()
 	{
@@ -39,6 +51,15 @@ public class TrialTracker
         flexAt30RightT1Index = 0;
         flexAt30RightT2Index = 0;
         flexAt30RightT3Index = 0;
+        flexAt0T1IndexEnd = 0;
+        flexAt0T2IndexEnd = 0;
+        flexAt0T3IndexEnd = 0;
+        flexAt30LeftT1IndexEnd = 0;
+        flexAt30LeftT2IndexEnd = 0;
+        flexAt30LeftT3IndexEnd = 0;
+        flexAt30RightT1IndexEnd = 0;
+        flexAt30RightT2IndexEnd = 0;
+        flexAt30RightT3IndexEnd = 0;
         trialsCompleted = new List<bool>();
         for(int i = 0; i < totalNumTrials; i++)
         {
@@ -56,7 +77,7 @@ public class TrialTracker
         return allTrialsComplete;
     }
 
-    public void setTrialIndexWithTrialString(int index, string trialName)
+    public void setTrialIndexWithTrialString(int index, string trialName, bool isEnd)
     {
         // On first trial, set index to 0
         if(index < 0)
@@ -67,43 +88,153 @@ public class TrialTracker
         switch(trialName)
         {
             case flexAt0Trial1:
-                flexAt0T1Index = index;
-                trialsCompleted[0] = true;
+                if (!isEnd)
+                {
+                    flexAt0T1Index = index;
+                }
+                else
+                {
+                    flexAt0T1IndexEnd = index;
+                }
                 break;
             case flexAt0Trial2:
-                flexAt0T2Index = index;
-                trialsCompleted[1] = true;
+                if (!isEnd)
+                {
+                    flexAt0T2Index = index;
+                }
+                else
+                {
+                    flexAt0T2IndexEnd = index;
+                }
                 break;
             case flexAt0Trial3:
-                flexAt0T3Index = index;
-                trialsCompleted[2] = true;
+                if (!isEnd)
+                {
+                    flexAt0T3Index = index;
+                }
+                else
+                {
+                    flexAt0T3IndexEnd = index;
+                }
                 break;
             case flexAt30LeftTrial1:
-                flexAt30LeftT1Index = index;
-                trialsCompleted[3] = true;
+                if (!isEnd)
+                {
+                    flexAt30LeftT1Index = index;
+                }
+                else
+                {
+                    flexAt30LeftT1IndexEnd = index;
+                }
                 break;
             case flexAt30LeftTrial2:
-                flexAt30LeftT2Index = index;
-                trialsCompleted[4] = true;
+                if (!isEnd)
+                {
+                    flexAt30LeftT2Index = index;
+                }
+                else
+                {
+                    flexAt30LeftT2IndexEnd = index;
+                }
                 break;
             case flexAt30LeftTrial3:
-                flexAt30LeftT3Index = index;
-                trialsCompleted[5] = true;
+                if (!isEnd)
+                {
+                    flexAt30LeftT3Index = index;
+                }
+                else
+                {
+                    flexAt30LeftT3IndexEnd = index;
+                }
                 break;
             case flexAt30RightTrial1:
-                flexAt30RightT1Index = index;
-                trialsCompleted[6] = true;
+                if (!isEnd)
+                {
+                    flexAt30RightT1Index = index;
+                }
+                else
+                {
+                    flexAt30RightT1IndexEnd = index;
+                }
                 break;
             case flexAt30RightTrial2:
-                flexAt30RightT2Index = index;
-                trialsCompleted[7] = true;
+                if (!isEnd)
+                {
+                    flexAt30RightT2Index = index;
+                }
+                else
+                {
+                    flexAt30RightT2IndexEnd = index;
+                }
                 break;
             case flexAt30RightTrial3:
-                flexAt30RightT3Index = index;
-                trialsCompleted[8] = true;
+                if (!isEnd)
+                {
+                    flexAt30RightT3Index = index;
+                }
+                else
+                {
+                    flexAt30RightT3IndexEnd = index;
+                }
                 break;
             case spROMTrial:
-                trialsCompleted[9] = true;
+                if (!isEnd)
+                {
+                    sagittalTrialIndex = index;
+                }
+                else
+                {
+                    sagittalTrialIndexEnd = index;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void getTrialIndexWithTrialString(string trialName, int startIndice, int endIndice)
+    {
+        switch (trialName)
+        {
+            case flexAt0Trial1:
+                startIndice = flexAt0T1Index;
+                endIndice = flexAt0T1IndexEnd;
+                break;
+            case flexAt0Trial2:
+                startIndice = flexAt0T2Index;
+                endIndice = flexAt0T2IndexEnd;
+                break;
+            case flexAt0Trial3:
+                startIndice = flexAt0T3Index;
+                endIndice = flexAt0T3IndexEnd;
+                break;
+            case flexAt30LeftTrial1:
+                startIndice = flexAt30LeftT1Index;
+                endIndice = flexAt30LeftT1IndexEnd;
+                break;
+            case flexAt30LeftTrial2:
+                startIndice = flexAt30LeftT2Index;
+                endIndice = flexAt30LeftT2IndexEnd;
+                break;
+            case flexAt30LeftTrial3:
+                startIndice = flexAt30LeftT3Index;
+                endIndice = flexAt30LeftT3IndexEnd;
+                break;
+            case flexAt30RightTrial1:
+                startIndice = flexAt30RightT1Index;
+                endIndice = flexAt30RightT1IndexEnd;
+                break;
+            case flexAt30RightTrial2:
+                startIndice = flexAt30RightT2Index;
+                endIndice = flexAt30RightT2IndexEnd;
+                break;
+            case flexAt30RightTrial3:
+                startIndice = flexAt30RightT3Index;
+                endIndice = flexAt30RightT3IndexEnd;
+                break;
+            case spROMTrial:
+                startIndice = sagittalTrialIndex;
+                endIndice = sagittalTrialIndexEnd;
                 break;
             default:
                 break;

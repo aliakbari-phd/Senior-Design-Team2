@@ -210,15 +210,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         //Data structures to collect IMU data
         private List<float> gyroXMid = new List<float>();
         private List<float> gyroYMid = new List<float>();
-        private List<Int16> gyroZMid = new List<Int16>();
         private List<int> timeStampsMid = new List<int>();
-        private List<Int16> gyroXBase = new List<Int16>();
-        private List<Int16> gyroYBase = new List<Int16>();
-        private List<Int16> gyroZBase = new List<Int16>();
-        private List<int> timeStampsBase = new List<int>();
 
         //Data structure to track trials
         private TrialTracker trialTracker = new TrialTracker();
+
+        IMUData imuData = new IMUData();
 
         //Data structure to collect patient data and analyze it to quantify LBD
         private DataAnalysis dataAnalysis = new DataAnalysis();
@@ -271,11 +268,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             FeedbackDisplayButton.IsEnabled = true;
         }
 
-        private void GraphDisplayButton_Click(object sender, EventArgs e)
+        private void DDIButton_Click(object sender, EventArgs e)
         {
-            var form = new Graph.DisplayGraph();
+            ApplicationState.dataAnalysis = dataAnalysis;
+            var form = new DDI();
             form.Show(); // if you need non-modal window
-            GraphDisplayButton.IsEnabled = true;
+            DDIButton.IsEnabled = true;
         }
 
         /// <summary>
@@ -474,8 +472,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         /// <param name="sender">object sending the event</param>
         /// <param name="e">event arguments</param>
-        /// 
-        List<List<float>> kinectData = default(List<List<float>>);
         private void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             bool dataReceived = false;
@@ -835,7 +831,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void startRecording_Click(object sender, RoutedEventArgs e)
         {
             string trial = trialBox.Text;
-            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count - 1, trial);
+            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count - 1, trial, false /*Setting End Index?*/);
             string fpath = comboBox3.Text.Replace("\\", "/") + "/";
             if (String.IsNullOrEmpty(fpath))
             {
@@ -902,6 +898,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void finishTest()
         {
+            string trial = trialBox.Text;
+            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count - 1, trial, true /*Setting End Index?*/);
             kinect_start = 0;
             stop = 1;
             try
@@ -924,11 +922,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 System.Windows.MessageBox.Show("Incorrect file path, could not close");
             }
-            // Collect the two IMU's Data
-            IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase);
             try
             {
-                imuData.getAngles();
+                int startIndice = 0;
+                int endIndice = 0;
+                trialTracker.getTrialIndexWithTrialString(trial, startIndice, endIndice);
+                imuData.getAngles(gyroXMid, gyroYMid, timeStampsMid, startIndice, endIndice);
             }
             catch (Exception ex)
             {
@@ -1008,11 +1007,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             ButtonStop.IsEnabled = false;
             timeStampsMid.Clear();
             gyroYMid.Clear();
-
-            ApplicationState.dataAnalysis = dataAnalysis;
-
-            var form = new DDI();
-            form.Show(); // if you need non-modal window
 
             //Reset all of the kinect feedback status
             kinectFeedback.Reset();
@@ -1162,30 +1156,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int millisecond = datenow.Millisecond;
                         int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
                         //Collect data into list
-
-                        //// Add Accelerometer
-                        //wearable.Add(BitConverter.ToInt16(convert, 22));
-                        //wearable.Add(BitConverter.ToInt16(convert, 20));
-                        //wearable.Add(BitConverter.ToInt16(convert, 18));
-
-                        //// Add Gyroscope data
-                        //wearable.Add(BitConverter.ToInt16(convert, 16));
-                        //wearable.Add(BitConverter.ToInt16(convert, 14));
-                        //wearable.Add(BitConverter.ToInt16(convert, 12));
                         gyroXMid.Add((float)(BitConverter.ToInt16(convert, 16) / 32.75));
                         gyroYMid.Add((float)(BitConverter.ToInt16(convert, 14) / 32.75));
-                        gyroZMid.Add(BitConverter.ToInt16(convert, 12));
                         timeStampsMid.Add(timestampS);
-
-
-                        //// Add Magnetometer data
-                        //wearable.Add(BitConverter.ToInt16(convert, 10));
-                        //wearable.Add(BitConverter.ToInt16(convert, 8));
-                        //wearable.Add(BitConverter.ToInt16(convert, 6));
-
-                        //// Add timestamp
-                        //wearable.Add((Int16)(timestampS));
-                        //wearableData.Add(wearable);
 
                         //Write to file
                         try
@@ -1255,11 +1228,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int second = datenow.Second;
                         int millisecond = datenow.Millisecond;
                         int timestampS2 = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
-
-                        gyroXBase.Add(BitConverter.ToInt16(convert, 16));
-                        gyroYBase.Add(BitConverter.ToInt16(convert, 14));
-                        gyroZBase.Add(BitConverter.ToInt16(convert, 12));
-                        timeStampsMid.Add(timestampS2);
 
                         sw3.WriteLine(BitConverter.ToInt16(convert, 22) + " " + BitConverter.ToInt16(convert, 20) + " " + BitConverter.ToInt16(convert, 18) + " " + BitConverter.ToInt16(convert, 16) + " " + BitConverter.ToInt16(convert, 14) + " " + BitConverter.ToInt16(convert, 12) + " " + BitConverter.ToInt16(convert, 10) + " " + BitConverter.ToInt16(convert, 8) + " " + BitConverter.ToInt16(convert, 6) + " " + timestampS2);
                     }

@@ -7,12 +7,7 @@ public class IMUData
     // gyroXMid[1] corresponds to gyroYMid[1] and timeStampsMid[1])
     public List<float> gyroXMid;
     public List<float> gyroYMid;
-    public List<Int16> gyroZMid;
     public List<int> timeStampsMid;
-    public List<Int16> gyroXBase;
-    public List<Int16> gyroYBase;
-    public List<Int16> gyroZBase;
-    public List<int> timeStampsBase;
 
     public List<float> transposedTSMid;
     public List<float> transposedTSBase;
@@ -25,29 +20,36 @@ public class IMUData
 
     public float timeIntervals = 0;
 
-    public IMUData
-    (
-        List<float> gXMid, 
-        List<float> gYMid, 
-        List<Int16> gZMid, 
-        List<int> timeSMid,
-        List<Int16> gXBase,
-        List<Int16> gYBase,
-        List<Int16> gZBase,
-        List<int> timeSBase
-    )
+    public IMUData()
 	{
-        gyroXMid = gXMid;
-        gyroYMid = gYMid;
-        gyroZMid = gZMid;
-        timeStampsMid = timeSMid;
-        gyroXBase = gXBase;
-        gyroYBase = gYBase;
-        gyroZBase = gZBase;
-        timeStampsBase = timeSBase;
+        gyroXMid = new List<float>();
+        gyroYMid = new List<float>();
+        timeStampsMid = new List<int>();
         transposedTSMid = new List<float>();
         flexAnglesMid = new List<float>();
         spAnglesMid = new List<float>();
+    }
+
+    public void constructTrialList
+    (
+        List<float> gXMid,
+        List<float> gYMid,
+        List<int> timeSMid,
+        int startIndice,
+        int endIndice
+    )
+    {
+        List<float> trialListX = new List<float>();
+        List<float> trialListY = new List<float>();
+        List<float> trialTimestamps = new List<float>();
+        for (int i = startIndice; i < endIndice; i++)
+        {
+            trialListX.Add(gXMid[i]);
+            trialListY.Add(gYMid[i]);
+            trialTimestamps.Add(timeSMid[i]);
+        }
+        gyroXMid = trialListX;
+        gyroYMid = trialListY;
     }
 
 
@@ -94,8 +96,16 @@ public class IMUData
         }
     }
 
-    public void getAngles()
+    public void getAngles
+    (
+        List<float> gXMid,
+        List<float> gYMid,
+        List<int> timeSMid,
+        int startIndice,
+        int endIndice
+    )
     {
+        constructTrialList(gXMid, gYMid, timeSMid, startIndice, endIndice);
         transposeTimeStamps();
         cumTrapz();
     }
