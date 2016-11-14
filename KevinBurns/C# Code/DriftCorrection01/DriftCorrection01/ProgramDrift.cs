@@ -15,6 +15,10 @@ namespace DriftCorrection01
             List<double> Timestamps2 = new List<double>();
             List<double> Input1 = new List<double>();
             List<double> Input2 = new List<double>();
+            List<double> PeakValuesHolder = new List<double>();
+            List<double> PeakTimeHolder = new List<double>();
+            List<double> TruePeakHolder = new List<double>();
+            List<double> TruePeakTimeHolder = new List<double>();
             string path1 = @"C:\Users\burns\Desktop\403\MATLAB Codes\test1_vel.txt";
             string path2 = @"C:\Users\burns\Desktop\403\MATLAB Codes\test2_vel.txt";
             int I1Eletracker = 0;
@@ -30,6 +34,7 @@ namespace DriftCorrection01
             int I1CorEle = 0;
             int I2CorEle = 0;
             double CorrectionFactor;
+            double ispeak;
 
             using (TextReader reader = File.OpenText(path1))
             {
@@ -72,8 +77,21 @@ namespace DriftCorrection01
 
             for (int i1iter = 0; i1iter < Input1.Count; i1iter++)
             {
-                I1container = Input1[I1Ele] + I1container;
-                I1Ele = I1Ele+1;                                    //Sum
+                if (Input1[i1iter] > Input1[i1iter - 1] && Input1[i1iter + 1] < Input1[i1iter])
+                {
+                    ispeak = Input1[i1iter];
+                }
+
+                PeakValuesHolder.Add(ispeak);
+                PeakTimeHolder.Add(Timestamps1[i1iter]);
+            }
+            for (int peakiter = 0; peakiter < PeakValuesHolder.Count; peakiter++)
+            {
+                if (PeakTimeHolder[peakiter + 1] - PeakTimeHolder[peakiter] > 1)
+                {
+                    TruePeakHolder.Add(PeakValuesHolder[peakiter]);
+                    TruePeakTimeHolder.Add(PeakTimeHolder[peakiter]);
+                }
             }
 
             CorrectionFactor = I1container / Input1.Count;          //Average
