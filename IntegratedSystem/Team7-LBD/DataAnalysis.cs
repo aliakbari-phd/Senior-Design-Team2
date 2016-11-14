@@ -37,14 +37,97 @@ public class DataAnalysis
     public double maxSPCWAngle;
     public double maxSPCCWAngle;
 
-    public List<float> kinectSPAngleAt0;
-    List<float> kinectFlexAngleAt0;
-    public List<float> angularSPVel;
-    public List<float> angularFlexVel;
-    public List<float> angularSPAccel;
-    public List<float> angularSPJerk;
-    public List<float> angularFlexAccel;
-    public List<float> angularFlexJerk;
+    public List<float> kinectSPAngleAt0T1;
+
+    public List<float> angularFlexVelAt0T1;
+    public List<float> angularSPVelAt0T1;
+
+    public List<float> angularFlexAccelAt0T1;
+    public List<float> angularSPAccelAt0T1;
+
+    public List<float> angularFlexJerkAt0T1;
+    public List<float> angularSPJerkAt0T1;
+
+    public List<float> angularFlexVelAt0T2;
+    public List<float> angularSPVelAt0T2;
+
+    public List<float> angularFlexAccelAt0T2;
+    public List<float> angularSPAccelAt0T2;
+
+    public List<float> angularFlexJerkAt0T2;
+    public List<float> angularSPJerkAt0T2;
+
+    public List<float> angularFlexVelAt0T3;
+    public List<float> angularSPVelAt0T3;
+
+    public List<float> angularFlexAccelAt0T3;
+    public List<float> angularSPAccelAt0T3;
+
+    public List<float> angularFlexJerkAt0T3;
+    public List<float> angularSPJerkAt0T3;
+
+    public List<float> angularFlexVelAt30LeftT1;
+    public List<float> angularSPVelAt30LeftT1;
+
+    public List<float> angularFlexAccelAt30LeftT1;
+    public List<float> angularSPAccelAt30LeftT1;
+
+    public List<float> angularFlexJerkAt30LeftT1;
+    public List<float> angularSPJerkAt30LeftT1;
+
+    public List<float> angularFlexVelAt30LeftT2;
+    public List<float> angularSPVelAt30LeftT2;
+
+    public List<float> angularFlexAccelAt30LeftT2;
+    public List<float> angularSPAccelAt30LeftT2;
+
+    public List<float> angularFlexJerkAt30LeftT2;
+    public List<float> angularSPJerkAt30LeftT2;
+
+    public List<float> angularFlexVelAt30LeftT3;
+    public List<float> angularSPVelAt30LeftT3;
+
+    public List<float> angularFlexAccelAt30LeftT3;
+    public List<float> angularSPAccelAt30LeftT3;
+
+    public List<float> angularFlexJerkAt30LeftT3;
+    public List<float> angularSPJerkAt30LeftT3;
+
+    public List<float> angularFlexVelAt30RightT1;
+    public List<float> angularSPVelAt30RightT1;
+
+    public List<float> angularFlexAccelAt30RightT1;
+    public List<float> angularSPAccelAt30RightT1;
+
+    public List<float> angularFlexJerkAt30RightT1;
+    public List<float> angularSPJerkAt30RightT1;
+
+    public List<float> angularFlexVelAt30RightT2;
+    public List<float> angularSPVelAt30RightT2;
+
+    public List<float> angularFlexAccelAt30RightT2;
+    public List<float> angularSPAccelAt30RightT2;
+
+    public List<float> angularFlexJerkAt30RightT2;
+    public List<float> angularSPJerkAt30RightT2;
+
+    public List<float> angularFlexVelAt30RightT3;
+    public List<float> angularSPVelAt30RightT3;
+
+    public List<float> angularFlexAccelAt30RightT3;
+    public List<float> angularSPAccelAt30RightT3;
+
+    public List<float> angularFlexJerkAt30RightT3;
+    public List<float> angularSPJerkAt30RightT3;
+
+    public List<float> sagittalTrialFlexVel;
+    public List<float> sagittalTrialSPVel;
+
+    public List<float> sagittalTrialFlexAccel;
+    public List<float> sagittalTrialSPAccel;
+
+    public List<float> sagittalTrialFlexJerk;
+    public List<float> sagittalTrialSPJerk;
 
     public List<float> timeStampsAngleAt0;
     //public List<float> angularSPAccelIMU;
@@ -60,21 +143,21 @@ public class DataAnalysis
         patientID = 0;
         gender = true;
         age = 20;
-        kinectSPAngleAt0 = new List<float>();
-        kinectFlexAngleAt0 = new List<float>();
-        angularSPVel = new List<float>();
-        angularFlexVel = new List<float>();
-        angularSPAccel = new List<float>();
-        angularFlexAccel = new List<float>();
-        angularSPJerk = new List<float>();
-        angularFlexJerk = new List<float>();
+        kinectSPAngleAt0T1 = new List<float>();
+        kinectSPAngleAt0T1 = new List<float>();
+        angularSPVelAt0T1 = new List<float>();
+        angularFlexVelAt0T1 = new List<float>();
+        angularSPAccelAt0T1 = new List<float>();
+        angularFlexAccelAt0T1 = new List<float>();
+        angularSPJerkAt0T1 = new List<float>();
+        angularFlexJerkAt0T1 = new List<float>();
         timeStampsAngleAt0 = new List<float>();
 }
 
     public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu)
     {
-        kinectSPAngleAt0 = kinectSPAngles;
-        kinectFlexAngleAt0 = kinectFlexAngles;
+        kinectSPAngleAt0T1 = kinectSPAngles;
+        kinectSPAngleAt0T1 = kinectFlexAngles;
         imuData = imu;
     }
 
@@ -106,50 +189,26 @@ public class DataAnalysis
         peakFlexAngAccelerationAt0 = 0;
         peakFlexAngJerkAt0 = 0;
         float minFlexAngle = 0;
-        //Retrieve SP Angular Velocity, Acceleration, and Jerk
-        //List<Int16> spAngVelocityAt0 = correctedData.wearableSensor1Data[0];
-        //List<Int16> spAngAccelerationAt0 = CalcStepDerivative(correctedData.wearableSensor1Data[0],step);
-        //List<Int16> spAngJerkAt0 = CalcStepDerivative(spAngAccelerationAt0,step);
-        //Retrieve the peaks of each
-        //peakSPAngVelocityAt0 = FindMax(spAngVelocityAt0);
-        //peakSPAngAccelerationAt0 = FindMax(spAngAccelerationAt0);
-        //peakSPAngJerkAt0 = FindMax(spAngJerkAt0);
-        //angularSPVel = CalcStepDerivative(kinectSPAngleAt0, step);
-        //angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, step);
-        //angularSPAccel = CalcStepDerivative(angularSPVel, step);
-        //angularFlexAccel = CalcStepDerivative(angularFlexVel, step);
-        //angularSPJerk = CalcStepDerivative(angularSPAccel, step);
-        //angularFlexJerk = CalcStepDerivative(angularFlexAccel, step);
 
-
-        //angularSPVel = CalcStepDerivative(kinectSPAngleAt0, imuData.timeStampsMid);
-        //angularFlexVel = CalcStepDerivative(kinectFlexAngleAt0, imuData.timeStampsMid);
-        //angularSPAccel = CalcStepDerivative(angularSPVel, imuData.timeStampsMid);
-        //angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
-        //angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
-        //angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
-
-        angularSPVel = CalcStepDerivative(imuData.spAnglesMid, imuData.timeStampsMid);
-        angularFlexVel = CalcStepDerivative(imuData.flexAnglesMid, imuData.timeStampsMid);
-        angularSPAccel = CalcStepDerivative(angularSPVel, imuData.timeStampsMid);
-        angularFlexAccel = CalcStepDerivative(angularFlexVel, imuData.timeStampsMid);
-        angularSPJerk = CalcStepDerivative(angularSPAccel, imuData.timeStampsMid);
-        angularFlexJerk = CalcStepDerivative(angularFlexAccel, imuData.timeStampsMid);
+        angularSPVelAt0T1 = CalcStepDerivative(imuData.spAnglesMid, imuData.timeStampsMid);
+        angularFlexVelAt0T1 = CalcStepDerivative(imuData.flexAnglesMid, imuData.timeStampsMid);
+        angularSPAccelAt0T1 = CalcStepDerivative(angularSPVelAt0T1, imuData.timeStampsMid);
+        angularFlexAccelAt0T1 = CalcStepDerivative(angularFlexVelAt0T1, imuData.timeStampsMid);
+        angularSPJerkAt0T1 = CalcStepDerivative(angularSPAccelAt0T1, imuData.timeStampsMid);
+        angularFlexJerkAt0T1 = CalcStepDerivative(angularFlexAccelAt0T1, imuData.timeStampsMid);
 
         List<int> extensionIndices = new List<int>();
         extensionIndices = FindChangeInDirectionIndices(imuData.flexAnglesMid);
-        peakFlexAngVelocityAt0 = FindMaxExtension(angularFlexVel, extensionIndices)*-1;
-        peakFlexAngAccelerationAt0 = FindMaxExtension(angularFlexAccel, extensionIndices)*-1;
-        peakFlexAngJerkAt0 = FindMaxExtension(angularFlexJerk, extensionIndices)*-1;
+        peakFlexAngVelocityAt0 = FindMaxExtension(angularFlexVelAt0T1, extensionIndices)*-1;
+        peakFlexAngAccelerationAt0 = FindMaxExtension(angularFlexAccelAt0T1, extensionIndices)*-1;
+        peakFlexAngJerkAt0 = FindMaxExtension(angularFlexJerkAt0T1, extensionIndices)*-1;
 
         peakSPAngle = FindMax(imuData.spAnglesMid);
         peakFlexAngle = FindMax(imuData.flexAnglesMid);
-        peakSPAngVelocityAt0 = FindMax(angularSPVel);
-        peakSPAngAccelerationAt0 = FindMax(angularSPAccel);
-        peakSPAngJerkAt0 = FindMax(angularSPJerk);
-        //peakFlexAngVelocityAt0 = FindMax(angularFlexVel);
-        //peakFlexAngAccelerationAt0 = FindMax(angularFlexAccel);
-        //peakFlexAngJerkAt0 = FindMax(angularFlexJerk);
+        peakSPAngVelocityAt0 = FindMax(angularSPVelAt0T1);
+        peakSPAngAccelerationAt0 = FindMax(angularSPAccelAt0T1);
+        peakSPAngJerkAt0 = FindMax(angularSPJerkAt0T1);
+
         minFlexAngle = FindMin(imuData.flexAnglesMid);
 
 

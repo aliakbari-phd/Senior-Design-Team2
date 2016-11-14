@@ -927,7 +927,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 int startIndice = 0;
                 int endIndice = 0;
                 trialTracker.getTrialIndexWithTrialString(trial, startIndice, endIndice);
-                imuData.getAngles(gyroXMid, gyroYMid, timeStampsMid, startIndice, endIndice);
+                imuData.getAngles(gyroXMid, gyroYMid, timeStampsMid, startIndice, endIndice, trial);
             }
             catch (Exception ex)
             {
@@ -940,11 +940,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             for (int i = 0; i < imuData.flexAnglesMid.Count; i++)
             {
-                flexAndSagittalAngleSW.WriteLine(imuData.flexAnglesMid[i] + " " +
-                    dataAnalysis.angularSPVel[i] + " " +
-                    dataAnalysis.angularSPAccel[i] + " " +
-                    dataAnalysis.angularSPJerk[i] + " " +
-                    imuData.transposedTSMid[i]);
+                //flexAndSagittalAngleSW.WriteLine(imuData.flexAnglesMid[i] + " " +
+                //    dataAnalysis.angularSPVel[i] + " " +
+                //    dataAnalysis.angularSPAccel[i] + " " +
+                //    dataAnalysis.angularSPJerk[i] + " " +
+                //    imuData.transposedTSMid[i]);
             }
             try
             {
