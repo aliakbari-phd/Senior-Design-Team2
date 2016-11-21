@@ -192,7 +192,7 @@ public class TrialTracker
         }
     }
 
-    public void getTrialIndexWithTrialString(string trialName, int startIndice, int endIndice)
+    public void getTrialIndexWithTrialString(string trialName, ref int startIndice, ref int endIndice)
     {
         switch (trialName)
         {

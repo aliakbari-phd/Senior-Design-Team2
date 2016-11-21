@@ -270,6 +270,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void DDIButton_Click(object sender, EventArgs e)
         {
+            dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData);
+            dataAnalysis.QuantifyLBD();
             ApplicationState.dataAnalysis = dataAnalysis;
             var form = new DDI();
             form.Show(); // if you need non-modal window
@@ -831,7 +833,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void startRecording_Click(object sender, RoutedEventArgs e)
         {
             string trial = trialBox.Text;
-            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count - 1, trial, false /*Setting End Index?*/);
+            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count, trial, false /*Setting End Index?*/);
             string fpath = comboBox3.Text.Replace("\\", "/") + "/";
             if (String.IsNullOrEmpty(fpath))
             {
@@ -899,7 +901,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void finishTest()
         {
             string trial = trialBox.Text;
-            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count - 1, trial, true /*Setting End Index?*/);
+            trialTracker.setTrialIndexWithTrialString(gyroYMid.Count, trial, true /*Setting End Index?*/);
             kinect_start = 0;
             stop = 1;
             try
@@ -926,16 +928,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 int startIndice = 0;
                 int endIndice = 0;
-                trialTracker.getTrialIndexWithTrialString(trial, startIndice, endIndice);
+                trialTracker.getTrialIndexWithTrialString(trial, ref startIndice, ref endIndice);
                 imuData.getAngles(gyroXMid, gyroYMid, timeStampsMid, startIndice, endIndice, trial);
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("IMU Data did not collect data, check connection!");
             }
-
-            dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData);
-            dataAnalysis.QuantifyLBD();
 
 
             for (int i = 0; i < imuData.flexAnglesMid.Count; i++)
@@ -1005,8 +1004,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             startRecording.IsEnabled = true;
             ButtonStop.IsEnabled = false;
-            timeStampsMid.Clear();
-            gyroYMid.Clear();
+            //timeStampsMid.Clear();
+            //gyroYMid.Clear();
 
             //Reset all of the kinect feedback status
             kinectFeedback.Reset();

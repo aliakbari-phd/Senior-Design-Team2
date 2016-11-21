@@ -45,6 +45,17 @@ public class IMUData
     public List<float> sagittalTrialFlexAngles;
     public List<float> sagittalTrialSPAngles;
 
+    public List<float> transposedTSMidAt0T1;
+    public List<float> transposedTSMidAt0T2;
+    public List<float> transposedTSMidAt0T3;
+    public List<float> transposedTSMidAt30LeftT1;
+    public List<float> transposedTSMidAt30LeftT2;
+    public List<float> transposedTSMidAt30LeftT3;
+    public List<float> transposedTSMidAt30RightT1;
+    public List<float> transposedTSMidAt30RightT2;
+    public List<float> transposedTSMidAt30RightT3;
+    public List<float> transposedTSMidSagittalTrial;
+
     //private static double gyroCorrectionFactor = 32.75;
 
     public float timeIntervals = 0;
@@ -77,6 +88,17 @@ public class IMUData
         spAnglesAt30RightT3 = new List<float>();
         sagittalTrialFlexAngles = new List<float>();
         sagittalTrialSPAngles = new List<float>();
+
+        transposedTSMidAt0T1 = new List<float>();
+        transposedTSMidAt0T2 = new List<float>();
+        transposedTSMidAt0T3 = new List<float>();
+        transposedTSMidAt30LeftT1 = new List<float>();
+        transposedTSMidAt30LeftT2 = new List<float>();
+        transposedTSMidAt30LeftT3 = new List<float>();
+        transposedTSMidAt30RightT1 = new List<float>();
+        transposedTSMidAt30RightT2 = new List<float>();
+        transposedTSMidAt30RightT3 = new List<float>();
+        transposedTSMidSagittalTrial = new List<float>();
     }
 
     public void constructTrialList
@@ -91,6 +113,9 @@ public class IMUData
         List<float> trialListX = new List<float>();
         List<float> trialListY = new List<float>();
         List<int> trialTimestamps = new List<int>();
+        gyroXMid.Clear();
+        gyroYMid.Clear();
+        timeStampsMid.Clear();
         for (int i = startIndice; i < endIndice; i++)
         {
             trialListX.Add(gXMid[i]);
@@ -115,7 +140,7 @@ public class IMUData
         //}
         float timePassed = (timeStampsMid[timeStampsMid.Count - 1] - timeStampsMid[0]) / 1000;
         timeIntervals = timePassed / timeStampsMid.Count;
-        for (int i = 0; i < timeStampsMid.Count; i++)
+        for (int i = 1; i < timeStampsMid.Count; i++)
         {
             time = (timeStampsMid[i] - begTimeStampMid);
             time = time / 1000;
@@ -160,6 +185,9 @@ public class IMUData
         transposeTimeStamps();
         cumTrapz();
         parseTrialString(trialName);
+        transposedTSMid.Clear();
+        flexAnglesMid.Clear();
+        spAnglesMid.Clear();
     }
 
     private void parseTrialString
@@ -170,47 +198,71 @@ public class IMUData
         switch (trialName)
         {
             case TrialTracker.flexAt0Trial1:
-                flexAnglesAt0T1 = flexAnglesMid;
-                spAnglesAt0T1 = spAnglesMid;
+                //flexAnglesAt0T1 = flexAnglesMid;
+                //spAnglesAt0T1 = spAnglesMid;
+                //transposedTSMidAt0T1 = transposedTSMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt0T1);
+                copyListByValue(spAnglesMid, spAnglesAt0T1);
+                copyListByValue(transposedTSMid, transposedTSMidAt0T1);
                 break;
             case TrialTracker.flexAt0Trial2:
-                flexAnglesAt0T2 = flexAnglesMid;
-                spAnglesAt0T2 = spAnglesMid;
+                //flexAnglesAt0T2 = flexAnglesMid;
+                //spAnglesAt0T2 = spAnglesMid;
+                //transposedTSMidAt0T2 = transposedTSMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt0T2);
+                copyListByValue(spAnglesMid, spAnglesAt0T2);
+                copyListByValue(transposedTSMid, transposedTSMidAt0T2);
                 break;
             case TrialTracker.flexAt0Trial3:
-                flexAnglesAt0T3 = flexAnglesMid;
-                spAnglesAt0T3 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt0T3);
+                copyListByValue(spAnglesMid, spAnglesAt0T3);
+                copyListByValue(transposedTSMid, transposedTSMidAt0T3);
                 break;
             case TrialTracker.flexAt30LeftTrial1:
-                flexAnglesAt30LeftT1 = flexAnglesMid;
-                spAnglesAt30LeftT1 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt30LeftT1);
+                copyListByValue(spAnglesMid, spAnglesAt30LeftT1);
+                copyListByValue(transposedTSMid, transposedTSMidAt30LeftT1);
                 break;
             case TrialTracker.flexAt30LeftTrial2:
-                flexAnglesAt30LeftT2 = flexAnglesMid;
-                spAnglesAt30LeftT2 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt30LeftT2);
+                copyListByValue(spAnglesMid, spAnglesAt30LeftT2);
+                copyListByValue(transposedTSMid, transposedTSMidAt30LeftT2);
                 break;
             case TrialTracker.flexAt30LeftTrial3:
-                flexAnglesAt30LeftT3 = flexAnglesMid;
-                spAnglesAt30LeftT3 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt30LeftT3);
+                copyListByValue(spAnglesMid, spAnglesAt30LeftT3);
+                copyListByValue(transposedTSMid, transposedTSMidAt30LeftT3);
                 break;
             case TrialTracker.flexAt30RightTrial1:
-                flexAnglesAt30RightT1 = flexAnglesMid;
-                spAnglesAt30RightT1 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt30RightT1);
+                copyListByValue(spAnglesMid, spAnglesAt30RightT1);
+                copyListByValue(transposedTSMid, transposedTSMidAt30RightT1);
                 break;
             case TrialTracker.flexAt30RightTrial2:
-                flexAnglesAt30RightT2 = flexAnglesMid;
-                spAnglesAt30RightT2 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt30RightT2);
+                copyListByValue(spAnglesMid, spAnglesAt30RightT2);
+                copyListByValue(transposedTSMid, transposedTSMidAt30RightT2);
                 break;
             case TrialTracker.flexAt30RightTrial3:
-                flexAnglesAt30RightT3 = flexAnglesMid;
-                spAnglesAt30RightT3 = spAnglesMid;
+                copyListByValue(flexAnglesMid, flexAnglesAt30RightT3);
+                copyListByValue(spAnglesMid, spAnglesAt30RightT3);
+                copyListByValue(transposedTSMid, transposedTSMidAt30RightT3);
                 break;
             case TrialTracker.spROMTrial:
-                sagittalTrialFlexAngles = flexAnglesMid;
-                sagittalTrialSPAngles = spAnglesMid;
+                copyListByValue(flexAnglesMid, sagittalTrialFlexAngles);
+                copyListByValue(spAnglesMid, sagittalTrialSPAngles);
+                copyListByValue(transposedTSMid, transposedTSMidSagittalTrial);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void copyListByValue(List<float> listToCopy, List<float> listCopy)
+    {
+        for(int i = 0; i < listToCopy.Count; i++)
+        {
+            listCopy.Add(listToCopy[i]);
         }
     }
 }
