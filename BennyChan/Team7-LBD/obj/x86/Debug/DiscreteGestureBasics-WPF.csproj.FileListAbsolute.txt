@@ -280,3 +280,6 @@ E:\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\OxyPlot.Wpf.pdb
 E:\Google Drive\Senior Design\BennyChan\Team7-LBD\bin\x86\Debug\OxyPlot.Wpf.xml
 E:\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DisplayGraph.baml
 E:\Google Drive\Senior Design\BennyChan\Team7-LBD\obj\x86\Debug\DisplayGraph.g.cs
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\BennyChan\Team7-LBD\bin\x86\Debug\DiscreteGestureBasics-WPF.exe.config
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.exe
+C:\Users\burns\OneDrive\Documents\GitHub\Team7\BennyChan\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.pdb

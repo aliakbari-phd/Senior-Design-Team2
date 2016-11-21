@@ -604,6 +604,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                         //Collect entire set of kinect data
                         List<List<float>> kinectData = new List<List<float>>();
+                        kinectFeedback.timestamp.Add(timestamp);
 
 
                         //If the kinect feedback system has not yet been set
@@ -996,7 +997,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             fs_sensor2.Close();
 
             // Collect the two IMU's Data
-            IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase);
+            IMUData imuData = new IMUData(gyroXMid, gyroYMid, gyroZMid, timeStampsMid, gyroXBase, gyroYBase, gyroZBase, timeStampsBase, kinectFeedback);
             imuData.getAngles();
 
             dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData);
