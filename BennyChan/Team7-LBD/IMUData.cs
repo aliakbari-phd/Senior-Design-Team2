@@ -13,6 +13,24 @@ public class IMUData
     public List<Int16> gyroYBase;
     public List<Int16> gyroZBase;
     public List<int> timeStampsBase;
+    public float ispeakgyro = 0;
+    public float ispeakkin = 0;
+    public float peaktimegyro = 0;
+    public float peaktimekin = 0;
+
+    public List<float> gyroFlexInterPeaks;      //interim peaks detected
+    public List<float> kinectFlexInterPeaks;
+
+    public List<float> gyroFlexTruePeaks;       //true peaks
+    public List<float> kinectFlexTruePeaks;
+
+    public List<float> gyroIntPeaktimestamps;
+    public List<float> kinectIntPeaktimestamps;
+
+    public List<float> gyroTruePeaktimestamps;
+    public List<float> kinectTruePeaktimestamps;
+
+    public KinectFeedback kinectFeedback;
 
     public List<float> transposedTSMid;
     public List<double> transposedTSBase;
@@ -33,7 +51,8 @@ public class IMUData
         List<Int16> gXBase,
         List<Int16> gYBase,
         List<Int16> gZBase,
-        List<int> timeSBase
+        List<int> timeSBase,
+        KinectFeedback kinectFB
     )
 	{
         gyroXMid = gXMid;
@@ -46,6 +65,7 @@ public class IMUData
         timeStampsBase = timeSBase;
         transposedTSMid = new List<float>();
         anglesMid = new List<float>();
+        kinectFeedback = kinectFB;
     }
 
 
@@ -69,6 +89,7 @@ public class IMUData
         }
     }
 
+
     void cumTrapz()
     {
         float angle = 0;
@@ -82,6 +103,49 @@ public class IMUData
             angle = angle + (timeDiff*correctedDiff);
             anglesMid.Add(angle + 90);
         }
+    }
+
+    void findPeaks()
+    {
+        for (int gyroiter=1; gyroiter < anglesMid.Count-1; gyroiter++)
+        {
+            if (anglesMid[gyroiter]>anglesMid[gyroiter-1] && anglesMid[gyroiter+1]<anglesMid[gyroiter])
+            {
+                ispeakgyro = anglesMid[gyroiter];
+                peaktimegyro = transposedTSMid[gyroiter];
+                gyroFlexInterPeaks.Add(ispeakgyro);
+                gyroIntPeaktimestamps.Add(peaktimegyro);
+            }
+        }
+
+        for (int kiniter=1; kiniter < kinectFeedback.flexAngles.Count-1; kiniter++)
+        {
+            if (kinectFeedback.flexAngles[kiniter] > kinectFeedback.flexAngles[kiniter-1] && kinectFeedback.flexAngles[kiniter+1] < kinectFeedback.flexAngles[kiniter])
+            {
+                ispeakkin = kinectFeedback.flexAngles[kiniter];
+                peaktimekin = kinectFeedback.transposedTSKin[kiniter];
+                kinectFlexInterPeaks.Add(ispeakkin);
+                kinectIntPeaktimestamps.Add(peaktimekin);
+            }
+        }
+
+        gyroFlexTruePeaks.Add(gyroFlexInterPeaks[0]);
+        kinectFlexTruePeaks.Add(kinectFlexInterPeaks[0]);
+
+        for (int gyroiter2=1; gyroiter2 < gyroFlexInterPeaks.Count; gyroiter2++)
+        {
+
+        }
+    }
+
+    void signalSync()
+    {
+
+    }
+
+    void driftCorrection()
+    {
+
     }
 
     public void getAngles()

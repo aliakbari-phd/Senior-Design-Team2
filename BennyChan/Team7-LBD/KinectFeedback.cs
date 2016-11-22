@@ -10,6 +10,7 @@ public class KinectFeedback
     public bool isInitial;
     public List<float> sagittalAngles;
     public List<float> flexAngles;
+    public List<int> timestamp;
     public float currentSagittalAngle;
     public float currentFlexAngle;
     public int index;
@@ -23,6 +24,7 @@ public class KinectFeedback
     public string isFifteen;
     public string isThirty;
     public string isFlex;
+    public List<float> transposedTSKin;
 
     public KinectFeedback()
     {
@@ -118,12 +120,31 @@ public class KinectFeedback
         return (float)(magnitude);
     }
 
+    void transposeTimeStampskin()
+    {
+        int begTimeStampMid = timestamp[0];
+        float time = 0;
+        //int begTimeStampBase = timeStampsBase[0];
+        //foreach (int ts in timeStampsBase)
+        //{
+        //    transposedTSBase.Add((ts - begTimeStampBase) / 1000);
+        //}
+        float timePassed = (timestamp[timestamp.Count - 1] - timestamp[0]) / 1000;
+        for (int i = 0; i < timestamp.Count; i++)
+        {
+            time = (timestamp[i] - begTimeStampMid);
+            time = time / 1000;
+            transposedTSKin.Add(time);
+        }
+    }
+
     public void Reset()
     {
         initialPosRS.Clear();
         initialPosSS.Clear();
         initialPosSB.Clear();
         sagittalAngles.Clear();
+        timestamp.Clear();
         flexAngles.Clear();
         isInitial = true;
         index = 0;

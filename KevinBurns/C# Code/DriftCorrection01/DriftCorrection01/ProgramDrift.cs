@@ -15,10 +15,14 @@ namespace DriftCorrection01
             List<double> Timestamps2 = new List<double>();
             List<double> Input1 = new List<double>();
             List<double> Input2 = new List<double>();
-            List<double> PeakValuesHolder = new List<double>();
-            List<double> PeakTimeHolder = new List<double>();
-            List<double> TruePeakHolder = new List<double>();
-            List<double> TruePeakTimeHolder = new List<double>();
+            List<double> PeakValuesHolder1 = new List<double>();
+            List<double> PeakTimeHolder1 = new List<double>();
+            List<double> TruePeakHolder1 = new List<double>();
+            List<double> TruePeakTimeHolder1 = new List<double>();
+            List<double> PeakValuesHolder2 = new List<double>();
+            List<double> PeakTimeHolder2 = new List<double>();
+            List<double> TruePeakHolder2 = new List<double>();
+            List<double> TruePeakTimeHolder2 = new List<double>();
             string path1 = @"C:\Users\burns\Desktop\403\MATLAB Codes\test1_vel.txt";
             string path2 = @"C:\Users\burns\Desktop\403\MATLAB Codes\test2_vel.txt";
             int I1Eletracker = 0;
@@ -35,6 +39,7 @@ namespace DriftCorrection01
             int I2CorEle = 0;
             double CorrectionFactor;
             double ispeak;
+            double syncCorfact;
 
             using (TextReader reader = File.OpenText(path1))
             {
@@ -54,25 +59,6 @@ namespace DriftCorrection01
                 System.Console.ReadKey();
             }
 
-            //not needed
-            /*using (TextReader reader2 = File.OpenText(path2))
-            {
-                string readin2;
-                while ((readin2 = reader2.ReadLine()) != null)
-                {
-                    // string text2 = reader2.ReadLine();
-                    string[] bits = readin2.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    double x2 = double.Parse(bits[0]);
-                    double y2 = double.Parse(bits[1]);
-                    Console.WriteLine(x2);
-                    Timestamps2.Add(x2);
-                    Console.WriteLine(y2);
-                    Input2.Add(y2);
-                }
-                Console.WriteLine("Both Files read in, press any key");
-                System.Console.ReadKey();
-            }*/
-
             //Math
 
             for (int i1iter = 0; i1iter < Input1.Count; i1iter++)
@@ -80,38 +66,39 @@ namespace DriftCorrection01
                 if (Input1[i1iter] > Input1[i1iter - 1] && Input1[i1iter + 1] < Input1[i1iter])
                 {
                     ispeak = Input1[i1iter];
+                    PeakValuesHolder1.Add(ispeak);
+                    PeakTimeHolder1.Add(Timestamps1[i1iter]);
                 }
 
-                PeakValuesHolder.Add(ispeak);
-                PeakTimeHolder.Add(Timestamps1[i1iter]);
+              
+                
             }
-            for (int peakiter = 0; peakiter < PeakValuesHolder.Count; peakiter++)
+            for (int peakiter = 0; peakiter < PeakValuesHolder1.Count; peakiter++)
             {
-                if (PeakTimeHolder[peakiter + 1] - PeakTimeHolder[peakiter] > 1)
+                if (PeakTimeHolder1[peakiter + 1] - PeakTimeHolder1[peakiter] > 0.5)
                 {
-                    TruePeakHolder.Add(PeakValuesHolder[peakiter]);
-                    TruePeakTimeHolder.Add(PeakTimeHolder[peakiter]);
+                    TruePeakHolder1.Add(PeakValuesHolder1[peakiter]);
+                    TruePeakTimeHolder1.Add(PeakTimeHolder1[peakiter]);
                 }
             }
 
-            CorrectionFactor = I1container / Input1.Count;          //Average
-
-            Console.WriteLine("The average velocity is " + CorrectionFactor);
-            Console.WriteLine("Press any key to continue");
-            System.Console.ReadKey();
-            Console.WriteLine("The corrected velocities are: \n");
-            for (int i1iter2 = 0; i1iter2 < Input1.Count; i1iter2++)
+            //time sync
+            syncCorfact = TruePeakTimeHolder1[3] - TruePeakTimeHolder2[3];
+            if (syncCorfact < 0)
             {
-                Input1[I2Ele] = Input1[I2Ele] - CorrectionFactor;   //Apply Correction
-                Console.WriteLine(Input1[I2Ele]);
-                I2Ele = I2Ele + 1;
+                for (int synciter = 0; synciter < Timestamps1.Count; synciter++)
+                {
+                    Timestamps1[synciter] = Timestamps1[synciter] + syncCorfact;
+                }
             }
 
-            Console.WriteLine("Press any key to exit");
-            System.Console.ReadKey();
-
-
-            //Write out
+            else if (syncCorfact > 0)
+            {
+                for (int synciter = 0; synciter < Timestamps2.Count; synciter++)
+                {
+                    Timestamps2[synciter] = Timestamps2[synciter] + syncCorfact;
+                }
+            }
 
         }
     }
