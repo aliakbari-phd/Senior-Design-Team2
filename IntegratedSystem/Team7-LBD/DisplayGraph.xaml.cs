@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Graph
+namespace Microsoft.Samples.Kinect.BodyBasics
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -36,12 +36,14 @@ namespace Graph
         // Draw a simple graph.
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            double wxmin = -10;
-            double wxmax = 100;
-            double wymin = -1;
-            double wymax = 11;
+            List<float> angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T1;
+            List<float> timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+            double wxmin = ApplicationState.dataAnalysis.FindMin(timeStampsAT);
+            double wxmax = ApplicationState.dataAnalysis.FindMax(timeStampsAT);
+            double wymin = ApplicationState.dataAnalysis.FindMin(angularTest);
+            double wymax = ApplicationState.dataAnalysis.FindMax(angularTest);
             const double xstep = 10;
-            const double ystep = 1;
+            const double ystep = 10;
 
             const double dmargin = 10;
             double dxmin = dmargin;
@@ -115,18 +117,13 @@ namespace Graph
             canGraph.Children.Add(yaxis_path);
 
             // Make some data sets.
-            Random rand = new Random();
-            for (int data_set = 0; data_set < 2; data_set++)
+            for (int data_set = 0; data_set < 1; data_set++)
             {
-                double last_y = rand.Next(2, 7);
 
                 DataPoints[data_set] = new PointCollection();
-                for (double x = 0; x <= 100; x += 10)
+                for (int x = 0; x < angularTest.Count; ++x)
                 {
-                    last_y += rand.Next(-10, 10) / 10.0;
-                    if (last_y < 0) last_y = 0;
-                    if (last_y > 10) last_y = 10;
-                    Point p = new Point(x, last_y);
+                    Point p = new Point(timeStampsAT[x], angularTest[x]);
                     DataPoints[data_set].Add(WtoD(p));
                 }
 
@@ -212,89 +209,89 @@ namespace Graph
         }
 
         // See if the mouse is over a data point.
-        private void canGraph_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            // Find the data point at the mouse's location.
-            Point mouse_location = e.GetPosition(canGraph);
-            int data_set, point_number;
-            FindDataPoint(mouse_location, out data_set, out point_number);
-            if (data_set < 0) return;
-            Point data_point = DataPoints[data_set][point_number];
+        //private void canGraph_MouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    // Find the data point at the mouse's location.
+        //    Point mouse_location = e.GetPosition(canGraph);
+        //    int data_set, point_number;
+        //    FindDataPoint(mouse_location, out data_set, out point_number);
+        //    if (data_set < 0) return;
+        //    Point data_point = DataPoints[data_set][point_number];
 
-            // Make the data ellipse if we haven't already.
-            if (DataEllipse == null)
-            {
-                DataEllipse = new Ellipse();
-                DataEllipse.Fill = null;
-                DataEllipse.StrokeThickness = 1;
-                DataEllipse.Width = 7;
-                DataEllipse.Height = 7;
-                canGraph.Children.Add(DataEllipse);
-            }
+        //    // Make the data ellipse if we haven't already.
+        //    if (DataEllipse == null)
+        //    {
+        //        DataEllipse = new Ellipse();
+        //        DataEllipse.Fill = null;
+        //        DataEllipse.StrokeThickness = 1;
+        //        DataEllipse.Width = 7;
+        //        DataEllipse.Height = 7;
+        //        canGraph.Children.Add(DataEllipse);
+        //    }
 
-            // Color and position the ellipse.
-            DataEllipse.Stroke = DataBrushes[data_set];
-            Canvas.SetLeft(DataEllipse, data_point.X - 2);
-            Canvas.SetTop(DataEllipse, data_point.Y - 2);
+        //    // Color and position the ellipse.
+        //    DataEllipse.Stroke = DataBrushes[data_set];
+        //    Canvas.SetLeft(DataEllipse, data_point.X - 2);
+        //    Canvas.SetTop(DataEllipse, data_point.Y - 2);
 
-            // Make the data label if we haven't already.
-            if (DataLabel == null)
-            {
-                DataLabel = new Label();
-                DataLabel.FontSize = 12;
-                canGraph.Children.Add(DataLabel);
-            }
+        //    // Make the data label if we haven't already.
+        //    if (DataLabel == null)
+        //    {
+        //        DataLabel = new Label();
+        //        DataLabel.FontSize = 12;
+        //        canGraph.Children.Add(DataLabel);
+        //    }
 
-            // Convert the data values back into world coordinates.
-            Point world_point = DtoW(data_point);
+        //    // Convert the data values back into world coordinates.
+        //    Point world_point = DtoW(data_point);
 
-            // Set the data label's text and position it.
-            DataLabel.Content = "(" +
-                world_point.X.ToString("0.0") + ", " +
-                world_point.Y.ToString("0.0") + ")";
-            DataLabel.Measure(new Size(double.MaxValue, double.MaxValue));
-            Canvas.SetLeft(DataLabel, data_point.X + 4);
-            Canvas.SetTop(DataLabel, data_point.Y - DataLabel.DesiredSize.Height);
-        }
+        //    // Set the data label's text and position it.
+        //    DataLabel.Content = "(" +
+        //        world_point.X.ToString("0.0") + ", " +
+        //        world_point.Y.ToString("0.0") + ")";
+        //    DataLabel.Measure(new Size(double.MaxValue, double.MaxValue));
+        //    Canvas.SetLeft(DataLabel, data_point.X + 4);
+        //    Canvas.SetTop(DataLabel, data_point.Y - DataLabel.DesiredSize.Height);
+        //}
 
         // Change the mouse cursor appropriately.
-        private void canGraph_MouseMove(object sender, MouseEventArgs e)
-        {
-            // Find the data point at the mouse's location.
-            Point mouse_location = e.GetPosition(canGraph);
-            int data_set, point_number;
-            FindDataPoint(mouse_location, out data_set, out point_number);
+        //private void canGraph_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    // Find the data point at the mouse's location.
+        //    Point mouse_location = e.GetPosition(canGraph);
+        //    int data_set, point_number;
+        //    FindDataPoint(mouse_location, out data_set, out point_number);
 
-            // Display the appropriate cursor.
-            if (data_set < 0)
-                canGraph.Cursor = null;
-            else
-                canGraph.Cursor = Cursors.UpArrow;
-        }
+        //    // Display the appropriate cursor.
+        //    if (data_set < 0)
+        //        canGraph.Cursor = null;
+        //    else
+        //        canGraph.Cursor = Cursors.UpArrow;
+        //}
 
         // Find the data point at this device coordinate location.
         // Return data_set = -1 if there is no point at this location.
-        private void FindDataPoint(Point location, out int data_set, out int point_number)
-        {
-            // Check each data set.
-            for (data_set = 0; data_set < DataPoints.Length; data_set++)
-            {
-                // Check this data set.
-                for (point_number = 0;
-                    point_number < DataPoints[data_set].Count;
-                    point_number++)
-                {
-                    // See how far the location is from the data point.
-                    Point data_point = DataPoints[data_set][point_number];
-                    Vector vector = location - data_point;
-                    double dist = vector.Length;
-                    if (dist < 2) return;
-                }
-            }
+        //private void FindDataPoint(Point location, out int data_set, out int point_number)
+        //{
+        //    // Check each data set.
+        //    for (data_set = 0; data_set < DataPoints.Length; data_set++)
+        //    {
+        //        // Check this data set.
+        //        for (point_number = 0;
+        //            point_number < DataPoints[data_set].Count;
+        //            point_number++)
+        //        {
+        //            // See how far the location is from the data point.
+        //            Point data_point = DataPoints[data_set][point_number];
+        //            Vector vector = location - data_point;
+        //            double dist = vector.Length;
+        //            if (dist < 2) return;
+        //        }
+        //    }
 
-            // We didn't find a point at this location.
-            data_set = -1;
-            point_number = -1;
-        }
+        //    // We didn't find a point at this location.
+        //    data_set = -1;
+        //    point_number = -1;
+        //}
     }
 }

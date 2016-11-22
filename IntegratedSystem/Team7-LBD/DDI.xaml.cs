@@ -52,7 +52,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void GraphDisplayButton_Click(object sender, EventArgs e)
         {
-            var form = new Graph.DisplayGraph();
+            var form = new Microsoft.Samples.Kinect.BodyBasics.DisplayGraph();
             form.Show(); // if you need non-modal window
             GraphDisplayButton.IsEnabled = true;
         }
