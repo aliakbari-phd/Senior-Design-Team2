@@ -42,19 +42,28 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             peakJerkTxt.Text = "Peak Angular Jerk: " + ApplicationState.dataAnalysis.peakFlexAngJerkAvgAt0.ToString();
             twistingROMTxt.Text = "Twisting ROM: " + ApplicationState.dataAnalysis.twistingROM.ToString();
 
-            //List<string> stringList = new List<string>();
-            //for(int i = 0; i < ApplicationState.dataAnalysis.kinectSPAngleAt0.Count; i ++)
-            //{
-            //    stringList.Add(ApplicationState.dataAnalysis.kinectSPAngleAt0[i].ToString());
-            //}
-            //anglesList.DataContext = stringList;
+            trialBox.Items.Add(MainViewModel.flexAt0Trial1);
+            trialBox.Items.Add(MainViewModel.flexAt0Trial2);
+            trialBox.Items.Add(MainViewModel.flexAt0Trial3);
+            trialBox.Items.Add(MainViewModel.flexAt30LeftTrial1);
+            trialBox.Items.Add(MainViewModel.flexAt30LeftTrial2);
+            trialBox.Items.Add(MainViewModel.flexAt30LeftTrial3);
+            trialBox.Items.Add(MainViewModel.flexAt30RightTrial1);
+            trialBox.Items.Add(MainViewModel.flexAt30RightTrial2);
+            trialBox.Items.Add(MainViewModel.flexAt30RightTrial3);
+            trialBox.Items.Add(MainViewModel.spROMTrial);
+
+            parameterBox.Items.Add(MainViewModel.Angle);
+            parameterBox.Items.Add(MainViewModel.angVel);
+            parameterBox.Items.Add(MainViewModel.angAccel);
+            parameterBox.Items.Add(MainViewModel.angJerk);
         }
 
         private void GraphDisplayButton_Click(object sender, EventArgs e)
         {
-            var form = new Microsoft.Samples.Kinect.BodyBasics.DisplayGraph();
-            form.Show(); // if you need non-modal window
-            GraphDisplayButton.IsEnabled = true;
+            MainViewModel Graph = new MainViewModel();
+            Graph.plotGraph(trialBox.Text, parameterBox.Text);
+
         }
     }
 }
