@@ -9,54 +9,19 @@ public class DataAnalysis
     static double maleGenderFactor = .93;
     static double femaleGenderFactor = .97;
 
-    public double fpROMFactor = 2;
-    public double spROMFactor = 2;
+    public double fpROMFactor = 1.5;
+    public double spROMFactor = 1.5;
     public double asymCompleteFactor = 1;
     public double twistingROMFactor = 1;
     public double peakAngVelFactor = 1;
     public double peakAngAccFactor = 2;
-    public double peakAngJerkFactor = 1;
+    public double peakAngJerkFactor = .5;
+    public double completeTrialsFactor = 1.5;
 
     //Patient Data
     public int patientID;
     public bool gender;
     public int age;
-
-    //public float peakFlexAngVelocityAt0T1;
-    //public float peakFlexAngAccelerationAt0T1;
-    //public float peakFlexAngJerkAt0T1;
-
-    //public float peakFlexAngVelocityAt0T2;
-    //public float peakFlexAngAccelerationAt0T2;
-    //public float peakFlexAngJerkAt0T2;
-
-    //public float peakFlexAngVelocityAt0T3;
-    //public float peakFlexAngAccelerationAt0T3;
-    //public float peakFlexAngJerkAt0T3;
-
-    //public float peakFlexAngVelocityAt30LeftT1;
-    //public float peakFlexAngAccelerationAt30LeftT1;
-    //public float peakFlexAngJerkAt30LeftT1;
-
-    //public float peakFlexAngVelocityAt30LeftT2;
-    //public float peakFlexAngAccelerationAt30LeftT2;
-    //public float peakFlexAngJerkAt30LeftT2;
-
-    //public float peakFlexAngVelocityAt30LeftT3;
-    //public float peakFlexAngAccelerationAt30LeftT3;
-    //public float peakFlexAngJerkAt30LeftT3;
-
-    //public float peakFlexAngVelocityAt30RightT1;
-    //public float peakFlexAngAccelerationAt30RightT1;
-    //public float peakFlexAngJerkAt30RightT1;
-
-    //public float peakFlexAngVelocityAt30RightT2;
-    //public float peakFlexAngAccelerationAt30RightT2;
-    //public float peakFlexAngJerkAt30RightT2;
-
-    //public float peakFlexAngVelocityAt30RightT3;
-    //public float peakFlexAngAccelerationAt30RightT3;
-    //public float peakFlexAngJerkAt30RightT3;
 
     public float peakFlexAngVelocityAvgAt0;
     public float peakFlexAngAccelerationAvgAt0;
@@ -177,13 +142,12 @@ public class DataAnalysis
     public List<float> sagittalTrialSPJerk;
 
     public List<float> timeStampsAngleAt0;
-    //public List<float> angularSPAccelIMU;
-    //public List<float> angularSPJerkIMU;
 
     public double severityLBD;
 
-    //SensorData correctedData;
     public IMUData imuData;
+
+    public TrialTracker trialTracker;
 
     public DataAnalysis()
     {
@@ -263,18 +227,12 @@ public class DataAnalysis
         sagittalTrialFlexJerk = new List<float>();
     }
 
-    public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu)
+    public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu, TrialTracker tt)
     {
         kinectSPAngleAt0T1 = kinectSPAngles;
         kinectSPAngleAt0T1 = kinectFlexAngles;
         imuData = imu;
-    }
-
-    private void MergeSensorData(SensorData correctedData)
-    {
-        //Analyze set of kinect and wearable sensor data
-        //for each motion set (across sagital plane, trunk flexion, extension)
-        //Vel, Accel, Jerk, Angle, etc, and pick most accurate ones
+        trialTracker = tt;
     }
 
 
@@ -304,176 +262,271 @@ public class DataAnalysis
 
         float minFlexAngle = 0;
 
-        angularSPVelAt0T1 = CalcStepDerivative(imuData.spAnglesAt0T1, imuData.transposedTSMidAt0T1);
-        angularFlexVelAt0T1 = CalcStepDerivative(imuData.flexAnglesAt0T1, imuData.transposedTSMidAt0T1);
-        angularSPAccelAt0T1 = CalcStepDerivative(angularSPVelAt0T1, imuData.transposedTSMidAt0T1);
-        angularFlexAccelAt0T1 = CalcStepDerivative(angularFlexVelAt0T1, imuData.transposedTSMidAt0T1);
-        angularSPJerkAt0T1 = CalcStepDerivative(angularSPAccelAt0T1, imuData.transposedTSMidAt0T1);
-        angularFlexJerkAt0T1 = CalcStepDerivative(angularFlexAccelAt0T1, imuData.transposedTSMidAt0T1);
+        if (imuData.spAnglesAt0T1.Count > 0)
+        {
+            angularSPVelAt0T1 = CalcStepDerivative(imuData.spAnglesAt0T1, imuData.transposedTSMidAt0T1);
+            angularFlexVelAt0T1 = CalcStepDerivative(imuData.flexAnglesAt0T1, imuData.transposedTSMidAt0T1);
+            angularSPAccelAt0T1 = CalcStepDerivative(angularSPVelAt0T1, imuData.transposedTSMidAt0T1);
+            angularFlexAccelAt0T1 = CalcStepDerivative(angularFlexVelAt0T1, imuData.transposedTSMidAt0T1);
+            angularSPJerkAt0T1 = CalcStepDerivative(angularSPAccelAt0T1, imuData.transposedTSMidAt0T1);
+            angularFlexJerkAt0T1 = CalcStepDerivative(angularFlexAccelAt0T1, imuData.transposedTSMidAt0T1);
+            trialTracker.setTestFinished(0);
+        }
 
-        //angularSPVelAt0T2 = CalcStepDerivative(imuData.spAnglesAt0T2, imuData.transposedTSMidAt0T2);
-        //angularFlexVelAt0T2 = CalcStepDerivative(imuData.flexAnglesAt0T2, imuData.transposedTSMidAt0T2);
-        //angularSPAccelAt0T2 = CalcStepDerivative(angularSPVelAt0T2, imuData.transposedTSMidAt0T2);
-        //angularFlexAccelAt0T2 = CalcStepDerivative(angularFlexVelAt0T2, imuData.transposedTSMidAt0T2);
-        //angularSPJerkAt0T2 = CalcStepDerivative(angularSPAccelAt0T2, imuData.transposedTSMidAt0T2);
-        //angularFlexJerkAt0T2 = CalcStepDerivative(angularFlexAccelAt0T2, imuData.transposedTSMidAt0T2);
+        if (imuData.spAnglesAt0T2.Count > 0)
+        {
+            angularSPVelAt0T2 = CalcStepDerivative(imuData.spAnglesAt0T2, imuData.transposedTSMidAt0T2);
+            angularFlexVelAt0T2 = CalcStepDerivative(imuData.flexAnglesAt0T2, imuData.transposedTSMidAt0T2);
+            angularSPAccelAt0T2 = CalcStepDerivative(angularSPVelAt0T2, imuData.transposedTSMidAt0T2);
+            angularFlexAccelAt0T2 = CalcStepDerivative(angularFlexVelAt0T2, imuData.transposedTSMidAt0T2);
+            angularSPJerkAt0T2 = CalcStepDerivative(angularSPAccelAt0T2, imuData.transposedTSMidAt0T2);
+            angularFlexJerkAt0T2 = CalcStepDerivative(angularFlexAccelAt0T2, imuData.transposedTSMidAt0T2);
+            trialTracker.setTestFinished(1);
+        }
 
-        //angularSPVelAt0T3 = CalcStepDerivative(imuData.spAnglesAt0T3, imuData.transposedTSMidAt0T3);
-        //angularFlexVelAt0T3 = CalcStepDerivative(imuData.flexAnglesAt0T3, imuData.transposedTSMidAt0T3);
-        //angularSPAccelAt0T3 = CalcStepDerivative(angularSPVelAt0T3, imuData.transposedTSMidAt0T3);
-        //angularFlexAccelAt0T3 = CalcStepDerivative(angularFlexVelAt0T3, imuData.transposedTSMidAt0T3);
-        //angularSPJerkAt0T3 = CalcStepDerivative(angularSPAccelAt0T3, imuData.transposedTSMidAt0T3);
-        //angularFlexJerkAt0T3 = CalcStepDerivative(angularFlexAccelAt0T3, imuData.transposedTSMidAt0T3);
+        if (imuData.spAnglesAt0T3.Count > 0)
+        {
+            angularSPVelAt0T3 = CalcStepDerivative(imuData.spAnglesAt0T3, imuData.transposedTSMidAt0T3);
+            angularFlexVelAt0T3 = CalcStepDerivative(imuData.flexAnglesAt0T3, imuData.transposedTSMidAt0T3);
+            angularSPAccelAt0T3 = CalcStepDerivative(angularSPVelAt0T3, imuData.transposedTSMidAt0T3);
+            angularFlexAccelAt0T3 = CalcStepDerivative(angularFlexVelAt0T3, imuData.transposedTSMidAt0T3);
+            angularSPJerkAt0T3 = CalcStepDerivative(angularSPAccelAt0T3, imuData.transposedTSMidAt0T3);
+            angularFlexJerkAt0T3 = CalcStepDerivative(angularFlexAccelAt0T3, imuData.transposedTSMidAt0T3);
+            trialTracker.setTestFinished(2);
+        }
 
-        //angularSPVelAt30LeftT1 = CalcStepDerivative(imuData.spAnglesAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
-        //angularFlexVelAt30LeftT1 = CalcStepDerivative(imuData.flexAnglesAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
-        //angularSPAccelAt30LeftT1 = CalcStepDerivative(angularSPVelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
-        //angularFlexAccelAt30LeftT1 = CalcStepDerivative(angularFlexVelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
-        //angularSPJerkAt30LeftT1 = CalcStepDerivative(angularSPAccelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
-        //angularFlexJerkAt30LeftT1 = CalcStepDerivative(angularFlexAccelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+        if (imuData.spAnglesAt30LeftT1.Count > 0)
+        {
+            angularSPVelAt30LeftT1 = CalcStepDerivative(imuData.spAnglesAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+            angularFlexVelAt30LeftT1 = CalcStepDerivative(imuData.flexAnglesAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+            angularSPAccelAt30LeftT1 = CalcStepDerivative(angularSPVelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+            angularFlexAccelAt30LeftT1 = CalcStepDerivative(angularFlexVelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+            angularSPJerkAt30LeftT1 = CalcStepDerivative(angularSPAccelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+            angularFlexJerkAt30LeftT1 = CalcStepDerivative(angularFlexAccelAt30LeftT1, imuData.transposedTSMidAt30LeftT1);
+            trialTracker.setTestFinished(3);
+        }
 
-        //angularSPVelAt30LeftT2 = CalcStepDerivative(imuData.spAnglesAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
-        //angularFlexVelAt30LeftT2 = CalcStepDerivative(imuData.flexAnglesAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
-        //angularSPAccelAt30LeftT2 = CalcStepDerivative(angularSPVelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
-        //angularFlexAccelAt30LeftT2 = CalcStepDerivative(angularFlexVelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
-        //angularSPJerkAt30LeftT2 = CalcStepDerivative(angularSPAccelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
-        //angularFlexJerkAt30LeftT2 = CalcStepDerivative(angularFlexAccelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+        if (imuData.spAnglesAt30LeftT2.Count > 0)
+        {
+            angularSPVelAt30LeftT2 = CalcStepDerivative(imuData.spAnglesAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+            angularFlexVelAt30LeftT2 = CalcStepDerivative(imuData.flexAnglesAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+            angularSPAccelAt30LeftT2 = CalcStepDerivative(angularSPVelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+            angularFlexAccelAt30LeftT2 = CalcStepDerivative(angularFlexVelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+            angularSPJerkAt30LeftT2 = CalcStepDerivative(angularSPAccelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+            angularFlexJerkAt30LeftT2 = CalcStepDerivative(angularFlexAccelAt30LeftT2, imuData.transposedTSMidAt30LeftT2);
+            trialTracker.setTestFinished(4);
+        }
 
-        //angularSPVelAt30LeftT3 = CalcStepDerivative(imuData.spAnglesAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
-        //angularFlexVelAt30LeftT3 = CalcStepDerivative(imuData.flexAnglesAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
-        //angularSPAccelAt30LeftT3 = CalcStepDerivative(angularSPVelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
-        //angularFlexAccelAt30LeftT3 = CalcStepDerivative(angularFlexVelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
-        //angularSPJerkAt30LeftT3 = CalcStepDerivative(angularSPAccelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
-        //angularFlexJerkAt30LeftT3 = CalcStepDerivative(angularFlexAccelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+        if (imuData.spAnglesAt30LeftT3.Count > 0)
+        {
+            angularSPVelAt30LeftT3 = CalcStepDerivative(imuData.spAnglesAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+            angularFlexVelAt30LeftT3 = CalcStepDerivative(imuData.flexAnglesAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+            angularSPAccelAt30LeftT3 = CalcStepDerivative(angularSPVelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+            angularFlexAccelAt30LeftT3 = CalcStepDerivative(angularFlexVelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+            angularSPJerkAt30LeftT3 = CalcStepDerivative(angularSPAccelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+            angularFlexJerkAt30LeftT3 = CalcStepDerivative(angularFlexAccelAt30LeftT3, imuData.transposedTSMidAt30LeftT3);
+            trialTracker.setTestFinished(5);
+        }
 
-        //angularSPVelAt30RightT1 = CalcStepDerivative(imuData.spAnglesAt30RightT1, imuData.transposedTSMidAt30RightT1);
-        //angularFlexVelAt30RightT1 = CalcStepDerivative(imuData.flexAnglesAt30RightT1, imuData.transposedTSMidAt30RightT1);
-        //angularSPAccelAt30RightT1 = CalcStepDerivative(angularSPVelAt30RightT1, imuData.transposedTSMidAt30RightT1);
-        //angularFlexAccelAt30RightT1 = CalcStepDerivative(angularFlexVelAt30RightT1, imuData.transposedTSMidAt30RightT1);
-        //angularSPJerkAt30RightT1 = CalcStepDerivative(angularSPAccelAt30RightT1, imuData.transposedTSMidAt30RightT1);
-        //angularFlexJerkAt30RightT1 = CalcStepDerivative(angularFlexAccelAt30RightT1, imuData.transposedTSMidAt30RightT1);
+        if (imuData.spAnglesAt30RightT1.Count > 0)
+        {
+            angularSPVelAt30RightT1 = CalcStepDerivative(imuData.spAnglesAt30RightT1, imuData.transposedTSMidAt30RightT1);
+            angularFlexVelAt30RightT1 = CalcStepDerivative(imuData.flexAnglesAt30RightT1, imuData.transposedTSMidAt30RightT1);
+            angularSPAccelAt30RightT1 = CalcStepDerivative(angularSPVelAt30RightT1, imuData.transposedTSMidAt30RightT1);
+            angularFlexAccelAt30RightT1 = CalcStepDerivative(angularFlexVelAt30RightT1, imuData.transposedTSMidAt30RightT1);
+            angularSPJerkAt30RightT1 = CalcStepDerivative(angularSPAccelAt30RightT1, imuData.transposedTSMidAt30RightT1);
+            angularFlexJerkAt30RightT1 = CalcStepDerivative(angularFlexAccelAt30RightT1, imuData.transposedTSMidAt30RightT1);
+            trialTracker.setTestFinished(6);
+        }
 
-        //angularSPVelAt30RightT2 = CalcStepDerivative(imuData.spAnglesAt30RightT2, imuData.transposedTSMidAt30RightT2);
-        //angularFlexVelAt30RightT2 = CalcStepDerivative(imuData.flexAnglesAt30RightT2, imuData.transposedTSMidAt30RightT2);
-        //angularSPAccelAt30RightT2 = CalcStepDerivative(angularSPVelAt30RightT2, imuData.transposedTSMidAt30RightT2);
-        //angularFlexAccelAt30RightT2 = CalcStepDerivative(angularFlexVelAt30RightT2, imuData.transposedTSMidAt30RightT2);
-        //angularSPJerkAt30RightT2 = CalcStepDerivative(angularSPAccelAt30RightT2, imuData.transposedTSMidAt30RightT2);
-        //angularFlexJerkAt30RightT2 = CalcStepDerivative(angularFlexAccelAt30RightT2, imuData.transposedTSMidAt30RightT2);
+        if (imuData.spAnglesAt30RightT2.Count > 0)
+        {
+            angularSPVelAt30RightT2 = CalcStepDerivative(imuData.spAnglesAt30RightT2, imuData.transposedTSMidAt30RightT2);
+            angularFlexVelAt30RightT2 = CalcStepDerivative(imuData.flexAnglesAt30RightT2, imuData.transposedTSMidAt30RightT2);
+            angularSPAccelAt30RightT2 = CalcStepDerivative(angularSPVelAt30RightT2, imuData.transposedTSMidAt30RightT2);
+            angularFlexAccelAt30RightT2 = CalcStepDerivative(angularFlexVelAt30RightT2, imuData.transposedTSMidAt30RightT2);
+            angularSPJerkAt30RightT2 = CalcStepDerivative(angularSPAccelAt30RightT2, imuData.transposedTSMidAt30RightT2);
+            angularFlexJerkAt30RightT2 = CalcStepDerivative(angularFlexAccelAt30RightT2, imuData.transposedTSMidAt30RightT2);
+            trialTracker.setTestFinished(7);
+        }
 
-        //angularSPVelAt30RightT3 = CalcStepDerivative(imuData.spAnglesAt30RightT3, imuData.transposedTSMidAt30RightT3);
-        //angularFlexVelAt30RightT3 = CalcStepDerivative(imuData.flexAnglesAt30RightT3, imuData.transposedTSMidAt30RightT3);
-        //angularSPAccelAt30RightT3 = CalcStepDerivative(angularSPVelAt30RightT3, imuData.transposedTSMidAt30RightT3);
-        //angularFlexAccelAt30RightT3 = CalcStepDerivative(angularFlexVelAt30RightT3, imuData.transposedTSMidAt30RightT3);
-        //angularSPJerkAt30RightT3 = CalcStepDerivative(angularSPAccelAt30RightT3, imuData.transposedTSMidAt30RightT3);
-        //angularFlexJerkAt30RightT3 = CalcStepDerivative(angularFlexAccelAt30RightT3, imuData.transposedTSMidAt30RightT3);
+        if (imuData.spAnglesAt30RightT3.Count > 0)
+        {
+            angularSPVelAt30RightT3 = CalcStepDerivative(imuData.spAnglesAt30RightT3, imuData.transposedTSMidAt30RightT3);
+            angularFlexVelAt30RightT3 = CalcStepDerivative(imuData.flexAnglesAt30RightT3, imuData.transposedTSMidAt30RightT3);
+            angularSPAccelAt30RightT3 = CalcStepDerivative(angularSPVelAt30RightT3, imuData.transposedTSMidAt30RightT3);
+            angularFlexAccelAt30RightT3 = CalcStepDerivative(angularFlexVelAt30RightT3, imuData.transposedTSMidAt30RightT3);
+            angularSPJerkAt30RightT3 = CalcStepDerivative(angularSPAccelAt30RightT3, imuData.transposedTSMidAt30RightT3);
+            angularFlexJerkAt30RightT3 = CalcStepDerivative(angularFlexAccelAt30RightT3, imuData.transposedTSMidAt30RightT3);
+            trialTracker.setTestFinished(8);
+        }
 
-        //sagittalTrialSPVel = CalcStepDerivative(imuData.sagittalTrialSPAngles, imuData.transposedTSMidSagittalTrial);
-        //sagittalTrialFlexVel = CalcStepDerivative(imuData.sagittalTrialFlexAngles, imuData.transposedTSMidSagittalTrial);
-        //sagittalTrialSPAccel = CalcStepDerivative(sagittalTrialSPVel, imuData.transposedTSMidSagittalTrial);
-        //sagittalTrialFlexAccel = CalcStepDerivative(sagittalTrialFlexVel, imuData.transposedTSMidSagittalTrial);
-        //sagittalTrialSPJerk = CalcStepDerivative(sagittalTrialSPAccel, imuData.transposedTSMidSagittalTrial);
-        //sagittalTrialFlexJerk = CalcStepDerivative(sagittalTrialFlexAccel, imuData.transposedTSMidSagittalTrial);
+        if (imuData.sagittalTrialSPAngles.Count > 0)
+        {
+            sagittalTrialSPVel = CalcStepDerivative(imuData.sagittalTrialSPAngles, imuData.transposedTSMidSagittalTrial);
+            sagittalTrialFlexVel = CalcStepDerivative(imuData.sagittalTrialFlexAngles, imuData.transposedTSMidSagittalTrial);
+            sagittalTrialSPAccel = CalcStepDerivative(sagittalTrialSPVel, imuData.transposedTSMidSagittalTrial);
+            sagittalTrialFlexAccel = CalcStepDerivative(sagittalTrialFlexVel, imuData.transposedTSMidSagittalTrial);
+            sagittalTrialSPJerk = CalcStepDerivative(sagittalTrialSPAccel, imuData.transposedTSMidSagittalTrial);
+            sagittalTrialFlexJerk = CalcStepDerivative(sagittalTrialFlexAccel, imuData.transposedTSMidSagittalTrial);
+            trialTracker.setTestFinished(9);
+        }
 
-        //List<int> extensionIndicesAt0T1 = new List<int>();
-        //extensionIndicesAt0T1 = FindChangeInDirectionIndices(imuData.flexAnglesAt0T1);
-        //peakFlexAngVelocityAvgAt0 += FindMaxExtension(angularFlexVelAt0T1, extensionIndicesAt0T1)*-1;
-        //peakFlexAngAccelerationAvgAt0 += FindMaxExtension(angularFlexAccelAt0T1, extensionIndicesAt0T1)*-1;
-        //peakFlexAngJerkAvgAt0 += FindMaxExtension(angularFlexJerkAt0T1, extensionIndicesAt0T1)*-1;
+        if (trialTracker.testsFinished())
+        {
+            List<int> extensionIndicesAt0T1 = new List<int>();
+            extensionIndicesAt0T1 = FindChangeInDirectionIndices(imuData.flexAnglesAt0T1);
+            peakFlexAngVelocityAvgAt0 += FindMaxExtension(angularFlexVelAt0T1, extensionIndicesAt0T1) * -1;
+            peakFlexAngAccelerationAvgAt0 += FindMaxExtension(angularFlexAccelAt0T1, extensionIndicesAt0T1) * -1;
+            peakFlexAngJerkAvgAt0 += FindMaxExtension(angularFlexJerkAt0T1, extensionIndicesAt0T1) * -1;
 
-        //peakFlexAngle += FindMax(imuData.flexAnglesAt0T1);
-        //minFlexAngle += FindMin(imuData.flexAnglesAt0T1);
-
-
-        //List<int> extensionIndicesAt0T2 = new List<int>();
-        //extensionIndicesAt0T2 = FindChangeInDirectionIndices(imuData.flexAnglesAt0T2);
-        //peakFlexAngVelocityAvgAt0 += FindMaxExtension(angularFlexVelAt0T2, extensionIndicesAt0T2) * -1;
-        //peakFlexAngAccelerationAvgAt0 += FindMaxExtension(angularFlexAccelAt0T2, extensionIndicesAt0T2) * -1;
-        //peakFlexAngJerkAvgAt0 += FindMaxExtension(angularFlexJerkAt0T2, extensionIndicesAt0T2) * -1;
-
-        //peakFlexAngle += FindMax(imuData.flexAnglesAt0T2);
-        //minFlexAngle += FindMin(imuData.flexAnglesAt0T2);
-
-
-        //List<int> extensionIndicesAt0T3 = new List<int>();
-        //extensionIndicesAt0T3 = FindChangeInDirectionIndices(imuData.flexAnglesAt0T3);
-        //peakFlexAngVelocityAvgAt0 += FindMaxExtension(angularFlexVelAt0T3, extensionIndicesAt0T3) * -1;
-        //peakFlexAngAccelerationAvgAt0 += FindMaxExtension(angularFlexAccelAt0T3, extensionIndicesAt0T3) * -1;
-        //peakFlexAngJerkAvgAt0 += FindMaxExtension(angularFlexJerkAt0T3, extensionIndicesAt0T3) * -1;
-
-        //peakFlexAngle += FindMax(imuData.flexAnglesAt0T3);
-        //minFlexAngle += FindMin(imuData.flexAnglesAt0T3);
-
-        //peakFlexAngVelocityAvgAt0 = peakFlexAngVelocityAvgAt0 / 3;
-        //peakFlexAngAccelerationAvgAt0 = peakFlexAngAccelerationAvgAt0 / 3;
-        //peakFlexAngJerkAvgAt0 = peakFlexAngJerkAvgAt0 / 3;
-        //peakFlexAngle = peakFlexAngle / 3;
-        //minFlexAngle = peakFlexAngle / 3;
-
-        //peakSPAngle = FindMax(imuData.sagittalTrialSPAngles);
-        //peakSPAngVelocity = FindMax(sagittalTrialFlexVel);
-        //peakSPAngAcceleration = FindMax(sagittalTrialFlexAccel);
-        //peakSPAngJerk = FindMax(sagittalTrialFlexJerk);
-
-        //maxSPCWAngle = peakSPAngle;
-        //maxSPCCWAngle = FindMin(imuData.sagittalTrialSPAngles);
-
-        ////Normalize peaks to a corresponding rating factor
-        //rating += QuantifyPeak(maxVel, peakFlexAngVelocityAvgAt0, peakAngVelFactor);
-        //rating += QuantifyPeak(maxAcc, peakFlexAngAccelerationAvgAt0, peakAngAccFactor);
-        //rating += QuantifyPeak(maxJerk, peakFlexAngJerkAvgAt0, peakAngJerkFactor);
-
-        ////Calculate twisting ROM
-        //twistingROM = maxSPCWAngle - maxSPCCWAngle;
-
-        //if (peakSPAngle < 30)
-        //{
-        //    rating += spROMFactor*.5;
-        //    spROM30 = false;
-        //    if (peakSPAngle < 15)
-        //    {
-        //        rating += spROMFactor * .5;
-        //        spROM15 = false;
-        //    }
-        //}
+            peakFlexAngle += FindMax(imuData.flexAnglesAt0T1);
+            minFlexAngle += FindMin(imuData.flexAnglesAt0T1);
 
 
+            List<int> extensionIndicesAt0T2 = new List<int>();
+            extensionIndicesAt0T2 = FindChangeInDirectionIndices(imuData.flexAnglesAt0T2);
+            peakFlexAngVelocityAvgAt0 += FindMaxExtension(angularFlexVelAt0T2, extensionIndicesAt0T2) * -1;
+            peakFlexAngAccelerationAvgAt0 += FindMaxExtension(angularFlexAccelAt0T2, extensionIndicesAt0T2) * -1;
+            peakFlexAngJerkAvgAt0 += FindMaxExtension(angularFlexJerkAt0T2, extensionIndicesAt0T2) * -1;
 
-        //if(minFlexAngle > flexAngleROM)
-        //{
-        //    rating += fpROMFactor;
-        //    fpROM = false;
-        //}
-
-        ////Still needs definition
-        //if(asymComplete == false)
-        //{
-        //    rating += asymCompleteFactor;
-        //}
+            peakFlexAngle += FindMax(imuData.flexAnglesAt0T2);
+            minFlexAngle += FindMin(imuData.flexAnglesAt0T2);
 
 
-        ////If unable to twist more than 90 degrees total
-        //if(twistingROM < 45)
-        //{
-        //    rating += twistingROMFactor;
-        //}
+            List<int> extensionIndicesAt0T3 = new List<int>();
+            extensionIndicesAt0T3 = FindChangeInDirectionIndices(imuData.flexAnglesAt0T3);
+            peakFlexAngVelocityAvgAt0 += FindMaxExtension(angularFlexVelAt0T3, extensionIndicesAt0T3) * -1;
+            peakFlexAngAccelerationAvgAt0 += FindMaxExtension(angularFlexAccelAt0T3, extensionIndicesAt0T3) * -1;
+            peakFlexAngJerkAvgAt0 += FindMaxExtension(angularFlexJerkAt0T3, extensionIndicesAt0T3) * -1;
 
-        ////Factor in age
-        //ageFactor = 1 / ((float)age);
+            peakFlexAngle += FindMax(imuData.flexAnglesAt0T3);
+            minFlexAngle += FindMin(imuData.flexAnglesAt0T3);
 
-        //rating += (ageFactor * 10);
+            peakFlexAngVelocityAvgAt0 = peakFlexAngVelocityAvgAt0 / 3;
+            peakFlexAngAccelerationAvgAt0 = peakFlexAngAccelerationAvgAt0 / 3;
+            peakFlexAngJerkAvgAt0 = peakFlexAngJerkAvgAt0 / 3;
+            peakFlexAngle = peakFlexAngle / 3;
+            minFlexAngle = peakFlexAngle / 3;
 
-        ////Normalize accoridng to gender factor
-        //if (gender == true)
-        //{
-        //    rating = rating * maleGenderFactor;
-        //}
+            peakSPAngle = FindMax(imuData.sagittalTrialSPAngles);
+            peakSPAngVelocity = FindMax(sagittalTrialFlexVel);
+            peakSPAngAcceleration = FindMax(sagittalTrialFlexAccel);
+            peakSPAngJerk = FindMax(sagittalTrialFlexJerk);
 
-        //else
-        //{
-        //    rating = rating * femaleGenderFactor;
-        //}
+            maxSPCWAngle = peakSPAngle;
+            maxSPCCWAngle = FindMin(imuData.sagittalTrialSPAngles);
 
-        //severityLBD = rating;
+            //Normalize peaks to a corresponding rating factor
+            rating += QuantifyPeak(maxVel, peakFlexAngVelocityAvgAt0, peakAngVelFactor);
+            rating += QuantifyPeak(maxAcc, peakFlexAngAccelerationAvgAt0, peakAngAccFactor);
+            rating += QuantifyPeak(maxJerk, peakFlexAngJerkAvgAt0, peakAngJerkFactor);
+
+            //Calculate twisting ROM
+            twistingROM = maxSPCWAngle - maxSPCCWAngle;
+
+            if (peakSPAngle < 30)
+            {
+                rating += spROMFactor * .5;
+                spROM30 = false;
+                if (peakSPAngle < 15)
+                {
+                    rating += spROMFactor * .5;
+                    spROM15 = false;
+                }
+            }
+
+
+
+            if (minFlexAngle > flexAngleROM)
+            {
+                rating += fpROMFactor;
+                fpROM = false;
+            }
+            else
+            {
+                trialTracker.setTestComplete(0);
+                trialTracker.setTestComplete(1);
+                trialTracker.setTestComplete(2);
+            }
+
+
+            //If unable to twist more than 90 degrees total
+            if (twistingROM < 45)
+            {
+                rating += twistingROMFactor;
+            }
+            else
+            {
+                trialTracker.setTestComplete(9);
+            }
+
+            if(FindMin(imuData.flexAnglesAt30LeftT1) <= flexAngleROM)
+            {
+                trialTracker.setTestComplete(3);
+            }
+            if (FindMin(imuData.flexAnglesAt30LeftT2) <= flexAngleROM)
+            {
+                trialTracker.setTestComplete(4);
+            }
+            if (FindMin(imuData.flexAnglesAt30LeftT3) <= flexAngleROM)
+            {
+                trialTracker.setTestComplete(5);
+            }
+            if (FindMin(imuData.flexAnglesAt30RightT1) <= flexAngleROM)
+            {
+                trialTracker.setTestComplete(6);
+            }
+            if (FindMin(imuData.flexAnglesAt30RightT2) <= flexAngleROM)
+            {
+                trialTracker.setTestComplete(7);
+            }
+            if (FindMin(imuData.flexAnglesAt30RightT3) <= flexAngleROM)
+            {
+                trialTracker.setTestComplete(8);
+            }
+
+
+            asymComplete = trialTracker.testsCompleted();
+
+            if (asymComplete == false)
+            {
+                if(trialTracker.trialsCompleted[0] == true)
+                {
+                    rating += asymCompleteFactor * .25;
+                }
+                if (trialTracker.trialsCompleted[3] == true)
+                {
+                    rating += asymCompleteFactor * .25;
+                }
+                if (trialTracker.trialsCompleted[6] == true)
+                {
+                    rating += asymCompleteFactor * .25;
+                }
+                if (trialTracker.trialsCompleted[9] == true)
+                {
+                    rating += asymCompleteFactor * .25;
+                }
+            }
+
+            //Factor in age
+            ageFactor = 1 / ((float)age);
+
+            rating += (ageFactor * 10);
+
+            //Normalize accoridng to gender factor
+            if (gender == true)
+            {
+                rating = rating * maleGenderFactor;
+            }
+
+            else
+            {
+                rating = rating * femaleGenderFactor;
+            }
+
+            severityLBD = rating;
+        }
 
         return rating;
     }

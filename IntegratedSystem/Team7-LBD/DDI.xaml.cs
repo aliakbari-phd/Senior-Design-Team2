@@ -44,30 +44,41 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             InitializeComponent();
 
             DataPlot = new PlotModel { Title = "Angle", LegendTitle = "Angle" };
-            DataPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Angle" });
-            DataPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Height" });
+            DataPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Seconds" });
+            DataPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Angle" });
 
-
-            patientIDTxt.Text = "PatientID: " + ApplicationState.dataAnalysis.patientID.ToString();
-            ageTxt.Text = "Age: " + ApplicationState.dataAnalysis.age.ToString();
-            if (ApplicationState.dataAnalysis.gender == true)
+            if (ApplicationState.dataAnalysis.severityLBD == 0)
             {
-                genderTxt.Text = "Gender: " + "Male";
+                patientIDTxt.Text = "PatientID: " + ApplicationState.dataAnalysis.patientID.ToString();
+                ageTxt.Text = "Age: " + ApplicationState.dataAnalysis.age.ToString();
+                if (ApplicationState.dataAnalysis.gender == true)
+                {
+                    genderTxt.Text = "Gender: " + "Male";
+                }
+                else
+                {
+                    genderTxt.Text = "Gender: " + "Female";
+                }
+                severityLBDTxt.Text = "Cannot quantify, please complete all trials.";
+                spROM15Txt.Text = "";
+                spROM30Txt.Text = "";
+                fpROMTxt.Text = "";
+                peakVelTxt.Text = "";
+                peakAccTxt.Text = "";
+                peakJerkTxt.Text = "";
+                twistingROMTxt.Text = "";
             }
             else
             {
-                genderTxt.Text = "Gender: " + "Female";
+                severityLBDTxt.Text = "LBD Severity: " + ApplicationState.dataAnalysis.severityLBD.ToString();
+                spROM15Txt.Text = "SP ROM15: " + ApplicationState.dataAnalysis.spROM15.ToString();
+                spROM30Txt.Text = "SP ROM30: " + ApplicationState.dataAnalysis.spROM30.ToString();
+                fpROMTxt.Text = "FP ROM: " + ApplicationState.dataAnalysis.fpROM.ToString();
+                peakVelTxt.Text = "Peak Angular Velocity: " + ApplicationState.dataAnalysis.peakFlexAngVelocityAvgAt0.ToString();
+                peakAccTxt.Text = "Peak Angular Acceleration: " + ApplicationState.dataAnalysis.peakFlexAngAccelerationAvgAt0.ToString();
+                peakJerkTxt.Text = "Peak Angular Jerk: " + ApplicationState.dataAnalysis.peakFlexAngJerkAvgAt0.ToString();
+                twistingROMTxt.Text = "Twisting ROM: " + ApplicationState.dataAnalysis.twistingROM.ToString();
             }
-
-            severityLBDTxt.Text = "LBD Severity: " + ApplicationState.dataAnalysis.severityLBD.ToString();
-            spROM15Txt.Text = "SP ROM15: " + ApplicationState.dataAnalysis.spROM15.ToString();
-            spROM30Txt.Text = "SP ROM30: " + ApplicationState.dataAnalysis.spROM30.ToString();
-            fpROMTxt.Text = "FP ROM: " + ApplicationState.dataAnalysis.fpROM.ToString();
-            peakVelTxt.Text = "Peak Angular Velocity: " + ApplicationState.dataAnalysis.peakFlexAngVelocityAvgAt0.ToString();
-            peakAccTxt.Text = "Peak Angular Acceleration: " + ApplicationState.dataAnalysis.peakFlexAngAccelerationAvgAt0.ToString();
-            peakJerkTxt.Text = "Peak Angular Jerk: " + ApplicationState.dataAnalysis.peakFlexAngJerkAvgAt0.ToString();
-            twistingROMTxt.Text = "Twisting ROM: " + ApplicationState.dataAnalysis.twistingROM.ToString();
-
             trialBox.Items.Add(flexAt0Trial1);
             trialBox.Items.Add(flexAt0Trial2);
             trialBox.Items.Add(flexAt0Trial3);

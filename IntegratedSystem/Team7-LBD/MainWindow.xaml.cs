@@ -270,7 +270,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void DDIButton_Click(object sender, EventArgs e)
         {
-            dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData);
+            dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData, trialTracker);
             dataAnalysis.QuantifyLBD();
             ApplicationState.dataAnalysis = dataAnalysis;
             var form = new DDI();

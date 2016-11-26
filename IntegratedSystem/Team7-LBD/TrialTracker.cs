@@ -13,8 +13,8 @@ public class TrialTracker
     public const string flexAt30RightTrial2 = "Flex At 30 Deg Right Trial 2";
     public const string flexAt30RightTrial3 = "Flex At 30 Deg Right Trial 3";
     public const string spROMTrial = "Sagittal Plane ROM Trial";
-    public bool allTrialsComplete;
-    List<bool> trialsCompleted;
+    public List<bool> trialsCompleted;
+    List<bool> trialsDone;
 
     public const int totalNumTrials = 10;
 
@@ -61,20 +61,53 @@ public class TrialTracker
         flexAt30RightT2IndexEnd = 0;
         flexAt30RightT3IndexEnd = 0;
         trialsCompleted = new List<bool>();
-        for(int i = 0; i < totalNumTrials; i++)
+        trialsDone = new List<bool>();
+        for (int i = 0; i < totalNumTrials; i++)
         {
             trialsCompleted.Add(false);
         }
-        allTrialsComplete = false;
+        for (int i = 0; i < totalNumTrials; i++)
+        {
+            trialsDone.Add(false);
+        }
     }
 
     public bool testsCompleted()
     {
+        bool allTrialsComplete = true;
         for (int i = 0; i < totalNumTrials; i++)
         {
             allTrialsComplete &= trialsCompleted[i];
         }
         return allTrialsComplete;
+    }
+
+    public void setTestComplete(int trialCompleted)
+    {
+        if(trialCompleted >= 0 && trialCompleted < 10)
+        {
+            trialsCompleted[trialCompleted] = true; 
+        }
+        
+    }
+
+    public bool testsFinished()
+    {
+        bool allTrialsDone = true;
+        for (int i = 0; i < totalNumTrials; i++)
+        {
+            allTrialsDone &= trialsDone[i];
+        }
+        return allTrialsDone;
+    }
+
+    public void setTestFinished(int trialDone)
+    {
+        if (trialDone >= 0 && trialDone < 10)
+        {
+            trialsDone[trialDone] = true;
+        }
+
     }
 
     public void setTrialIndexWithTrialString(int index, string trialName, bool isEnd)
