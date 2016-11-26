@@ -110,7 +110,6 @@
     </Compile>
     <Compile Include="IMUData.cs" />
     <Compile Include="KinectFeedback.cs" />
-    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

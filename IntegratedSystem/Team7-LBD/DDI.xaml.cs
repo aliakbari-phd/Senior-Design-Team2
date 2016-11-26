@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Axes;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -19,9 +22,32 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class DDI : Window
     {
+        public const string flexAt0Trial1 = "Flex At 0 Deg Trial 1";
+        public const string flexAt0Trial2 = "Flex At 0 Deg Trial 2";
+        public const string flexAt0Trial3 = "Flex At 0 Deg Trial 3";
+        public const string flexAt30LeftTrial1 = "Flex At 30 Deg Left Trial 1";
+        public const string flexAt30LeftTrial2 = "Flex At 30 Deg Left Trial 2";
+        public const string flexAt30LeftTrial3 = "Flex At 30 Deg Left Trial 3";
+        public const string flexAt30RightTrial1 = "Flex At 30 Deg Right Trial 1";
+        public const string flexAt30RightTrial2 = "Flex At 30 Deg Right Trial 2";
+        public const string flexAt30RightTrial3 = "Flex At 30 Deg Right Trial 3";
+        public const string spROMTrial = "Sagittal Plane ROM Trial";
+        public const string Angle = "Angle";
+        public const string angVel = "Angular Velocity";
+        public const string angAccel = "Angular Acceleration";
+        public const string angJerk = "Angular Jerk";
+
+        public PlotModel DataPlot { get; set; }
+
         public DDI()
         {
             InitializeComponent();
+
+            DataPlot = new PlotModel { Title = "Angle", LegendTitle = "Angle" };
+            DataPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Angle" });
+            DataPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Height" });
+
+
             patientIDTxt.Text = "PatientID: " + ApplicationState.dataAnalysis.patientID.ToString();
             ageTxt.Text = "Age: " + ApplicationState.dataAnalysis.age.ToString();
             if (ApplicationState.dataAnalysis.gender == true)
@@ -42,28 +68,83 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             peakJerkTxt.Text = "Peak Angular Jerk: " + ApplicationState.dataAnalysis.peakFlexAngJerkAvgAt0.ToString();
             twistingROMTxt.Text = "Twisting ROM: " + ApplicationState.dataAnalysis.twistingROM.ToString();
 
-            trialBox.Items.Add(MainViewModel.flexAt0Trial1);
-            trialBox.Items.Add(MainViewModel.flexAt0Trial2);
-            trialBox.Items.Add(MainViewModel.flexAt0Trial3);
-            trialBox.Items.Add(MainViewModel.flexAt30LeftTrial1);
-            trialBox.Items.Add(MainViewModel.flexAt30LeftTrial2);
-            trialBox.Items.Add(MainViewModel.flexAt30LeftTrial3);
-            trialBox.Items.Add(MainViewModel.flexAt30RightTrial1);
-            trialBox.Items.Add(MainViewModel.flexAt30RightTrial2);
-            trialBox.Items.Add(MainViewModel.flexAt30RightTrial3);
-            trialBox.Items.Add(MainViewModel.spROMTrial);
+            trialBox.Items.Add(flexAt0Trial1);
+            trialBox.Items.Add(flexAt0Trial2);
+            trialBox.Items.Add(flexAt0Trial3);
+            trialBox.Items.Add(flexAt30LeftTrial1);
+            trialBox.Items.Add(flexAt30LeftTrial2);
+            trialBox.Items.Add(flexAt30LeftTrial3);
+            trialBox.Items.Add(flexAt30RightTrial1);
+            trialBox.Items.Add(flexAt30RightTrial2);
+            trialBox.Items.Add(flexAt30RightTrial3);
+            trialBox.Items.Add(spROMTrial);
 
-            parameterBox.Items.Add(MainViewModel.Angle);
-            parameterBox.Items.Add(MainViewModel.angVel);
-            parameterBox.Items.Add(MainViewModel.angAccel);
-            parameterBox.Items.Add(MainViewModel.angJerk);
+            parameterBox.Items.Add(Angle);
+            parameterBox.Items.Add(angVel);
+            parameterBox.Items.Add(angAccel);
+            parameterBox.Items.Add(angJerk);
         }
 
         private void GraphDisplayButton_Click(object sender, EventArgs e)
         {
-            MainViewModel Graph = new MainViewModel();
-            Graph.plotGraph(trialBox.Text, parameterBox.Text);
+            FunctionSeries data = new FunctionSeries();
+            // Create the plot model
+            List<float> angularTest = new List<float>();
+            List<float> timeStampsAT = new List<float>();
 
+            DataPlot.LegendPosition = LegendPosition.RightBottom;
+            DataPlot.LegendPlacement = LegendPlacement.Outside;
+            DataPlot.LegendOrientation = LegendOrientation.Horizontal;
+
+            var Yaxis = new OxyPlot.Axes.LinearAxis();
+            OxyPlot.Axes.LinearAxis XAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = 0, Maximum = 100 };
+
+            switch (trialBox.Text)
+            {
+                case flexAt0Trial1:
+                    switch(parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Anglular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt0T1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Anglular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt0T1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Anglular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt0T1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+            }
+            for (int x = 0; x < angularTest.Count; ++x)
+            {
+                DataPoint dataPoint = new DataPoint(timeStampsAT[x], angularTest[x]);
+                data.Points.Add(dataPoint);
+            }
+
+            DataPlot.Series.Add(data);
+            DataPlot.Axes.Add(Yaxis);
+            DataPlot.Axes.Add(XAxis);
+            this.plot.Model = DataPlot;
         }
     }
 }
