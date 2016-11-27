@@ -108,7 +108,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             DataPlot.LegendOrientation = LegendOrientation.Horizontal;
 
             var Yaxis = new OxyPlot.Axes.LinearAxis();
-            OxyPlot.Axes.LinearAxis XAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = 0, Maximum = 100 };
+            OxyPlot.Axes.LinearAxis XAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = 0};
 
             switch (trialBox.Text)
             {
@@ -116,30 +116,327 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     switch(parameterBox.Text)
                     {
                         case Angle:
-                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Angle" };
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 1 Angle" };
                             angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T1;
                             timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
                             XAxis.Title = "Time (s)";
                             Yaxis.Title = "Angle (degrees)";
                             break;
                         case angVel:
-                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Anglular Velocity" };
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 1 Angular Velocity" };
                             angularTest = ApplicationState.dataAnalysis.angularFlexVelAt0T1;
                             timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
                             XAxis.Title = "Time (s)";
                             Yaxis.Title = "Anglular Velocity (degrees/sec)";
                             break;
                         case angAccel:
-                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Anglular Acceleration" };
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 1 Angular Acceleration" };
                             angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt0T1;
                             timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
                             XAxis.Title = "Time (s)";
                             Yaxis.Title = "Anglular Acceleration (degrees/sec)";
                             break;
                         case angJerk:
-                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 0 Anglular Jerk" };
-                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt0T1;
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 1 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt0T1;
                             timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt0Trial2:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 2 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 2 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt0T2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 2 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt0T2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 2 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt0T2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt0Trial3:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 3 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 3 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt0T3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 3 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt0T3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 0 Deg Trial 3 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt0T3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt30LeftTrial1:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 1 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt30LeftT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 1 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt30LeftT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 1 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30LeftT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 1 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30LeftT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt30LeftTrial2:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 2 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt30LeftT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 2 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt30LeftT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 2 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30LeftT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 2 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt30LeftT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt30LeftTrial3:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 3 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt30LeftT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 3 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt30LeftT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 3 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30LeftT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Left Trial 3 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt30LeftT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30LeftT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt30RightTrial1:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 1 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt30RightT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 1 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt30RightT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 1 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30RightT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 1 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt30RightT1;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT1;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt30RightTrial2:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 2 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt30RightT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 2 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt30RightT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 2 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30RightT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 2 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt30RightT2;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT2;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case flexAt30RightTrial3:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 3 Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt30RightT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 3 Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexVelAt30RightT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 3 Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexAccelAt30RightT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Flex At 30 Deg Right Trial 3 Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.angularFlexJerkAt30RightT3;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt30RightT3;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Jerk (degrees/sec)";
+                            break;
+                    }
+                    break;
+                case spROMTrial:
+                    switch (parameterBox.Text)
+                    {
+                        case Angle:
+                            DataPlot = new PlotModel { Title = "Sagittal Plane ROM Trial Angle" };
+                            angularTest = ApplicationState.dataAnalysis.imuData.sagittalTrialSPAngles;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidSagittalTrial;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Angle (degrees)";
+                            break;
+                        case angVel:
+                            DataPlot = new PlotModel { Title = "Sagittal Plane ROM Trial Angular Velocity" };
+                            angularTest = ApplicationState.dataAnalysis.sagittalTrialSPVel;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidSagittalTrial;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Velocity (degrees/sec)";
+                            break;
+                        case angAccel:
+                            DataPlot = new PlotModel { Title = "Sagittal Plane ROM Trial Angular Acceleration" };
+                            angularTest = ApplicationState.dataAnalysis.sagittalTrialSPAccel;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidSagittalTrial;
+                            XAxis.Title = "Time (s)";
+                            Yaxis.Title = "Anglular Acceleration (degrees/sec)";
+                            break;
+                        case angJerk:
+                            DataPlot = new PlotModel { Title = "Sagittal Plane ROM Trial Angular Jerk" };
+                            angularTest = ApplicationState.dataAnalysis.sagittalTrialSPJerk;
+                            timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidSagittalTrial;
                             XAxis.Title = "Time (s)";
                             Yaxis.Title = "Anglular Jerk (degrees/sec)";
                             break;
