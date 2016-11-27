@@ -13,10 +13,17 @@ public class IMUData
     public List<Int16> gyroYBase;
     public List<Int16> gyroZBase;
     public List<int> timeStampsBase;
+    public List<int> gyroIntPeakElement;
+    public List<int> gyroTruePeakElement;
     public float ispeakgyro = 0;
     public float ispeakkin = 0;
     public float peaktimegyro = 0;
     public float peaktimekin = 0;
+    public float truepeakgyro = 0;
+    public float truepeakkin = 0;
+    public float truegyroTS = 0;
+    public float truekinTS = 0;
+    public float syncvalue = 0;
 
     public List<float> gyroFlexInterPeaks;      //interim peaks detected
     public List<float> kinectFlexInterPeaks;
@@ -24,10 +31,10 @@ public class IMUData
     public List<float> gyroFlexTruePeaks;       //true peaks
     public List<float> kinectFlexTruePeaks;
 
-    public List<float> gyroIntPeaktimestamps;
+    public List<float> gyroIntPeaktimestamps;   //timestamps lists
     public List<float> kinectIntPeaktimestamps;
 
-    public List<float> gyroTruePeaktimestamps;
+    public List<float> gyroTruePeaktimestamps;  //true timestamps lists
     public List<float> kinectTruePeaktimestamps;
 
     public KinectFeedback kinectFeedback;
@@ -105,6 +112,12 @@ public class IMUData
         }
     }
 
+    //filtering
+
+    
+
+    //Correction Code
+
     void findPeaks()
     {
         for (int gyroiter=1; gyroiter < anglesMid.Count-1; gyroiter++)
@@ -115,6 +128,7 @@ public class IMUData
                 peaktimegyro = transposedTSMid[gyroiter];
                 gyroFlexInterPeaks.Add(ispeakgyro);
                 gyroIntPeaktimestamps.Add(peaktimegyro);
+                gyroIntPeakElement.Add(anglesMid.Count);
             }
         }
 
@@ -131,21 +145,68 @@ public class IMUData
 
         gyroFlexTruePeaks.Add(gyroFlexInterPeaks[0]);
         kinectFlexTruePeaks.Add(kinectFlexInterPeaks[0]);
+        gyroTruePeakElement.Add(gyroIntPeakElement[0]);
 
-        for (int gyroiter2=1; gyroiter2 < gyroFlexInterPeaks.Count; gyroiter2++)
+        for (int gyroiter2=0; gyroiter2 < gyroFlexInterPeaks.Count-1; gyroiter2++)
         {
+            if (gyroIntPeaktimestamps[gyroiter2 + 1] - gyroIntPeaktimestamps[gyroiter2] > 0.5)
+            {
+                truepeakgyro = gyroFlexInterPeaks[gyroiter2 + 1];
+                truegyroTS = gyroIntPeaktimestamps[gyroiter2 + 1];
+                gyroFlexTruePeaks.Add(truepeakgyro);
+                gyroTruePeaktimestamps.Add(truegyroTS);
+                gyroTruePeakElement.Add(gyroIntPeakElement[gyroiter2 + 1]);
+            }
+        }
 
+        for (int kiniter2=1; kiniter2 < kinectFlexInterPeaks.Count-1; kiniter2++)
+        {
+            if (kinectIntPeaktimestamps[kiniter2 + 1] - kinectIntPeaktimestamps[kiniter2] > 0.5)
+            {
+                truepeakkin = kinectFlexInterPeaks[kiniter2 + 1];
+                truekinTS = kinectIntPeaktimestamps[kiniter2 + 1];
+                kinectFlexTruePeaks.Add(truepeakkin);
+                kinectTruePeaktimestamps.Add(truekinTS);
+            }
         }
     }
 
     void signalSync()
     {
-
+        syncvalue = kinectTruePeaktimestamps[3] - gyroTruePeaktimestamps[3];
+        syncvalue = Math.Abs(syncvalue);
+        if (kinectTruePeaktimestamps[3] > gyroTruePeaktimestamps[3])
+        {
+            for(int synciter=0; synciter<transposedTSMid.Count; synciter++)
+            {
+                transposedTSMid[synciter] = transposedTSMid[synciter] + syncvalue;
+            }
+        }
+        if(gyroTruePeaktimestamps[3] > kinectTruePeaktimestamps[3])
+        {
+            for(int synciter=0; synciter<kinectFeedback.transposedTSKin.Count; synciter++)
+            {
+                kinectFeedback.transposedTSKin[synciter] = kinectFeedback.transposedTSKin[synciter] + syncvalue;
+            }
+        }
     }
 
     void driftCorrection()
     {
-
+        for(int correctionloop = 0; correctionloop < kinectTruePeaktimestamps.Count - 1; correctionloop++)
+        {
+            float slopeKin = 0;
+            slopeKin = (kinectFlexTruePeaks[correctionloop + 1] - kinectFlexTruePeaks[correctionloop]) / (kinectTruePeaktimestamps[correctionloop + 1] - kinectTruePeaktimestamps[correctionloop]);
+            float slopeGyro = 0;
+            slopeGyro = (gyroFlexTruePeaks[correctionloop + 1] - gyroFlexTruePeaks[correctionloop]) / (gyroTruePeaktimestamps[correctionloop + 1] - gyroTruePeaktimestamps[correctionloop]);
+            int stepcount = gyroTruePeakElement[correctionloop + 1] - gyroTruePeakElement[correctionloop];
+            float slopediff = 0;
+            for (int slopedrawcount = 0; slopedrawcount<stepcount;slopedrawcount++)
+            {
+                slopediff = (gyroFlexTruePeaks[correctionloop] + slopeKin * slopedrawcount * timeIntervals) - (gyroFlexTruePeaks[correctionloop] + slopeGyro * slopedrawcount * timeIntervals);
+                anglesMid[gyroTruePeakElement[correctionloop] + slopedrawcount] = anglesMid[gyroTruePeakElement[correctionloop] + slopedrawcount] + slopediff;
+            }
+        }
     }
 
     public void getAngles()
