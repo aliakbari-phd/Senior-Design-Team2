@@ -113,6 +113,25 @@ public class IMUData
     }
 
     //filtering
+    void filtering()
+    {
+        int anglesarraysize = anglesMid.Count;
+        double[] preProcessedData = new double[anglesarraysize];
+
+        for(int i=0; i<anglesMid.Count;i++)
+        {
+            preProcessedData[i] = anglesMid[i];
+        }
+
+        MathNet.Filtering.OnlineFilter lowPass = MathNet.Filtering.OnlineFilter.CreateLowpass(MathNet.Filtering.ImpulseResponse.Infinite, 400, 10000, 3);
+        preProcessedData = lowPass.ProcessSamples(preProcessedData);
+        anglesMid.Clear();
+        for (int i = 0; i < preProcessedData.Length; i++)
+        {
+            anglesMid.Add((float)preProcessedData[i]);
+        }
+    }
+
 
     
 
