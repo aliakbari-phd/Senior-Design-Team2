@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class SensorData
 {
     //Each list contains set of a specific joint's data, first element denotes the Enum
-    public List<List<float>> kinectData;
+    public List<List<double>> kinectData;
     //Each list contains data at a certain angle
     public List<List<Int16>> wearableSensor1Data;
     public List<List<Int16>> wearableSensor2Data;
@@ -20,7 +20,7 @@ public class SensorData
         TwistingROM
     }
 
-    public SensorData(List<List<float>> kinectJoints, List<List<Int16>> wearable1, List<List<Int16>> wearable2)
+    public SensorData(List<List<double>> kinectJoints, List<List<Int16>> wearable1, List<List<Int16>> wearable2)
 	{
         kinectData = kinectJoints;
         wearableSensor1Data = wearable1;
@@ -29,7 +29,7 @@ public class SensorData
 
     public SensorData()
     {
-        kinectData = new List<List<float>>();
+        kinectData = new List<List<double>>();
         wearableSensor1Data = new List<List<Int16>>();
         wearableSensor2Data = new List<List<Int16>>();
     }

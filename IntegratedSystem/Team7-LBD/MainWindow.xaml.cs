@@ -208,8 +208,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private string statusText = null;
 
         //Data structures to collect IMU data
-        private List<float> gyroXMid = new List<float>();
-        private List<float> gyroYMid = new List<float>();
+        private List<double> gyroXMid = new List<double>();
+        private List<double> gyroYMid = new List<double>();
         private List<int> timeStampsMid = new List<int>();
 
         //Data structure to track trials
@@ -514,13 +514,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int timestamp = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
 
                         //Declare lists of joint data we are collecting
-                        List<float> spineBaseData = new List<float>();
-                        List<float> spineMidData = new List<float>();
-                        List<float> spineShoulderData = new List<float>();
-                        List<float> rightShoulderData = new List<float>();
+                        List<double> spineBaseData = new List<double>();
+                        List<double> spineMidData = new List<double>();
+                        List<double> spineShoulderData = new List<double>();
+                        List<double> rightShoulderData = new List<double>();
 
                         //Collect entire set of kinect data
-                        List<List<float>> kinectData = new List<List<float>>();
+                        List<List<double>> kinectData = new List<List<double>>();
 
 
                         //If the kinect feedback system has not yet been set
@@ -543,9 +543,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         else
                         {
                             //Now we can collect positions of RS, SS, and SB to collect sets of vectors
-                            List<float> rightShoulderPos = new List<float>();
-                            List<float> spineShoulderPos = new List<float>();
-                            List<float> spineMidPos = new List<float>();
+                            List<double> rightShoulderPos = new List<double>();
+                            List<double> spineShoulderPos = new List<double>();
+                            List<double> spineMidPos = new List<double>();
                             rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
                             spineShoulderPos.Add(body.Joints[JointType.SpineShoulder].Position.X);
                             spineMidPos.Add(body.Joints[JointType.SpineMid].Position.X);
@@ -1155,8 +1155,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         int millisecond = datenow.Millisecond;
                         int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
                         //Collect data into list
-                        gyroXMid.Add((float)(BitConverter.ToInt16(convert, 16) / 32.75));
-                        gyroYMid.Add((float)(BitConverter.ToInt16(convert, 14) / 32.75));
+                        gyroXMid.Add((double)(BitConverter.ToInt16(convert, 16) / 32.75));
+                        gyroYMid.Add((double)(BitConverter.ToInt16(convert, 14) / 32.75));
                         timeStampsMid.Add(timestampS);
 
                         //Write to file

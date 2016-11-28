@@ -100,8 +100,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             FunctionSeries data = new FunctionSeries();
             // Create the plot model
-            List<float> angularTest = new List<float>();
-            List<float> timeStampsAT = new List<float>();
+            List<double> angularTest = new List<double>();
+            List<double> timeStampsAT = new List<double>();
 
             DataPlot.LegendPosition = LegendPosition.RightBottom;
             DataPlot.LegendPlacement = LegendPlacement.Outside;

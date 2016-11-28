@@ -54,7 +54,7 @@
         <ComboBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="437,100,0,0" Name="peakJerkFactor" VerticalAlignment="Top" Width="77" Grid.RowSpan="2" IsEditable="True" />
         <Button Content="Set Factors" Grid.Column="1" Grid.Row="2" Height="31" HorizontalAlignment="Left" Margin="517,70,0,0" Name="setFactors" VerticalAlignment="Top" Width="67" Click="setFactors_Click" />
         <Button Content="Calibrate" Grid.Column="1" Grid.Row="2" Height="31" HorizontalAlignment="Left" Margin="517,100,0,0" Name="calibrate" VerticalAlignment="Top" Width="67" Click="calibrate_Click" />
-        <TextBlock Name="TBCountDown" TextAlignment="Center" FontSize="18" FontFamily="Segoe UI LIght" Margin="603,33.6,-0.4,95.6" Grid.Row="2"/>
+        <TextBlock Name="TBCountDown" TextAlignment="Center" FontSize="18" FontFamily="Segoe UI LIght" Margin="118,29.286,484.286,99.571" Grid.Row="2"/>
         <Button Content="Select Path" Grid.Row="2" Height="22" HorizontalAlignment="Left" Margin="511,6.6,0,0" Name="BrowseFolderButton" VerticalAlignment="Top" Width="67" Click="BrowseFolderButton_Click" />
         <Button Content="Feedback" Grid.Row="2" Height="31" HorizontalAlignment="Left" Margin="594,70.286,0,0" Name="FeedbackDisplayButton" VerticalAlignment="Top" Width="70" Click="FeedbackDisplayButton_Click" />
         <ComboBox Grid.Row="2" HorizontalAlignment="Left" Margin="583,33.6,0,98.6" Name="trialBox" Width="77" IsEditable="True"/>

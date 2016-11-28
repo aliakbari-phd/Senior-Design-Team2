@@ -23,21 +23,21 @@ public class DataAnalysis
     public bool gender;
     public int age;
 
-    public float peakFlexAngVelocityAvgAt0;
-    public float peakFlexAngAccelerationAvgAt0;
-    public float peakFlexAngJerkAvgAt0;
+    public double peakFlexAngVelocityAvgAt0;
+    public double peakFlexAngAccelerationAvgAt0;
+    public double peakFlexAngJerkAvgAt0;
 
-    public float peakFlexAngVelocityAvgAt30Left;
-    public float peakFlexAngAccelerationAvgAt30Left;
-    public float peakFlexAngJerkAvgAt30Left;
+    public double peakFlexAngVelocityAvgAt30Left;
+    public double peakFlexAngAccelerationAvgAt30Left;
+    public double peakFlexAngJerkAvgAt30Left;
 
-    public float peakFlexAngVelocityAvgAt30Right;
-    public float peakFlexAngAccelerationAvgAt30Right;
-    public float peakFlexAngJerkAvgAt30Right;
+    public double peakFlexAngVelocityAvgAt30Right;
+    public double peakFlexAngAccelerationAvgAt30Right;
+    public double peakFlexAngJerkAvgAt30Right;
 
-    public float peakSPAngVelocity;
-    public float peakSPAngAcceleration;
-    public float peakSPAngJerk;
+    public double peakSPAngVelocity;
+    public double peakSPAngAcceleration;
+    public double peakSPAngJerk;
 
     public bool fpROM = true;
     public bool spROM15 = true;
@@ -49,99 +49,99 @@ public class DataAnalysis
     public double maxSPCWAngle;
     public double maxSPCCWAngle;
 
-    public List<float> kinectSPAngleAt0T1;
+    public List<double> kinectSPAngleAt0T1;
 
-    public List<float> angularFlexVelAt0T1;
-    public List<float> angularSPVelAt0T1;
+    public List<double> angularFlexVelAt0T1;
+    public List<double> angularSPVelAt0T1;
 
-    public List<float> angularFlexAccelAt0T1;
-    public List<float> angularSPAccelAt0T1;
+    public List<double> angularFlexAccelAt0T1;
+    public List<double> angularSPAccelAt0T1;
 
-    public List<float> angularFlexJerkAt0T1;
-    public List<float> angularSPJerkAt0T1;
+    public List<double> angularFlexJerkAt0T1;
+    public List<double> angularSPJerkAt0T1;
 
-    public List<float> angularFlexVelAt0T2;
-    public List<float> angularSPVelAt0T2;
+    public List<double> angularFlexVelAt0T2;
+    public List<double> angularSPVelAt0T2;
 
-    public List<float> angularFlexAccelAt0T2;
-    public List<float> angularSPAccelAt0T2;
+    public List<double> angularFlexAccelAt0T2;
+    public List<double> angularSPAccelAt0T2;
 
-    public List<float> angularFlexJerkAt0T2;
-    public List<float> angularSPJerkAt0T2;
+    public List<double> angularFlexJerkAt0T2;
+    public List<double> angularSPJerkAt0T2;
 
-    public List<float> angularFlexVelAt0T3;
-    public List<float> angularSPVelAt0T3;
+    public List<double> angularFlexVelAt0T3;
+    public List<double> angularSPVelAt0T3;
 
-    public List<float> angularFlexAccelAt0T3;
-    public List<float> angularSPAccelAt0T3;
+    public List<double> angularFlexAccelAt0T3;
+    public List<double> angularSPAccelAt0T3;
 
-    public List<float> angularFlexJerkAt0T3;
-    public List<float> angularSPJerkAt0T3;
+    public List<double> angularFlexJerkAt0T3;
+    public List<double> angularSPJerkAt0T3;
 
-    public List<float> angularFlexVelAt30LeftT1;
-    public List<float> angularSPVelAt30LeftT1;
+    public List<double> angularFlexVelAt30LeftT1;
+    public List<double> angularSPVelAt30LeftT1;
 
-    public List<float> angularFlexAccelAt30LeftT1;
-    public List<float> angularSPAccelAt30LeftT1;
+    public List<double> angularFlexAccelAt30LeftT1;
+    public List<double> angularSPAccelAt30LeftT1;
 
-    public List<float> angularFlexJerkAt30LeftT1;
-    public List<float> angularSPJerkAt30LeftT1;
+    public List<double> angularFlexJerkAt30LeftT1;
+    public List<double> angularSPJerkAt30LeftT1;
 
-    public List<float> angularFlexVelAt30LeftT2;
-    public List<float> angularSPVelAt30LeftT2;
+    public List<double> angularFlexVelAt30LeftT2;
+    public List<double> angularSPVelAt30LeftT2;
 
-    public List<float> angularFlexAccelAt30LeftT2;
-    public List<float> angularSPAccelAt30LeftT2;
+    public List<double> angularFlexAccelAt30LeftT2;
+    public List<double> angularSPAccelAt30LeftT2;
 
-    public List<float> angularFlexJerkAt30LeftT2;
-    public List<float> angularSPJerkAt30LeftT2;
+    public List<double> angularFlexJerkAt30LeftT2;
+    public List<double> angularSPJerkAt30LeftT2;
 
-    public List<float> angularFlexVelAt30LeftT3;
-    public List<float> angularSPVelAt30LeftT3;
+    public List<double> angularFlexVelAt30LeftT3;
+    public List<double> angularSPVelAt30LeftT3;
 
-    public List<float> angularFlexAccelAt30LeftT3;
-    public List<float> angularSPAccelAt30LeftT3;
+    public List<double> angularFlexAccelAt30LeftT3;
+    public List<double> angularSPAccelAt30LeftT3;
 
-    public List<float> angularFlexJerkAt30LeftT3;
-    public List<float> angularSPJerkAt30LeftT3;
+    public List<double> angularFlexJerkAt30LeftT3;
+    public List<double> angularSPJerkAt30LeftT3;
 
-    public List<float> angularFlexVelAt30RightT1;
-    public List<float> angularSPVelAt30RightT1;
+    public List<double> angularFlexVelAt30RightT1;
+    public List<double> angularSPVelAt30RightT1;
 
-    public List<float> angularFlexAccelAt30RightT1;
-    public List<float> angularSPAccelAt30RightT1;
+    public List<double> angularFlexAccelAt30RightT1;
+    public List<double> angularSPAccelAt30RightT1;
 
-    public List<float> angularFlexJerkAt30RightT1;
-    public List<float> angularSPJerkAt30RightT1;
+    public List<double> angularFlexJerkAt30RightT1;
+    public List<double> angularSPJerkAt30RightT1;
 
-    public List<float> angularFlexVelAt30RightT2;
-    public List<float> angularSPVelAt30RightT2;
+    public List<double> angularFlexVelAt30RightT2;
+    public List<double> angularSPVelAt30RightT2;
 
-    public List<float> angularFlexAccelAt30RightT2;
-    public List<float> angularSPAccelAt30RightT2;
+    public List<double> angularFlexAccelAt30RightT2;
+    public List<double> angularSPAccelAt30RightT2;
 
-    public List<float> angularFlexJerkAt30RightT2;
-    public List<float> angularSPJerkAt30RightT2;
+    public List<double> angularFlexJerkAt30RightT2;
+    public List<double> angularSPJerkAt30RightT2;
 
-    public List<float> angularFlexVelAt30RightT3;
-    public List<float> angularSPVelAt30RightT3;
+    public List<double> angularFlexVelAt30RightT3;
+    public List<double> angularSPVelAt30RightT3;
 
-    public List<float> angularFlexAccelAt30RightT3;
-    public List<float> angularSPAccelAt30RightT3;
+    public List<double> angularFlexAccelAt30RightT3;
+    public List<double> angularSPAccelAt30RightT3;
 
-    public List<float> angularFlexJerkAt30RightT3;
-    public List<float> angularSPJerkAt30RightT3;
+    public List<double> angularFlexJerkAt30RightT3;
+    public List<double> angularSPJerkAt30RightT3;
 
-    public List<float> sagittalTrialFlexVel;
-    public List<float> sagittalTrialSPVel;
+    public List<double> sagittalTrialFlexVel;
+    public List<double> sagittalTrialSPVel;
 
-    public List<float> sagittalTrialFlexAccel;
-    public List<float> sagittalTrialSPAccel;
+    public List<double> sagittalTrialFlexAccel;
+    public List<double> sagittalTrialSPAccel;
 
-    public List<float> sagittalTrialFlexJerk;
-    public List<float> sagittalTrialSPJerk;
+    public List<double> sagittalTrialFlexJerk;
+    public List<double> sagittalTrialSPJerk;
 
-    public List<float> timeStampsAngleAt0;
+    public List<double> timeStampsAngleAt0;
 
     public double severityLBD;
 
@@ -154,80 +154,80 @@ public class DataAnalysis
         patientID = 0;
         gender = true;
         age = 20;
-        kinectSPAngleAt0T1 = new List<float>();
-        angularSPVelAt0T1 = new List<float>();
-        angularFlexVelAt0T1 = new List<float>();
-        angularSPAccelAt0T1 = new List<float>();
-        angularFlexAccelAt0T1 = new List<float>();
-        angularSPJerkAt0T1 = new List<float>();
-        angularFlexJerkAt0T1 = new List<float>();
-        timeStampsAngleAt0 = new List<float>();
+        kinectSPAngleAt0T1 = new List<double>();
+        angularSPVelAt0T1 = new List<double>();
+        angularFlexVelAt0T1 = new List<double>();
+        angularSPAccelAt0T1 = new List<double>();
+        angularFlexAccelAt0T1 = new List<double>();
+        angularSPJerkAt0T1 = new List<double>();
+        angularFlexJerkAt0T1 = new List<double>();
+        timeStampsAngleAt0 = new List<double>();
 
-        angularSPVelAt0T2 = new List<float>();
-        angularFlexVelAt0T2 = new List<float>();
-        angularSPAccelAt0T2 = new List<float>();
-        angularFlexAccelAt0T2 = new List<float>();
-        angularSPJerkAt0T2 = new List<float>();
-        angularFlexJerkAt0T2 = new List<float>();
+        angularSPVelAt0T2 = new List<double>();
+        angularFlexVelAt0T2 = new List<double>();
+        angularSPAccelAt0T2 = new List<double>();
+        angularFlexAccelAt0T2 = new List<double>();
+        angularSPJerkAt0T2 = new List<double>();
+        angularFlexJerkAt0T2 = new List<double>();
 
-        angularSPVelAt0T3 = new List<float>();
-        angularFlexVelAt0T3 = new List<float>();
-        angularSPAccelAt0T3 = new List<float>();
-        angularFlexAccelAt0T3 = new List<float>();
-        angularSPJerkAt0T3 = new List<float>();
-        angularFlexJerkAt0T3 = new List<float>();
+        angularSPVelAt0T3 = new List<double>();
+        angularFlexVelAt0T3 = new List<double>();
+        angularSPAccelAt0T3 = new List<double>();
+        angularFlexAccelAt0T3 = new List<double>();
+        angularSPJerkAt0T3 = new List<double>();
+        angularFlexJerkAt0T3 = new List<double>();
 
-        angularSPVelAt30LeftT1 = new List<float>();
-        angularFlexVelAt30LeftT1 = new List<float>();
-        angularSPAccelAt30LeftT1 = new List<float>();
-        angularFlexAccelAt30LeftT1 = new List<float>();
-        angularSPJerkAt30LeftT1 = new List<float>();
-        angularFlexJerkAt30LeftT1 = new List<float>();
+        angularSPVelAt30LeftT1 = new List<double>();
+        angularFlexVelAt30LeftT1 = new List<double>();
+        angularSPAccelAt30LeftT1 = new List<double>();
+        angularFlexAccelAt30LeftT1 = new List<double>();
+        angularSPJerkAt30LeftT1 = new List<double>();
+        angularFlexJerkAt30LeftT1 = new List<double>();
 
-        angularSPVelAt30LeftT2 = new List<float>();
-        angularFlexVelAt30LeftT2 = new List<float>();
-        angularSPAccelAt30LeftT2 = new List<float>();
-        angularFlexAccelAt30LeftT2 = new List<float>();
-        angularSPJerkAt30LeftT2 = new List<float>();
-        angularFlexJerkAt30LeftT2 = new List<float>();
+        angularSPVelAt30LeftT2 = new List<double>();
+        angularFlexVelAt30LeftT2 = new List<double>();
+        angularSPAccelAt30LeftT2 = new List<double>();
+        angularFlexAccelAt30LeftT2 = new List<double>();
+        angularSPJerkAt30LeftT2 = new List<double>();
+        angularFlexJerkAt30LeftT2 = new List<double>();
 
-        angularSPVelAt30LeftT3 = new List<float>();
-        angularFlexVelAt30LeftT3 = new List<float>();
-        angularSPAccelAt30LeftT3 = new List<float>();
-        angularFlexAccelAt30LeftT3 = new List<float>();
-        angularSPJerkAt30LeftT3 = new List<float>();
-        angularFlexJerkAt30LeftT3 = new List<float>();
+        angularSPVelAt30LeftT3 = new List<double>();
+        angularFlexVelAt30LeftT3 = new List<double>();
+        angularSPAccelAt30LeftT3 = new List<double>();
+        angularFlexAccelAt30LeftT3 = new List<double>();
+        angularSPJerkAt30LeftT3 = new List<double>();
+        angularFlexJerkAt30LeftT3 = new List<double>();
 
-        angularSPVelAt30RightT1 = new List<float>();
-        angularFlexVelAt30RightT1 = new List<float>();
-        angularSPAccelAt30RightT1 = new List<float>();
-        angularFlexAccelAt30RightT1 = new List<float>();
-        angularSPJerkAt30RightT1 = new List<float>();
-        angularFlexJerkAt30RightT1 = new List<float>();
+        angularSPVelAt30RightT1 = new List<double>();
+        angularFlexVelAt30RightT1 = new List<double>();
+        angularSPAccelAt30RightT1 = new List<double>();
+        angularFlexAccelAt30RightT1 = new List<double>();
+        angularSPJerkAt30RightT1 = new List<double>();
+        angularFlexJerkAt30RightT1 = new List<double>();
 
-        angularSPVelAt30RightT2 = new List<float>();
-        angularFlexVelAt30RightT2 = new List<float>();
-        angularSPAccelAt30RightT2 = new List<float>();
-        angularFlexAccelAt30RightT2 = new List<float>();
-        angularSPJerkAt30RightT2 = new List<float>();
-        angularFlexJerkAt30RightT2 = new List<float>();
+        angularSPVelAt30RightT2 = new List<double>();
+        angularFlexVelAt30RightT2 = new List<double>();
+        angularSPAccelAt30RightT2 = new List<double>();
+        angularFlexAccelAt30RightT2 = new List<double>();
+        angularSPJerkAt30RightT2 = new List<double>();
+        angularFlexJerkAt30RightT2 = new List<double>();
 
-        angularSPVelAt30RightT3 = new List<float>();
-        angularFlexVelAt30RightT3 = new List<float>();
-        angularSPAccelAt30RightT3 = new List<float>();
-        angularFlexAccelAt30RightT3 = new List<float>();
-        angularSPJerkAt30RightT3 = new List<float>();
-        angularFlexJerkAt30RightT3 = new List<float>();
+        angularSPVelAt30RightT3 = new List<double>();
+        angularFlexVelAt30RightT3 = new List<double>();
+        angularSPAccelAt30RightT3 = new List<double>();
+        angularFlexAccelAt30RightT3 = new List<double>();
+        angularSPJerkAt30RightT3 = new List<double>();
+        angularFlexJerkAt30RightT3 = new List<double>();
 
-        sagittalTrialSPVel = new List<float>();
-        sagittalTrialFlexVel = new List<float>();
-        sagittalTrialSPAccel = new List<float>();
-        sagittalTrialFlexAccel = new List<float>();
-        sagittalTrialSPJerk = new List<float>();
-        sagittalTrialFlexJerk = new List<float>();
+        sagittalTrialSPVel = new List<double>();
+        sagittalTrialFlexVel = new List<double>();
+        sagittalTrialSPAccel = new List<double>();
+        sagittalTrialFlexAccel = new List<double>();
+        sagittalTrialSPJerk = new List<double>();
+        sagittalTrialFlexJerk = new List<double>();
     }
 
-    public void InitWithData(List<float> kinectSPAngles, List<float> kinectFlexAngles, IMUData imu, TrialTracker tt)
+    public void InitWithData(List<double> kinectSPAngles, List<double> kinectFlexAngles, IMUData imu, TrialTracker tt)
     {
         kinectSPAngleAt0T1 = kinectSPAngles;
         kinectSPAngleAt0T1 = kinectFlexAngles;
@@ -239,14 +239,14 @@ public class DataAnalysis
     public double QuantifyLBD()
     {
         double rating = 0;
-        //float step = 1;
-        float ageFactor = 0;
-        float maxVel = 250;
-        float maxAcc = 500;
-        float maxJerk = 1000;
+        //double step = 1;
+        double ageFactor = 0;
+        double maxVel = 250;
+        double maxAcc = 500;
+        double maxJerk = 1000;
 
-        float peakSPAngle = 0;
-        float peakFlexAngle = 0;
+        double peakSPAngle = 0;
+        double peakFlexAngle = 0;
 
         //peakSPAngVelocityAt0 = 0;
         //peakSPAngAccelerationAt0 = 0;
@@ -260,12 +260,12 @@ public class DataAnalysis
         peakFlexAngAccelerationAvgAt0 = 0;
         peakFlexAngJerkAvgAt0 = 0;
 
-        float minFlexAngle = 0;
+        double minFlexAngle = 0;
 
         if (imuData.spAnglesAt0T1.Count > 0)
         {
             angularSPVelAt0T1 = CalcStepDerivative(imuData.spAnglesAt0T1, imuData.transposedTSMidAt0T1);
-            angularFlexVelAt0T1 = CalcStepDerivative(imuData.flexAnglesAt0T1, imuData.transposedTSMidAt0T1);
+            angularFlexVelAt0T1 = CalcStepDerivative(imuData.flexAnglesAt0T1, imuData.transposedTSMidAt0T1);    
             angularSPAccelAt0T1 = CalcStepDerivative(angularSPVelAt0T1, imuData.transposedTSMidAt0T1);
             angularFlexAccelAt0T1 = CalcStepDerivative(angularFlexVelAt0T1, imuData.transposedTSMidAt0T1);
             angularSPJerkAt0T1 = CalcStepDerivative(angularSPAccelAt0T1, imuData.transposedTSMidAt0T1);
@@ -510,7 +510,7 @@ public class DataAnalysis
             }
 
             //Factor in age
-            ageFactor = 1 / ((float)age);
+            ageFactor = 1 / ((double)age);
 
             rating += (ageFactor * 10);
 
@@ -533,9 +533,9 @@ public class DataAnalysis
 
 
     //potentially change to sensor data, keep a running max in main program
-    public float FindMax(List<float> list)
+    public double FindMax(List<double> list)
     {
-        float max = 0;
+        double max = 0;
         for(int i = 0; i < list.Count; i++)
         {
             if(max < list[i])
@@ -546,11 +546,11 @@ public class DataAnalysis
         return max;
     }
 
-    private List<int> FindChangeInDirectionIndices(List<float> list)
+    private List<int> FindChangeInDirectionIndices(List<double> list)
     {
         List<int> directionChangeIndices = new List<int>();
         int index = 1;
-        float diff = 0;
+        double diff = 0;
         for(; index < list.Count; index++)
         {
             diff = list[index] - list[index - 1];
@@ -562,9 +562,9 @@ public class DataAnalysis
         return directionChangeIndices;
     }
 
-    private float FindMaxExtension(List<float> list, List<int> changeInDirectionIndices)
+    private double FindMaxExtension(List<double> list, List<int> changeInDirectionIndices)
     {
-        float min = 0;
+        double min = 0;
         foreach (int i in changeInDirectionIndices)
         {
             if (min > list[i])
@@ -576,9 +576,9 @@ public class DataAnalysis
     }
 
     //potentially change to sensor data, keep a running min in main program
-    public float FindMin(List<float> list)
+    public double FindMin(List<double> list)
     {
-        float min = 100;
+        double min = 100;
         for (int i = 0; i < list.Count; i++)
         {
             if (min > list[i])
@@ -594,23 +594,23 @@ public class DataAnalysis
         //Define integration alg
     }
 
-    private List<float> CalcStepDerivative(List<float> floatList, List<float> timeStamps)
+    private List<double> CalcStepDerivative(List<double> doubleList, List<double> timeStamps)
     {
         // Originally the step was passed in
-        List<float> derivative = new List<float>();
-        float derivValue = 0;
-        float step = (timeStamps[(timeStamps.Count)-1] - timeStamps[0])/timeStamps.Count;
+        List<double> derivative = new List<double>();
+        double derivValue = 0;
+        double step = (timeStamps[(timeStamps.Count)-1] - timeStamps[0])/timeStamps.Count;
         // Add a leading 0 in order to make the sizes of the new
         // derivative list the same as the corresponding time stamps
         derivative.Add(0);
-        for (int i = 0; i < floatList.Count - 1; i ++)
+        for (int i = 0; i < doubleList.Count - 1; i ++)
         {
-            derivValue = ((floatList[i + 1] - floatList[i]) / step);
+            derivValue = ((doubleList[i + 1] - doubleList[i]) / step);
             derivative.Add(derivValue);
         }
         return derivative;
     }
-    private double QuantifyPeak(float max, float peakMeasurement, double peakFactor)
+    private double QuantifyPeak(double max, double peakMeasurement, double peakFactor)
     {
         double quantifiedPeak = 0;
         if(max < peakMeasurement)

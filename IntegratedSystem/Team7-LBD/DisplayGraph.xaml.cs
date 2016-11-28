@@ -36,8 +36,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         // Draw a simple graph.
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<float> angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T1;
-            List<float> timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
+            List<double> angularTest = ApplicationState.dataAnalysis.imuData.flexAnglesAt0T1;
+            List<double> timeStampsAT = ApplicationState.dataAnalysis.imuData.transposedTSMidAt0T1;
             double wxmin = ApplicationState.dataAnalysis.FindMin(timeStampsAT);
             double wxmax = ApplicationState.dataAnalysis.FindMax(timeStampsAT);
             double wymin = ApplicationState.dataAnalysis.FindMin(angularTest);

@@ -232,8 +232,8 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 
                             else
                             {
-                                List<float> rightShoulderPos = new List<float>();
-                                List<float> spineMidPos = new List<float>();
+                                List<double> rightShoulderPos = new List<double>();
+                                List<double> spineMidPos = new List<double>();
                                 rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.X);
                                 spineMidPos.Add(body.Joints[JointType.SpineMid].Position.X);
                                 rightShoulderPos.Add(body.Joints[JointType.ShoulderRight].Position.Y);

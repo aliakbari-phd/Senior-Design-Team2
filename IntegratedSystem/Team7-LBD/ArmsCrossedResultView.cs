@@ -37,7 +37,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         private int bodyIndex = 0;
 
         /// <summary> Current confidence value reported by the discrete gesture </summary>
-        private float confidence = 0.0f;
+        private double confidence = 0.0f;
 
         /// <summary> True, if the discrete gesture is currently being detected </summary>
         private bool detected = false;
@@ -55,7 +55,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// <param name="isTracked">True, if the body is currently tracked</param>
         /// <param name="detected">True, if the gesture is currently detected for the associated body</param>
         /// <param name="confidence">Confidence value for detection of the 'Seated' gesture</param>
-        public ArmsCrossedResultView(int bodyIndex, bool isTracked, bool detected, float confidence)
+        public ArmsCrossedResultView(int bodyIndex, bool isTracked, bool detected, double confidence)
         {
             this.BodyIndex = bodyIndex;
             this.IsTracked = isTracked;
@@ -150,9 +150,9 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         }
 
         /// <summary> 
-        /// Gets a float value which indicates the detector's confidence that the gesture is occurring for the associated body 
+        /// Gets a double value which indicates the detector's confidence that the gesture is occurring for the associated body 
         /// </summary>
-        public float Confidence
+        public double Confidence
         {
             get
             {
@@ -195,7 +195,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// <param name="isBodyTrackingIdValid">True, if the body associated with the GestureResultView object is still being tracked</param>
         /// <param name="isGestureDetected">True, if the discrete gesture is currently detected for the associated body</param>
         /// <param name="detectionConfidence">Confidence value for detection of the discrete gesture</param>
-        public void UpdateArmsCrossedResult(bool isBodyTrackingIdValid, bool isGestureDetected, float detectionConfidence)
+        public void UpdateArmsCrossedResult(bool isBodyTrackingIdValid, bool isGestureDetected, double detectionConfidence)
         {
             this.IsTracked = isBodyTrackingIdValid;
             this.Confidence = 0.0f;

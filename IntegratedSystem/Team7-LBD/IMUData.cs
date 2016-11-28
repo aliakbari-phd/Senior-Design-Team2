@@ -5,114 +5,148 @@ public class IMUData
 {
     // Index corresponds to a single frame, (ie:
     // gyroXMid[1] corresponds to gyroYMid[1] and timeStampsMid[1])
-    public List<float> gyroXMid;
-    public List<float> gyroYMid;
+    public List<double> gyroXMid;
+    public List<double> gyroYMid;
     public List<int> timeStampsMid;
 
-    public List<float> transposedTSMid;
-    public List<float> transposedTSBase;
+    public List<double> transposedTSMid;
+    public List<double> transposedTSBase;
 
-    public List<float> flexAnglesMid;
-    public List<float> spAnglesMid;
+    public List<double> flexAnglesMid;
+    public List<double> spAnglesMid;
 
-    public List<float> flexAnglesAt0T1;
-    public List<float> spAnglesAt0T1;
+    public List<double> flexAnglesMidCorrected;
+    public List<double> kinectFlexAnglesCorrected;
 
-    public List<float> flexAnglesAt0T2;
-    public List<float> spAnglesAt0T2;
+    public List<double> flexAnglesAt0T1;
+    public List<double> spAnglesAt0T1;
 
-    public List<float> flexAnglesAt0T3;
-    public List<float> spAnglesAt0T3;
+    public List<double> flexAnglesAt0T2;
+    public List<double> spAnglesAt0T2;
 
-    public List<float> flexAnglesAt30LeftT1;
-    public List<float> spAnglesAt30LeftT1;
+    public List<double> flexAnglesAt0T3;
+    public List<double> spAnglesAt0T3;
 
-    public List<float> flexAnglesAt30LeftT2;
-    public List<float> spAnglesAt30LeftT2;
+    public List<double> flexAnglesAt30LeftT1;
+    public List<double> spAnglesAt30LeftT1;
 
-    public List<float> flexAnglesAt30LeftT3;
-    public List<float> spAnglesAt30LeftT3;
+    public List<double> flexAnglesAt30LeftT2;
+    public List<double> spAnglesAt30LeftT2;
 
-    public List<float> flexAnglesAt30RightT1;
-    public List<float> spAnglesAt30RightT1;
+    public List<double> flexAnglesAt30LeftT3;
+    public List<double> spAnglesAt30LeftT3;
 
-    public List<float> flexAnglesAt30RightT2;
-    public List<float> spAnglesAt30RightT2;
+    public List<double> flexAnglesAt30RightT1;
+    public List<double> spAnglesAt30RightT1;
 
-    public List<float> flexAnglesAt30RightT3;
-    public List<float> spAnglesAt30RightT3;
+    public List<double> flexAnglesAt30RightT2;
+    public List<double> spAnglesAt30RightT2;
 
-    public List<float> sagittalTrialFlexAngles;
-    public List<float> sagittalTrialSPAngles;
+    public List<double> flexAnglesAt30RightT3;
+    public List<double> spAnglesAt30RightT3;
 
-    public List<float> transposedTSMidAt0T1;
-    public List<float> transposedTSMidAt0T2;
-    public List<float> transposedTSMidAt0T3;
-    public List<float> transposedTSMidAt30LeftT1;
-    public List<float> transposedTSMidAt30LeftT2;
-    public List<float> transposedTSMidAt30LeftT3;
-    public List<float> transposedTSMidAt30RightT1;
-    public List<float> transposedTSMidAt30RightT2;
-    public List<float> transposedTSMidAt30RightT3;
-    public List<float> transposedTSMidSagittalTrial;
+    public List<double> sagittalTrialFlexAngles;
+    public List<double> sagittalTrialSPAngles;
+
+    public List<double> transposedTSMidAt0T1;
+    public List<double> transposedTSMidAt0T2;
+    public List<double> transposedTSMidAt0T3;
+    public List<double> transposedTSMidAt30LeftT1;
+    public List<double> transposedTSMidAt30LeftT2;
+    public List<double> transposedTSMidAt30LeftT3;
+    public List<double> transposedTSMidAt30RightT1;
+    public List<double> transposedTSMidAt30RightT2;
+    public List<double> transposedTSMidAt30RightT3;
+    public List<double> transposedTSMidSagittalTrial;
+
+    public List<int> gyroIntPeakElement;
+    public List<int> gyroTruePeakElement;
+    public double ispeakgyro = 0;
+    public double ispeakkin = 0;
+    public double peaktimegyro = 0;
+    public double peaktimekin = 0;
+    public double truepeakgyro = 0;
+    public double truepeakkin = 0;
+    public double truegyroTS = 0;
+    public double truekinTS = 0;
+    public double syncvalue = 0;
+
+    public List<double> gyroFlexInterPeaks;      //interim peaks detected
+    public List<double> kinectFlexInterPeaks;
+
+    public List<double> gyroFlexTruePeaks;       //true peaks
+    public List<double> kinectFlexTruePeaks;
+
+    public List<double> gyroIntPeaktimestamps;   //timestamps lists
+    public List<double> kinectIntPeaktimestamps;
+
+    public List<double> gyroTruePeaktimestamps;  //true timestamps lists
+    public List<double> kinectTruePeaktimestamps;
+
+    public KinectFeedback kinectFeedback;
 
     //private static double gyroCorrectionFactor = 32.75;
 
-    public float timeIntervals = 0;
+    public double timeIntervals = 0;
 
     public IMUData()
     {
-        gyroXMid = new List<float>();
-        gyroYMid = new List<float>();
+        gyroXMid = new List<double>();
+        gyroYMid = new List<double>();
         timeStampsMid = new List<int>();
-        transposedTSMid = new List<float>();
-        flexAnglesMid = new List<float>();
-        spAnglesMid = new List<float>();
-        flexAnglesAt0T1 = new List<float>();
-        spAnglesAt0T1 = new List<float>();
-        flexAnglesAt0T2 = new List<float>();
-        spAnglesAt0T2 = new List<float>();
-        flexAnglesAt0T3 = new List<float>();
-        spAnglesAt0T3 = new List<float>();
-        flexAnglesAt30LeftT1 = new List<float>();
-        spAnglesAt30LeftT1 = new List<float>();
-        flexAnglesAt30LeftT2 = new List<float>();
-        spAnglesAt30LeftT2 = new List<float>();
-        flexAnglesAt30LeftT3 = new List<float>();
-        spAnglesAt30LeftT3 = new List<float>();
-        flexAnglesAt30RightT1 = new List<float>();
-        spAnglesAt30RightT1 = new List<float>();
-        flexAnglesAt30RightT2 = new List<float>();
-        spAnglesAt30RightT2 = new List<float>();
-        flexAnglesAt30RightT3 = new List<float>();
-        spAnglesAt30RightT3 = new List<float>();
-        sagittalTrialFlexAngles = new List<float>();
-        sagittalTrialSPAngles = new List<float>();
+        transposedTSMid = new List<double>();
+        flexAnglesMid = new List<double>();
+        spAnglesMid = new List<double>();
+        flexAnglesAt0T1 = new List<double>();
+        spAnglesAt0T1 = new List<double>();
+        flexAnglesAt0T2 = new List<double>();
+        spAnglesAt0T2 = new List<double>();
+        flexAnglesAt0T3 = new List<double>();
+        spAnglesAt0T3 = new List<double>();
+        flexAnglesAt30LeftT1 = new List<double>();
+        spAnglesAt30LeftT1 = new List<double>();
+        flexAnglesAt30LeftT2 = new List<double>();
+        spAnglesAt30LeftT2 = new List<double>();
+        flexAnglesAt30LeftT3 = new List<double>();
+        spAnglesAt30LeftT3 = new List<double>();
+        flexAnglesAt30RightT1 = new List<double>();
+        spAnglesAt30RightT1 = new List<double>();
+        flexAnglesAt30RightT2 = new List<double>();
+        spAnglesAt30RightT2 = new List<double>();
+        flexAnglesAt30RightT3 = new List<double>();
+        spAnglesAt30RightT3 = new List<double>();
+        sagittalTrialFlexAngles = new List<double>();
+        sagittalTrialSPAngles = new List<double>();
 
-        transposedTSMidAt0T1 = new List<float>();
-        transposedTSMidAt0T2 = new List<float>();
-        transposedTSMidAt0T3 = new List<float>();
-        transposedTSMidAt30LeftT1 = new List<float>();
-        transposedTSMidAt30LeftT2 = new List<float>();
-        transposedTSMidAt30LeftT3 = new List<float>();
-        transposedTSMidAt30RightT1 = new List<float>();
-        transposedTSMidAt30RightT2 = new List<float>();
-        transposedTSMidAt30RightT3 = new List<float>();
-        transposedTSMidSagittalTrial = new List<float>();
+        flexAnglesMidCorrected = new List<double>();
+        kinectFlexAnglesCorrected = new List<double>();
+
+        transposedTSMidAt0T1 = new List<double>();
+        transposedTSMidAt0T2 = new List<double>();
+        transposedTSMidAt0T3 = new List<double>();
+        transposedTSMidAt30LeftT1 = new List<double>();
+        transposedTSMidAt30LeftT2 = new List<double>();
+        transposedTSMidAt30LeftT3 = new List<double>();
+        transposedTSMidAt30RightT1 = new List<double>();
+        transposedTSMidAt30RightT2 = new List<double>();
+        transposedTSMidAt30RightT3 = new List<double>();
+        transposedTSMidSagittalTrial = new List<double>();
     }
 
     public void constructTrialList
     (
-        List<float> gXMid,
-        List<float> gYMid,
+        List<double> gXMid,
+        List<double> gYMid,
         List<int> timeSMid,
         int startIndice,
-        int endIndice
+        int endIndice,
+        KinectFeedback kinectFB
     )
     {
-        List<float> trialListX = new List<float>();
-        List<float> trialListY = new List<float>();
+        List<double> trialListX = new List<double>();
+        List<double> trialListY = new List<double>();
         List<int> trialTimestamps = new List<int>();
+        kinectFeedback = kinectFB;
         gyroXMid.Clear();
         gyroYMid.Clear();
         timeStampsMid.Clear();
@@ -132,13 +166,13 @@ public class IMUData
     void transposeTimeStamps()
     {
         int begTimeStampMid = timeStampsMid[0];
-        float time = 0;
+        double time = 0;
         //int begTimeStampBase = timeStampsBase[0];
         //foreach (int ts in timeStampsBase)
         //{
         //    transposedTSBase.Add((ts - begTimeStampBase) / 1000);
         //}
-        float timePassed = (timeStampsMid[timeStampsMid.Count - 1] - timeStampsMid[0]) / 1000;
+        double timePassed = (timeStampsMid[timeStampsMid.Count - 1] - timeStampsMid[0]) / 1000;
         timeIntervals = timePassed / timeStampsMid.Count;
         for (int i = 1; i < timeStampsMid.Count; i++)
         {
@@ -150,11 +184,11 @@ public class IMUData
 
     void cumTrapz()
     {
-        float flexAngle = 0;
-        float spAngle = 0;
-        float timeDiff = 0;
-        float correctedDiffFlex = 0;
-        float correctedDiffSP = 0;
+        double flexAngle = 0;
+        double spAngle = 0;
+        double timeDiff = 0;
+        double correctedDiffFlex = 0;
+        double correctedDiffSP = 0;
         for (int i = 0; i < transposedTSMid.Count - 1; i++)
         {
             // Trapezoidal rule
@@ -169,19 +203,157 @@ public class IMUData
             spAngle = spAngle + (timeDiff * correctedDiffSP);
             spAnglesMid.Add(spAngle);
         }
+        filtering();
+        //findPeaks();
+        //signalSync();
+        //driftCorrection();
+    }
+
+    //filtering
+    void filtering()
+    {
+        MathNet.Filtering.OnlineFilter lowPass = MathNet.Filtering.OnlineFilter.CreateLowpass(MathNet.Filtering.ImpulseResponse.Finite, 200000, 5000, 10);
+        double[] flexAnglesMidArray = new double[flexAnglesMid.Count];
+
+        for (int i = 0; i < flexAnglesMid.Count; ++i)
+        {
+            flexAnglesMidArray[i] = flexAnglesMid[i];
+        }
+
+        flexAnglesMidArray = lowPass.ProcessSamples(flexAnglesMidArray);
+        
+        for (int i = 0; i < flexAnglesMidArray.Length; i++)
+        {
+            flexAnglesMidCorrected.Add(flexAnglesMidArray[i]);
+        }
+        flexAnglesMid.Clear();
+        copyListByValue(flexAnglesMidCorrected, flexAnglesMid);
+
+        //Kinect
+        //double[] KinectAnglesArray = new double[kinectFeedback.flexAngles.Count];
+
+        //for (int i = 0; i < kinectFeedback.flexAngles.Count; ++i)
+        //{
+        //    KinectAnglesArray[i] = kinectFeedback.flexAngles[i];
+        //}
+
+        //KinectAnglesArray = lowPass.ProcessSamples(KinectAnglesArray);
+
+        //for (int i = 0; i < KinectAnglesArray.Length; i++)
+        //{
+        //    kinectFlexAnglesCorrected.Add(KinectAnglesArray[i]);
+        //}
+        //kinectFeedback.flexAngles.Clear();
+        //copyListByValue(kinectFlexAnglesCorrected, kinectFeedback.flexAngles);
+    }
+
+
+
+
+    //Correction Code
+
+    void findPeaks()
+    {
+        for (int gyroiter = 1; gyroiter < flexAnglesMid.Count - 1; gyroiter++)
+        {
+            if (flexAnglesMid[gyroiter] > flexAnglesMid[gyroiter - 1] && flexAnglesMid[gyroiter + 1] < flexAnglesMid[gyroiter])
+            {
+                ispeakgyro = flexAnglesMid[gyroiter];
+                peaktimegyro = transposedTSMid[gyroiter];
+                gyroFlexInterPeaks.Add(ispeakgyro);
+                gyroIntPeaktimestamps.Add(peaktimegyro);
+                gyroIntPeakElement.Add(flexAnglesMid.Count);
+            }
+        }
+
+        for (int kiniter = 1; kiniter < kinectFeedback.flexAngles.Count - 1; kiniter++)
+        {
+            if (kinectFeedback.flexAngles[kiniter] > kinectFeedback.flexAngles[kiniter - 1] && kinectFeedback.flexAngles[kiniter + 1] < kinectFeedback.flexAngles[kiniter])
+            {
+                ispeakkin = kinectFeedback.flexAngles[kiniter];
+                peaktimekin = kinectFeedback.transposedTSKin[kiniter];
+                kinectFlexInterPeaks.Add(ispeakkin);
+                kinectIntPeaktimestamps.Add(peaktimekin);
+            }
+        }
+
+        gyroFlexTruePeaks.Add(gyroFlexInterPeaks[0]);
+        kinectFlexTruePeaks.Add(kinectFlexInterPeaks[0]);
+        gyroTruePeakElement.Add(gyroIntPeakElement[0]);
+
+        for (int gyroiter2 = 0; gyroiter2 < gyroFlexInterPeaks.Count - 1; gyroiter2++)
+        {
+            if (gyroIntPeaktimestamps[gyroiter2 + 1] - gyroIntPeaktimestamps[gyroiter2] > 0.5)
+            {
+                truepeakgyro = gyroFlexInterPeaks[gyroiter2 + 1];
+                truegyroTS = gyroIntPeaktimestamps[gyroiter2 + 1];
+                gyroFlexTruePeaks.Add(truepeakgyro);
+                gyroTruePeaktimestamps.Add(truegyroTS);
+                gyroTruePeakElement.Add(gyroIntPeakElement[gyroiter2 + 1]);
+            }
+        }
+
+        for (int kiniter2 = 1; kiniter2 < kinectFlexInterPeaks.Count - 1; kiniter2++)
+        {
+            if (kinectIntPeaktimestamps[kiniter2 + 1] - kinectIntPeaktimestamps[kiniter2] > 0.5)
+            {
+                truepeakkin = kinectFlexInterPeaks[kiniter2 + 1];
+                truekinTS = kinectIntPeaktimestamps[kiniter2 + 1];
+                kinectFlexTruePeaks.Add(truepeakkin);
+                kinectTruePeaktimestamps.Add(truekinTS);
+            }
+        }
+    }
+
+    void signalSync()
+    {
+        syncvalue = kinectTruePeaktimestamps[3] - gyroTruePeaktimestamps[3];
+        syncvalue = Math.Abs(syncvalue);
+        if (kinectTruePeaktimestamps[3] > gyroTruePeaktimestamps[3])
+        {
+            for (int synciter = 0; synciter < transposedTSMid.Count; synciter++)
+            {
+                transposedTSMid[synciter] = transposedTSMid[synciter] + syncvalue;
+            }
+        }
+        if (gyroTruePeaktimestamps[3] > kinectTruePeaktimestamps[3])
+        {
+            for (int synciter = 0; synciter < kinectFeedback.transposedTSKin.Count; synciter++)
+            {
+                kinectFeedback.transposedTSKin[synciter] = kinectFeedback.transposedTSKin[synciter] + syncvalue;
+            }
+        }
+    }
+
+    void driftCorrection()
+    {
+        for (int correctionloop = 0; correctionloop < kinectTruePeaktimestamps.Count - 1; correctionloop++)
+        {
+            double slopeKin = 0;
+            slopeKin = (kinectFlexTruePeaks[correctionloop + 1] - kinectFlexTruePeaks[correctionloop]) / (kinectTruePeaktimestamps[correctionloop + 1] - kinectTruePeaktimestamps[correctionloop]);
+            double slopeGyro = 0;
+            slopeGyro = (gyroFlexTruePeaks[correctionloop + 1] - gyroFlexTruePeaks[correctionloop]) / (gyroTruePeaktimestamps[correctionloop + 1] - gyroTruePeaktimestamps[correctionloop]);
+            int stepcount = gyroTruePeakElement[correctionloop + 1] - gyroTruePeakElement[correctionloop];
+            double slopediff = 0;
+            for (int slopedrawcount = 0; slopedrawcount < stepcount; slopedrawcount++)
+            {
+                slopediff = (gyroFlexTruePeaks[correctionloop] + slopeKin * slopedrawcount * timeIntervals) - (gyroFlexTruePeaks[correctionloop] + slopeGyro * slopedrawcount * timeIntervals);
+                flexAnglesMid[gyroTruePeakElement[correctionloop] + slopedrawcount] = flexAnglesMid[gyroTruePeakElement[correctionloop] + slopedrawcount] + slopediff;
+            }
+        }
     }
 
     public void getAngles
     (
-        List<float> gXMid,
-        List<float> gYMid,
+        List<double> gXMid,
+        List<double> gYMid,
         List<int> timeSMid,
         int startIndice,
         int endIndice,
         string trialName
     )
     {
-        constructTrialList(gXMid, gYMid, timeSMid, startIndice, endIndice);
+        constructTrialList(gXMid, gYMid, timeSMid, startIndice, endIndice, kinectFeedback);
         transposeTimeStamps();
         cumTrapz();
         parseTrialString(trialName);
@@ -258,7 +430,7 @@ public class IMUData
         }
     }
 
-    private void copyListByValue(List<float> listToCopy, List<float> listCopy)
+    private void copyListByValue(List<double> listToCopy, List<double> listCopy)
     {
         for(int i = 0; i < listToCopy.Count; i++)
         {

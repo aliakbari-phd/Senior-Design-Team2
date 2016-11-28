@@ -274,3 +274,7 @@ C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\obj\x86
 C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.csproj.GenerateResource.Cache
 C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.exe
 C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\obj\x86\Debug\DiscreteGestureBasics-WPF.pdb
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\bin\x86\Debug\MathNet.Filtering.dll
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\bin\x86\Debug\MathNet.Numerics.dll
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\bin\x86\Debug\MathNet.Filtering.xml
+C:\Users\BennyChan\Google Drive\Senior Design\IntegratedSystem\Team7-LBD\bin\x86\Debug\MathNet.Numerics.xml
