@@ -26,6 +26,11 @@ public class KinectFeedback
     public List<double> transposedTSKin;
     public List<int> timestamp;
 
+    public string recordingTxt;
+    public string trialNameTxt;
+
+    TrialTracker trialTracker;
+
     public KinectFeedback()
     {
         index = 0;
@@ -40,6 +45,8 @@ public class KinectFeedback
         initialPosSM = new List<double>();
         sagittalAngles = new List<double>();
         flexAngles = new List<double>();
+        transposedTSKin = new List<double>();
+        timestamp = new List<int>();
     }
 
     public double CalcSagittalAngleWithRespectToInitialPos(List<double> jointPos)
@@ -121,7 +128,7 @@ public class KinectFeedback
         return (double)(magnitude);
     }
 
-    void transposeTimeStampskin()
+    public void transposeTimeStampskin()
     {
         int begTimeStampMid = timestamp[0];
         float time = 0;
@@ -139,6 +146,16 @@ public class KinectFeedback
         }
     }
 
+    public void setTrialName(string trialName)
+    {
+        trialNameTxt = trialName;
+    }
+
+    public void setRecordingStatus(string recordingStatus)
+    {
+        recordingTxt = recordingStatus;
+    }
+
     public void Reset()
     {
         initialPosRS.Clear();
@@ -149,5 +166,7 @@ public class KinectFeedback
         //transposedTSKin.Clear();
         isInitial = true;
         index = 0;
+        transposedTSKin.Clear();
+        timestamp.Clear();
     }
 }

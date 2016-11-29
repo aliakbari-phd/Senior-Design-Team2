@@ -17,6 +17,9 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
     /// </summary>
     public sealed class KinectBodyView
     {
+
+        public string recordingStatusTxt;
+        public string trialNameTxt;
         /// <summary>
         /// Radius of drawn hand circles
         /// </summary>

@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
-        Title="Data Display" Height="932.773" Width="800">
+        Title="Data Display" Height="800" Width="800">
 
     <Window.Resources>
         <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e" />
@@ -40,7 +40,7 @@
         <TextBlock x:Name="peakJerkTxt" HorizontalAlignment="Left" Height="31" Margin="27,264,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Peak Angular Jerk:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
         <TextBlock x:Name="twistingROMTxt" HorizontalAlignment="Left" Height="31" Margin="27,293,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Twisting ROM:" VerticalAlignment="Top" Width="500" FontSize="18.667"/>
         <Button Content="Graph" Grid.Row="2" Height="31" HorizontalAlignment="Left" Margin="686,292.714,0,0" Name="GraphDisplayButton" VerticalAlignment="Top" Width="70" Click="GraphDisplayButton_Click" />
-        <oxy:PlotView  Margin="-10,368.714,0.286,-495.714"  Grid.Row="2" Name="plot" >
+        <oxy:PlotView  Margin="-10,368.4,9.6,-301.4"  Grid.Row="2" Name="plot" >
         </oxy:PlotView>
         <TextBlock x:Name="trialTxt" HorizontalAlignment="Left" Height="25" Margin="594,232.714,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Trial" VerticalAlignment="Top" Width="44" FontSize="18.667"/>
         <ComboBox Grid.Row="2" HorizontalAlignment="Left" Margin="686,232.714,0,142.286" Name="trialBox" Width="78" IsEditable="True"/>

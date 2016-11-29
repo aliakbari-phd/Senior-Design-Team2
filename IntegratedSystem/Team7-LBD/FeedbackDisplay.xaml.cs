@@ -294,11 +294,11 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 
                 // visualize the new body data
                 this.kinectBodyView.UpdateBodyFrame(this.bodies);
-                sagittalAngle.Text = kinectBodyView.kinectFeedback.sagittalAngleTxt;
-                flexAngle.Text = kinectBodyView.kinectFeedback.flexAngleTxt;
                 zeroBool.Text = kinectBodyView.kinectFeedback.isZero;
                 thirtyBool.Text = kinectBodyView.kinectFeedback.isThirty;
                 isFullFlex.Text = kinectBodyView.kinectFeedback.isFlex;
+                Recording.Text = kinectBodyView.kinectFeedback.recordingTxt;
+                Trial.Text = kinectBodyView.kinectFeedback.trialNameTxt;
 
                 // we may have lost/acquired bodies, so update the corresponding gesture detectors
                 if (this.bodies != null)

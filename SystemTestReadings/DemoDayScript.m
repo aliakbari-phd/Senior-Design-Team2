@@ -3,10 +3,10 @@ clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % filename = 'Ben_Johnston Cal 01.csv';
 % V_Data = xlsread(filename, 'A11:N1581');
-filename1_Kin = 'spinebaseT1.txt';
-filename2_Kin = 'spinemidT1.txt';
-filenameSMid = 'T1S1.txt';
-filenameSBase = 'T1S2.txt';
+filename1_Kin = 'spinebase.txt';
+filename2_Kin = 'spinemid.txt';
+filenameSMid = '9.txt';
+%filenameSBase = '3.txt';
 % 
 % pnts_base(:,1) = V_Data(:,3);           %base points
 % pnts_base(:,2) = V_Data(:,4);
@@ -97,7 +97,7 @@ filenameSBase = 'T1S2.txt';
 delimiterIn = ' ';
 headerlinesIn_IMU = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
-SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
+%SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
 
 %Program reports data using the z-axis of the gyroscope
 %including angular position, velocity, acceleration and jerk,
@@ -107,13 +107,13 @@ SBase = importdata(filenameSBase, delimiterIn, headerlinesIn_IMU);
 gyroMid(:,1) = (SMid.data(:,4))./32.75;  
 gyroMid(:,2) = (SMid.data(:,5))./32.75;  
 gyroMid(:,3) = (SMid.data(:,6))./32.75;          %Gyroscope correction factor
-gyroBase(:,1) = (SBase.data(:,4))./32.75;  
-gyroBase(:,2) = (SBase.data(:,5))./32.75;  
-gyroBase(:,3) = (SBase.data(:,6))./32.75;          %Gyroscope correction factor
+% gyroBase(:,1) = (SBase.data(:,4))./32.75;  
+% gyroBase(:,2) = (SBase.data(:,5))./32.75;  
+% gyroBase(:,3) = (SBase.data(:,6))./32.75;          %Gyroscope correction factor
 LtimeMid = (SMid.data(:,10));
-LtimeBase = (SBase.data(:,10));
+% LtimeBase = (SBase.data(:,10));
 tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms to s
-tBase = transpose((LtimeBase-LtimeBase(1))./1000);
+% tBase = transpose((LtimeBase-LtimeBase(1))./1000);
 freqMid = length(tMid)/(tMid(end)-tMid(1));
 tMid = 0:1/freqMid:tMid(end-1);
 tMid = resample(tMid, length(gyroMid), length(tMid));
@@ -123,7 +123,7 @@ x_filter = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',5e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 gyroMid = filtfilt(x_filter,gyroMid);
-gyroBase = filtfilt(x_filter,gyroBase);
+% gyroBase = filtfilt(x_filter,gyroBase);
 
 positionMid = trapz(tMid,gyroMid);
 distanceMid = cumtrapz(tMid,gyroMid);     % vel to distance
@@ -133,9 +133,9 @@ accMid = diff(gyroMid)./(1/freqMid);             % vel to accel
 accMid = [0,[1 3];accMid];
 jMid = diff(accMid)./(1/freqMid);             %accel to jerk
 jMid = [0,[1 3];jMid];
-positionBase = trapz(tBase,gyroBase);
-distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
-distanceBase(:,2) = distanceBase(:,2) + 90;
+% positionBase = trapz(tBase,gyroBase);
+% distanceBase = cumtrapz(tBase,gyroBase);     % vel to distance
+% distanceBase(:,2) = distanceBase(:,2) + 90;
 
 [SMid_pks , SMid_locs] = findpeaks(distanceMid(:,2), 'MinPeakProminence', 2);
 
@@ -188,8 +188,8 @@ end
 alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
 
-kin_filter = designfilt('lowpassiir','FilterOrder',5,...
-            'PassbandFrequency',10e3,'PassbandRipple',0.5,...
+kin_filter = designfilt('lowpassiir','FilterOrder',3,...
+            'PassbandFrequency',4.5e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 
 alpha_deg_Kin_filt = filtfilt(kin_filter, alpha_deg_Kin);
@@ -279,7 +279,7 @@ jerkMid = filtfilt(UnivFilt, jerkMid);
 figure(1)
 subplot(4,1,1)
 plot(SMid_plot_xaxis,IMU_corrected_func)
-title('Vicon Parameters')
+title('Results')
 ylabel('degrees'),xlabel('Time (s)')
 
 subplot(4,1,2)

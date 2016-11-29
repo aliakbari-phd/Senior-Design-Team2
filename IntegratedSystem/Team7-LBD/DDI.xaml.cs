@@ -70,6 +70,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             else
             {
+                patientIDTxt.Text = "PatientID: " + ApplicationState.dataAnalysis.patientID.ToString();
+                ageTxt.Text = "Age: " + ApplicationState.dataAnalysis.age.ToString();
+                if (ApplicationState.dataAnalysis.gender == true)
+                {
+                    genderTxt.Text = "Gender: " + "Male";
+                }
+                else
+                {
+                    genderTxt.Text = "Gender: " + "Female";
+                }
+
                 severityLBDTxt.Text = "LBD Severity: " + ApplicationState.dataAnalysis.severityLBD.ToString();
                 spROM15Txt.Text = "SP ROM15: " + ApplicationState.dataAnalysis.spROM15.ToString();
                 spROM30Txt.Text = "SP ROM30: " + ApplicationState.dataAnalysis.spROM30.ToString();

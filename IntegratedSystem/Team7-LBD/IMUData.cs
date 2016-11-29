@@ -131,7 +131,22 @@ public class IMUData
         transposedTSMidAt30RightT2 = new List<double>();
         transposedTSMidAt30RightT3 = new List<double>();
         transposedTSMidSagittalTrial = new List<double>();
-    }
+
+        gyroFlexInterPeaks = new List<double>();      //interim peaks detected
+        kinectFlexInterPeaks = new List<double>();
+
+        gyroFlexTruePeaks = new List<double>();       //true peaks
+        kinectFlexTruePeaks = new List<double>();
+
+        gyroIntPeaktimestamps = new List<double>();   //timestamps lists
+        kinectIntPeaktimestamps = new List<double>();
+
+        gyroTruePeaktimestamps = new List<double>();  //true timestamps lists
+        kinectTruePeaktimestamps = new List<double>();
+
+        gyroIntPeakElement = new List<int>();
+        gyroTruePeakElement = new List<int>();
+}
 
     public void constructTrialList
     (
@@ -139,14 +154,12 @@ public class IMUData
         List<double> gYMid,
         List<int> timeSMid,
         int startIndice,
-        int endIndice,
-        KinectFeedback kinectFB
+        int endIndice
     )
     {
         List<double> trialListX = new List<double>();
         List<double> trialListY = new List<double>();
         List<int> trialTimestamps = new List<int>();
-        kinectFeedback = kinectFB;
         gyroXMid.Clear();
         gyroYMid.Clear();
         timeStampsMid.Clear();
@@ -203,7 +216,7 @@ public class IMUData
             spAngle = spAngle + (timeDiff * correctedDiffSP);
             spAnglesMid.Add(spAngle);
         }
-        filtering();
+        //filtering();
         //findPeaks();
         //signalSync();
         //driftCorrection();
@@ -230,21 +243,22 @@ public class IMUData
         copyListByValue(flexAnglesMidCorrected, flexAnglesMid);
 
         //Kinect
-        //double[] KinectAnglesArray = new double[kinectFeedback.flexAngles.Count];
+        double[] KinectAnglesArray = new double[kinectFeedback.flexAngles.Count];
+        MathNet.Filtering.OnlineFilter lowPassKin = MathNet.Filtering.OnlineFilter.CreateLowpass(MathNet.Filtering.ImpulseResponse.Finite, 200000, 15000, 10);
 
-        //for (int i = 0; i < kinectFeedback.flexAngles.Count; ++i)
-        //{
-        //    KinectAnglesArray[i] = kinectFeedback.flexAngles[i];
-        //}
+        for (int i = 0; i < kinectFeedback.flexAngles.Count; ++i)
+        {
+            KinectAnglesArray[i] = kinectFeedback.flexAngles[i];
+        }
 
-        //KinectAnglesArray = lowPass.ProcessSamples(KinectAnglesArray);
+        KinectAnglesArray = lowPassKin.ProcessSamples(KinectAnglesArray);
 
-        //for (int i = 0; i < KinectAnglesArray.Length; i++)
-        //{
-        //    kinectFlexAnglesCorrected.Add(KinectAnglesArray[i]);
-        //}
-        //kinectFeedback.flexAngles.Clear();
-        //copyListByValue(kinectFlexAnglesCorrected, kinectFeedback.flexAngles);
+        for (int i = 0; i < KinectAnglesArray.Length; i++)
+        {
+            kinectFlexAnglesCorrected.Add(KinectAnglesArray[i]);
+        }
+        kinectFeedback.flexAngles.Clear();
+        copyListByValue(kinectFlexAnglesCorrected, kinectFeedback.flexAngles);
     }
 
 
@@ -350,16 +364,35 @@ public class IMUData
         List<int> timeSMid,
         int startIndice,
         int endIndice,
-        string trialName
+        string trialName,
+        KinectFeedback kF
     )
     {
-        constructTrialList(gXMid, gYMid, timeSMid, startIndice, endIndice, kinectFeedback);
+        kinectFeedback = kF;
+        constructTrialList(gXMid, gYMid, timeSMid, startIndice, endIndice);
         transposeTimeStamps();
         cumTrapz();
         parseTrialString(trialName);
         transposedTSMid.Clear();
         flexAnglesMid.Clear();
         spAnglesMid.Clear();
+        gyroFlexInterPeaks.Clear();      //interim peaks detected
+        kinectFlexInterPeaks.Clear();
+
+        gyroFlexTruePeaks.Clear();       //true peaks
+        kinectFlexTruePeaks.Clear();
+
+        gyroIntPeaktimestamps.Clear();   //timestamps lists
+        kinectIntPeaktimestamps.Clear();
+
+        gyroTruePeaktimestamps.Clear();  //true timestamps lists
+        kinectTruePeaktimestamps.Clear();
+
+        gyroIntPeakElement.Clear();
+        gyroTruePeakElement.Clear();
+
+        flexAnglesMidCorrected.Clear();
+        kinectFlexAnglesCorrected.Clear();
     }
 
     private void parseTrialString

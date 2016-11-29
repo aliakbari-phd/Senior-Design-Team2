@@ -33,7 +33,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
 
-
+        KinectBodyView kinectBodyView;
         /// <summary>
         /// Radius of drawn hand circles
         /// </summary>
@@ -270,9 +270,79 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void DDIButton_Click(object sender, EventArgs e)
         {
+            //Create timestamp
+            DateTime datenow = DateTime.Now;
+            //List<Int16> wearable = new List<Int16>();
+            int hour = datenow.Hour;
+            int minute = datenow.Minute;
+            int second = datenow.Second;
+            int millisecond = datenow.Millisecond;
+            int timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+            int timeDiff = timestampS;
+
             dataAnalysis.InitWithData(kinectFeedback.sagittalAngles, kinectFeedback.flexAngles, imuData, trialTracker);
             dataAnalysis.QuantifyLBD();
+
+            datenow = DateTime.Now;
+            hour = datenow.Hour;
+            minute = datenow.Minute;
+            second = datenow.Second;
+            millisecond = datenow.Millisecond;
+            timestampS = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + millisecond;
+
+            timeDiff = timestampS - timeDiff;
+            timeDiff = timeDiff / 1000; 
+
             ApplicationState.dataAnalysis = dataAnalysis;
+            if (dataAnalysis.severityLBD != 0)
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand cmdRead = new SqlCommand();
+                    SqlCommand cmd = new SqlCommand();
+                    SqlDataReader dr;
+
+                    cmd.CommandText = "SELECT TOP 1 PatientNum FROM Patients ORDER BY PatientNum DESC";
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.Connection = connection;
+
+                    dr = cmd.ExecuteReader();
+
+                    // Read first entry corresponding to patient number
+                    int patientIDNum = 0;
+                    if (dr.Read())
+                    {
+                        patientIDNum = Convert.ToInt32(dr["PatientNum"]);
+                        // Increment to get next patient ID
+                        patientIDNum++;
+                    }
+                    connection.Close();
+
+                    connection.Open();
+                    cmd.Connection = connection;
+                    //@TODO: Fix potential SQL Code Injections
+                    if (dataAnalysis.gender == true)
+                    {
+                        cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + patientIDNum.ToString() + "','" + ageBox.Text + "', '" + "1" + "','" + dataAnalysis.peakSPAngVelocity.ToString() + "', '" + dataAnalysis.peakSPAngAcceleration.ToString() + "', '" + dataAnalysis.peakSPAngJerk.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
+                    }
+                    else
+                    {
+                        cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + patientIDNum.ToString() + "','" + ageBox.Text + "', '" + "0" + "','" + dataAnalysis.peakSPAngVelocity.ToString() + "', '" + dataAnalysis.peakSPAngAcceleration.ToString() + "', '" + dataAnalysis.peakSPAngJerk.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
+                    }
+
+                    cmd.ExecuteNonQuery();
+
+                    connection.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show("Can not open connection ! ");
+                }
+            }
+
             var form = new DDI();
             form.Show(); // if you need non-modal window
             DDIButton.IsEnabled = true;
@@ -624,6 +694,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         kinectData.Add(spineMidData);
                         kinectData.Add(spineShoulderData);
                         kinectData.Add(rightShoulderData);
+                        kinectFeedback.timestamp.Add(timestamp);
 
                         //Write Kinect Joint Data to text files
                         spineBaseSW.WriteLine(body.Joints[JointType.SpineBase].Position.X + " " + body.Joints[JointType.SpineBase].Position.Y + " " + body.Joints[JointType.SpineBase].Position.Z + " " + body.Joints[JointType.SpineBase].TrackingState + " " + timestamp);
@@ -833,6 +904,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void startRecording_Click(object sender, RoutedEventArgs e)
         {
             string trial = trialBox.Text;
+            kinectFeedback.setTrialName(trialBox.Text);
+            kinectFeedback.setRecordingStatus("Start");
+            
             trialTracker.setTrialIndexWithTrialString(gyroYMid.Count, trial, false /*Setting End Index?*/);
             string fpath = comboBox3.Text.Replace("\\", "/") + "/";
             if (String.IsNullOrEmpty(fpath))
@@ -929,7 +1003,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 int startIndice = 0;
                 int endIndice = 0;
                 trialTracker.getTrialIndexWithTrialString(trial, ref startIndice, ref endIndice);
-                imuData.getAngles(gyroXMid, gyroYMid, timeStampsMid, startIndice, endIndice, trial);
+                //kinectFeedback.transposeTimeStampskin();
+                imuData.getAngles(gyroXMid, gyroYMid, timeStampsMid, startIndice, endIndice, trial, kinectFeedback);
             }
             catch (Exception ex)
             {
@@ -955,52 +1030,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 System.Windows.MessageBox.Show("Could not open file streams, check that the file path is correct");
             }
 
-            //try
-            //{
-            //    connection.Open();
-            //    SqlCommand cmdRead = new SqlCommand();
-            //    SqlCommand cmd = new SqlCommand();
-            //    SqlDataReader dr;
-
-            //    cmd.CommandText = "SELECT TOP 1 PatientNum FROM Patients ORDER BY PatientNum DESC";
-            //    cmd.CommandType = CommandType.Text;
-
-            //    cmd.Connection = connection;
-
-            //    dr = cmd.ExecuteReader();
-
-            //    // Read first entry corresponding to patient number
-            //    int patientIDNum = 0;
-            //    if (dr.Read())
-            //    {
-            //        patientIDNum = Convert.ToInt32(dr["PatientNum"]);
-            //        // Increment to get next patient ID
-            //        patientIDNum++;
-            //    }
-            //    connection.Close();
-
-            //    connection.Open();
-            //    cmd.Connection = connection;
-            //    //@TODO: Fix potential SQL Code Injections
-            //    if (dataAnalysis.gender == true)
-            //    {
-            //        cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + patientIDNum.ToString() + "','" + ageBox.Text + "', '" + "1" + "','" + dataAnalysis.peakSPAngVelocityAt0.ToString() + "', '" + dataAnalysis.peakSPAngAccelerationAt0.ToString() + "', '" + dataAnalysis.peakSPAngJerkAt0.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
-            //    }
-            //    else
-            //    {
-            //        cmd.CommandText = "insert into Patients (PatientNum,Age,Gender,PeakSPVelocityAt0,PeakSPAccelerationAt0,PeakSPJerkAt0,FPROM,SPROM15,SPROM30,AsymComplete,TwistingROM) values ('" + patientIDNum.ToString() + "','" + ageBox.Text + "', '" + "0" + "','" + dataAnalysis.peakSPAngVelocityAt0.ToString() + "', '" + dataAnalysis.peakSPAngAccelerationAt0.ToString() + "', '" + dataAnalysis.peakSPAngJerkAt0.ToString() + "', '" + dataAnalysis.fpROM.ToString() + "', '" + dataAnalysis.spROM15.ToString() + "', '" + dataAnalysis.spROM30.ToString() + "', '" + dataAnalysis.asymComplete.ToString() + "', '" + dataAnalysis.twistingROM.ToString() + "')";
-            //    }
-
-            //    cmd.ExecuteNonQuery();
-
-            //    connection.Close();
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Can not open connection ! ");
-            //}
-
 
             startRecording.IsEnabled = true;
             ButtonStop.IsEnabled = false;
@@ -1010,6 +1039,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //Reset all of the kinect feedback status
             kinectFeedback.Reset();
             Timer.Stop();
+            kinectFeedback.setRecordingStatus("Stop");
             time = 0;
             time = 15;
         }
