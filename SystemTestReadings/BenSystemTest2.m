@@ -228,13 +228,13 @@ mean_IMU_line = ones([length(SMid_plot_yaxis),1]).*mean_kinect;
 %Vic_plot_yaxis
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis-mean(Vic_plot_yaxis),SMid_plot_xaxis, SMid_plot_yaxis-mean(SMid_plot_yaxis))
-xlim([0 Vic_time])
-title('Angular Distance (deg)')
-ylabel('x'),xlabel('Time (s)')
+%subplot(4,1,1)
+%plot(Vic_plot_xaxis,Vic_plot_yaxis-mean(Vic_plot_yaxis),SMid_plot_xaxis, SMid_plot_yaxis-mean(SMid_plot_yaxis))
+%xlim([0 Vic_time])
+%title('Angular Distance (deg)')
+%ylabel('x'),xlabel('Time (s)')
 
-subplot(2,1,2)
+%subplot(4,1,2)
 plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, mean_IMU_line)
 xlim([0 Vic_time])
 legend('Uncorrected', 'Uncorrected Mean', 'Corrected', 'Corrected Mean')

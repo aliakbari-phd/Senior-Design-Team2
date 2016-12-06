@@ -235,21 +235,23 @@ IMU_corrected_func = SMid_plot_yaxis + IMU_fusion;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  PLOTTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-subplot(2,1,1)
-plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, IMU_corrected_func, 'green', SMid_plot_xaxis, SMid_plot_yaxis,'red')
-xlim([0 Vic_time])
-title('Angular Distance (deg)')
-ylabel('x'),xlabel('Time (s)')
-legend('Vicon','Corrected', 'Uncorrected')
+%subplot(3,1,1)
+%plot(Vic_plot_xaxis,Vic_plot_yaxis,SMid_plot_xaxis, IMU_corrected_func, 'green', SMid_plot_xaxis, SMid_plot_yaxis,'red')
+%xlim([0 Vic_time])
+%title('Angular Distance (deg)')
+%ylabel('x'),xlabel('Time (s)')
+%legend('Vicon','Corrected', 'Uncorrected')
 
 
-subplot(2,1,2)
+%subplot(3,1,2)
 plot(SMid_plot_xaxis, SMid_plot_yaxis, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, IMU_corrected_func, SMid_plot_xaxis, Kin_bestfit)
 xlim([0 Vic_time])
 legend('Uncorrected', 'Uncorrected Mean', 'Corrected', 'Corrected Mean')
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')
 
+%subplot(3,1,3)
+%plot(Kin_plot_time, Kin_plot_y)
 
 SMid_plot_yaxis = resample(SMid_plot_yaxis,length(Vic_plot_yaxis),length(SMid_plot_yaxis));
 IMU_corrected_func = resample(IMU_corrected_func,length(Vic_plot_yaxis),length(IMU_corrected_func));

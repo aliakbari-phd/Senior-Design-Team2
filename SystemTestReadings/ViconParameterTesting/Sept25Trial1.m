@@ -116,7 +116,16 @@ tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms 
 tBase = transpose((LtimeBase-LtimeBase(1))./1000);
 freqMid = length(tMid)/(tMid(end)-tMid(1));
 tMid = 0:1/freqMid:tMid(end-1);
+unf_t = tMid;
+unf_t(end) = [];
 tMid = resample(tMid, length(gyroMid), length(tMid));
+
+unf_vel = gyroMid(:,2);
+unf_pos = cumtrapz(unf_t, unf_vel)+90;
+unf_acc = diff(unf_vel)./(1/freqMid);             % vel to accel 
+unf_acc = [0;unf_acc];
+unf_jerk = diff(unf_acc)./(1/freqMid);             % vel to accel 
+unf_jerk = [0;unf_jerk];
 
 %*******low pass filter*****
 x_filter = designfilt('lowpassiir','FilterOrder',3,...
@@ -164,6 +173,7 @@ spinemidData = importdata(filename2_Kin, delimiterIn, headerlinesIn_Kin);
 time = spinebaseData.data(:,1);
 time = time - time(1);
 time = transpose(time./1000);
+kinFreq = time(end)/length(time);
 
 pnts_base_Kin(:,1) = str2double(spinebaseData.textdata(:,1));          %base points
 pnts_base_Kin(:,2) = str2double(spinebaseData.textdata(:,2));
@@ -185,8 +195,16 @@ kinect_pnt_norm = kinect_pntpnt(iterator_a,:)./norm(kinect_pntpnt(iterator_a,:))
 iterator_a = iterator_a+1;
 theta_Kin(iterator_a,:) = acos(dot(kinect_pnt_norm,kinect_yunit));
 end
+
 alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
+velKin = diff(alpha_deg_Kin)./kinFreq;             % vel to accel 
+velKin = [0;velKin];
+accKin = diff(velKin)./kinFreq;             % vel to accel 
+accKin = [0;accKin];
+jerKin = diff(accKin)./kinFreq;             % vel to accel 
+jerKin = [0;jerKin];
+
 
 kin_filter = designfilt('lowpassiir','FilterOrder',3,...
             'PassbandFrequency',15e3,'PassbandRipple',0.5,...
@@ -194,7 +212,7 @@ kin_filter = designfilt('lowpassiir','FilterOrder',3,...
 
 alpha_deg_Kin_filt = filtfilt(kin_filter, alpha_deg_Kin);
 
-[Kin_pks , Kin_locs] = findpeaks(alpha_deg_Kin_filt, 'MinPeakProminence', .2);
+[Kin_pks , Kin_locs] = findpeaks(alpha_deg_Kin, 'MinPeakProminence', .2);
 
 Kin_Frames=Kin_locs(end)-Kin_locs(1);
 Kin_time_diff = time(Kin_locs(end))-time(Kin_locs(1));
@@ -276,10 +294,32 @@ accelerationMid = filtfilt(UnivFilt, accelerationMid);
 jerkMid = filtfilt(UnivFilt, jerkMid);
 
 %%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+set(gcf,'color','white')
 figure(1)
 subplot(4,1,1)
+plot(unf_t, unf_pos, 'g',time, alpha_deg_Kin, 'm')
+title('Uncorrected Data')
+ylabel('degrees'),xlabel('Time (s)')
+
+subplot(4,1,2)
+plot(unf_t, unf_vel, 'g', time, velKin, 'm')
+ylabel('degrees/s'),xlabel('Time (s)')
+ylim([-500 500])
+
+subplot(4,1,3)
+plot(unf_t, unf_acc, 'g', time, accKin,'m')
+ylim([-2000 2000])
+ylabel('degrees/s^2'),xlabel('Time (s)')
+
+subplot (4,1,4)
+plot(unf_t, unf_jerk,'g', time, jerKin,'m')
+ylabel('degrees/s^3'),xlabel('Time (s)')
+legend('Gyroscopes','Kinect')
+
+figure(2)
+subplot(4,1,1)
 plot(Vic_plot_xaxis,VPos_Filtered,Vic_plot_xaxis,IMU_corrected_func)
-title('Vicon Parameters')
+title('Corrected')
 ylabel('degrees'),xlabel('Time (s)')
 
 subplot(4,1,2)

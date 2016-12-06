@@ -277,8 +277,8 @@ jerkMid = filtfilt(UnivFilt, jerkMid);
 
 %%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1)
-subplot(4,1,1)
-plot(Vic_plot_xaxis,VPos_Filtered,Vic_plot_xaxis,IMU_corrected_func)
+%subplot(4,1,1)
+plot(Kin_plot_time, Kin_plot_y, Kin_plot_time, Kin_bestfit, SMid_plot_xaxis, IMU_bestfit, SMid_plot_xaxis, SMid_plot_yaxis)
 title('Vicon Parameters')
 ylabel('degrees'),xlabel('Time (s)')
 
