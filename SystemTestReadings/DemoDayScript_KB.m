@@ -1,96 +1,99 @@
 clc;
 clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 04.csv';
-V_Data = xlsread(filename, 'A12:N1562');
-
-pnts_base(:,1) = V_Data(:,3);           %base points
-pnts_base(:,2) = V_Data(:,4);
-pnts_base(:,3) = V_Data(:,5);
-
-pnts_upper(:,1) = V_Data(:,9);          %upper points
-pnts_upper(:,2) = V_Data(:,10);
-pnts_upper(:,3) = V_Data(:,11);
-
-v_zunit = ([0 0 1]);            %create z unit vector
-Vic_frames = V_Data(:,1);
-
-
-v_pntpnt = pnts_upper - pnts_base;      %point to point vector
-
-iterator_a=1;
-v_length = size(v_pntpnt);
-l = v_length(1,1);
-while iterator_a<l
-v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
-iterator_a = iterator_a+1;
-theta(iterator_a,:) = acos(dot(v_pnt_norm,v_zunit));
-end
-alpha = (pi/2)-theta;
-alpha_deg = alpha.*(180/pi);
-
-%Syncing
-[Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
-
-Vic_peak_beg = Vic_locs(1);
-Vic_peak_end = Vic_locs(end);
-
-Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
-
-Vic_time = (Frames_used)/100;
-Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
-Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
-Vic_t = Vic_frames./100;
-
-%%%%% Position Filter
-UnivFilt = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
-            'SampleRate',200e3);
-
-VPos_Filtered = filtfilt(UnivFilt, Vic_plot_yaxis);       
+% filename = 'Ben_Johnston Cal 01.csv';
+% V_Data = xlsread(filename, 'A11:N1581');
+filename1_Kin = 'spinebaseT1.txt';
+filename2_Kin = 'spinemidT1.txt';
+filenameSMid = 'T1S1.txt';
+filenameSBase = 'T1S2.txt';
+% 
+% pnts_base(:,1) = V_Data(:,3);           %base points
+% pnts_base(:,2) = V_Data(:,4);
+% pnts_base(:,3) = V_Data(:,5);
+% 
+% pnts_upper(:,1) = V_Data(:,9);          %upper points
+% pnts_upper(:,2) = V_Data(:,10);
+% pnts_upper(:,3) = V_Data(:,11);
+% 
+% v_zunit = ([0 0 1]);            %create z unit vector
+% Vic_frames = V_Data(:,1);
+% 
+% 
+% v_pntpnt = pnts_upper - pnts_base;      %point to point vector
+% 
+% iterator_a=1;
+% v_length = size(v_pntpnt);
+% l = v_length(1,1);
+% while iterator_a<l
+% v_pnt_norm = v_pntpnt(iterator_a,:)./norm(v_pntpnt(iterator_a,:));
+% iterator_a = iterator_a+1;
+% theta(iterator_a,:) = acos(dot(v_pnt_norm,v_zunit));
+% end
+% alpha = (pi/2)-theta;
+% alpha_deg = alpha.*(180/pi);
+% 
+% %Syncing
+% [Vic_pks, Vic_locs] = findpeaks(alpha_deg, 'MinPeakProminence', .5);
+% 
+% Vic_peak_beg = Vic_locs(1);
+% Vic_peak_end = Vic_locs(end);
+% 
+% Frames_used = Vic_frames(Vic_peak_end)-Vic_frames(Vic_peak_beg);
+% 
+% Vic_time = (Frames_used)/100;
+% Vic_plot_yaxis = alpha_deg(Vic_peak_beg:Vic_peak_end);
+% Vic_plot_xaxis = 0:Vic_time/(Frames_used):Vic_time;
+% Vic_t = Vic_frames./100;
+% 
+% %%%%% Position Filter
+ UnivFilt = designfilt('lowpassiir','FilterOrder',3,...
+             'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+             'SampleRate',200e3);
  
-%%%%% First Derivative for flex (Angular Velocity)
-VPosderiv = diff(Vic_plot_yaxis);
-VTimderiv = diff(Vic_plot_xaxis);
-VTimderiv = transpose(VTimderiv);
-VVel_1 = VPosderiv./VTimderiv;
-VVel = [0;VVel_1];
-
-%%%%% Velocity Filter
-VVelFilt = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
-            'SampleRate',200e3);
-VVel_Filtered = filtfilt(VVelFilt, VVel);
-
-%%%%% Second Derivative for flex (Angular Acceleration)
-VVelderiv = diff(VVel);
-VAcc_1 = VVelderiv./VTimderiv;
-VAcc = [0;VAcc_1];
-
-%%%%% Acceleration Filter
-VAccFilt = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
-            'SampleRate',200e3);
-VAcc_Filtered = filtfilt(VAccFilt,VAcc);
-
-%%%%% Third Derivative for flex (Angular Jerk)
-VAccderiv = diff(VAcc);
-VJer_1 = VAccderiv./VTimderiv;
-VJer = [0;VJer_1];
-
-%%%%% Jerk Filter
-VJerFilt = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
-            'SampleRate',200e3);
-VJer_Filtered = filtfilt(VJerFilt,VJer);
+% VPos_Filtered = filtfilt(UnivFilt, Vic_plot_yaxis);       
+%  
+% %%%%% First Derivative for flex (Angular Velocity)
+% VPosderiv = diff(Vic_plot_yaxis);
+% VTimderiv = diff(Vic_plot_xaxis);
+% VTimderiv = transpose(VTimderiv);
+% VVel_1 = VPosderiv./VTimderiv;
+% VVel = [0;VVel_1];
+% 
+% %%%%% Velocity Filter
+% VVelFilt = designfilt('lowpassiir','FilterOrder',3,...
+%             'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+%             'SampleRate',200e3);
+% VVel_Filtered = filtfilt(VVelFilt, VVel);
+% 
+% %%%%% Second Derivative for flex (Angular Acceleration)
+% VVelderiv = diff(VVel);
+% VAcc_1 = VVelderiv./VTimderiv;
+% VAcc = [0;VAcc_1];
+% 
+% %%%%% Acceleration Filter
+% VAccFilt = designfilt('lowpassiir','FilterOrder',3,...
+%             'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+%             'SampleRate',200e3);
+% VAcc_Filtered = filtfilt(VAccFilt,VAcc);
+% 
+% %%%%% Third Derivative for flex (Angular Jerk)
+% VAccderiv = diff(VAcc);
+% VJer_1 = VAccderiv./VTimderiv;
+% VJer = [0;VJer_1];
+% 
+% %%%%% Jerk Filter
+% VJerFilt = designfilt('lowpassiir','FilterOrder',3,...
+%             'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+%             'SampleRate',200e3);
+% VJer_Filtered = filtfilt(VJerFilt,VJer);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  IMUs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T4S1.txt';
-filenameSBase = 'T4S2.txt';
+
 delimiterIn = ' ';
 headerlinesIn_IMU = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
@@ -113,7 +116,7 @@ tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms 
 tBase = transpose((LtimeBase-LtimeBase(1))./1000);
 freqMid = length(tMid)/(tMid(end)-tMid(1));
 tMid = 0:1/freqMid:tMid(end-1);
-
+tMid = resample(tMid, length(gyroMid), length(tMid));
 
 %*******low pass filter*****
 x_filter = designfilt('lowpassiir','FilterOrder',3,...
@@ -153,8 +156,6 @@ SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 %%%%% Kinect %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename1_Kin = 'spinebaseT4.txt';
-filename2_Kin = 'spinemidT4.txt';
 delimiterIn = ' ';
 headerlinesIn_Kin = 0;
 spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
@@ -187,8 +188,8 @@ end
 alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
 
-kin_filter = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+kin_filter = designfilt('lowpassiir','FilterOrder',5,...
+            'PassbandFrequency',10e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 
 alpha_deg_Kin_filt = filtfilt(kin_filter, alpha_deg_Kin);
@@ -231,7 +232,7 @@ end
 
 
 freqKin = length(time)/(time(end)-time(1));
-[Kin_peaks, Kin_locations] = findpeaks(Kin_plot_y, 'MinPeakProminence', 2);
+[Kin_peaks, Kin_locations] = findpeaks(Kin_plot_y, 'MinPeakProminence', 62);
 Kin_locations = [1; Kin_locations];
 Kin_locations = [Kin_locations; length(Kin_plot_time)];
 Kin_peaks = [Kin_plot_y(1); Kin_peaks];
@@ -261,12 +262,12 @@ jerkMid = diff(accelerationMid)./(1/freqMid);             %accel to jerk
 jerkMid = [0;jerkMid];
 
 %%%%% Resampling and Sync %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Vic_frames = Vic_frames./100;
-tMid = resample(tMid, length(Vic_plot_xaxis), length(tMid));
-IMU_corrected_func = resample(IMU_corrected_func, length(Vic_plot_xaxis),length(IMU_corrected_func));
-velMid = resample(velMid, length(Vic_plot_xaxis),length(velMid));
-accelerationMid = resample(accelerationMid,length(Vic_plot_xaxis),length(accelerationMid));
-jerkMid = resample(jerkMid,length(Vic_plot_xaxis),length(jerkMid));
+% Vic_frames = Vic_frames./100;
+% tMid = resample(tMid, length(Vic_plot_xaxis), length(tMid));
+% IMU_corrected_func = resample(IMU_corrected_func, length(Vic_plot_xaxis),length(IMU_corrected_func));
+% velMid = resample(velMid, length(Vic_plot_xaxis),length(velMid));
+% accelerationMid = resample(accelerationMid,length(Vic_plot_xaxis),length(accelerationMid));
+% jerkMid = resample(jerkMid,length(Vic_plot_xaxis),length(jerkMid));
 
 tMid = filtfilt(UnivFilt, tMid);
 IMU_corrected_func = filtfilt(UnivFilt, IMU_corrected_func);
@@ -277,43 +278,33 @@ jerkMid = filtfilt(UnivFilt, jerkMid);
 %%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1)
 subplot(4,1,1)
-plot(Vic_plot_xaxis,VPos_Filtered,Vic_plot_xaxis,IMU_corrected_func)
-title('Vicon Parameters')
+plot(SMid_plot_xaxis,IMU_corrected_func)
+title('Corrected Signal')
 ylabel('degrees'),xlabel('Time (s)')
 
 subplot(4,1,2)
-plot(Vic_plot_xaxis,VVel_Filtered,Vic_plot_xaxis,velMid)
+plot(SMid_plot_xaxis,velMid)
 ylabel('degrees/s'),xlabel('Time (s)')
 
 subplot(4,1,3)
-plot(Vic_plot_xaxis,VAcc_Filtered,Vic_plot_xaxis,accelerationMid)
+plot(SMid_plot_xaxis,accelerationMid)
 ylim([-2000 2000])
 ylabel('degrees/s^2'),xlabel('Time (s)')
 
 subplot (4,1,4)
-plot(Vic_plot_xaxis,VJer_Filtered,Vic_plot_xaxis,jerkMid)
+plot(SMid_plot_xaxis,jerkMid)
 ylabel('degrees/s^3'),xlabel('Time (s)')
-legend('Vicon','Corrected IMU')
+legend('Corrected IMU')
 
-%%%%% RMSE
 
-RMSEangle = sqrt(mean((VPos_Filtered - IMU_corrected_func).^2))
-RMSEvelocity = sqrt(mean((VVel_Filtered - velMid).^2))
-RMSEacceleration = sqrt(mean((VAcc_Filtered - accelerationMid).^2))
-RMSEjerk = sqrt(mean((VJer_Filtered - jerkMid).^2))
-anglepercent = mean((VPos_Filtered-IMU_corrected_func)./VPos_Filtered);
+
 
 %%%%% Maximums
-VVel_abs = abs(VVel);
-VAcc_abs = abs(VAcc_Filtered);
-VJer_abs = abs(VJer_Filtered);
 IMUVel_abs = abs(velMid);
 IMUAcc_abs = abs(accelerationMid);
 IMUJer_abs = abs(jerkMid);
 
-MaxVelVicon = max(VVel_abs)
-MaxAccVicon = max(VAcc_abs)
-MaxJerVicon = max(VJer_abs)
+
 MaxVelIMU = max(IMUVel_abs)
 MaxAccIMU = max(IMUAcc_abs)
 MaxJerIMU = max(IMUJer_abs)

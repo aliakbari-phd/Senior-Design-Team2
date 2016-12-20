@@ -219,6 +219,9 @@ Kin_plot_y = alpha_deg_Kin_filt(Kin_pks_begin:Kin_pks_end);
 % ylabel('Angle (degrees)'),xlabel('Time (s)')
 % legend('Vicon','IMU', 'Kinect')
 plot(time,alpha_deg_Kin,tMid+0.0894,distanceMid(:,2))
+ylim([60 100])
+xlim([0 6])
+%
 % subplot(3,1,2)
 % xlim([0 SMid_time])
 % ylabel('y'),xlabel('Time (s)')

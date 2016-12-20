@@ -1,8 +1,12 @@
 clc;
 clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%  VICON  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'Ben_Johnston Cal 04.csv';
-V_Data = xlsread(filename, 'A12:N1562');
+filename = 'Ben_Johnston Cal 02.csv';
+V_Data = xlsread(filename, 'A11:N1618');
+filename1_Kin = 'spinebaseT2.txt';
+filename2_Kin = 'spinemidT2.txt';
+filenameSMid = 'T2S1.txt';
+filenameSBase = 'T2S2.txt';
 
 pnts_base(:,1) = V_Data(:,3);           %base points
 pnts_base(:,2) = V_Data(:,4);
@@ -89,8 +93,7 @@ VJer_Filtered = filtfilt(VJerFilt,VJer);
 %NOTE:
 %Need to import GyroZ and Ltime columns from Bapgui
 
-filenameSMid = 'T4S1.txt';
-filenameSBase = 'T4S2.txt';
+
 delimiterIn = ' ';
 headerlinesIn_IMU = 1;
 SMid = importdata(filenameSMid, delimiterIn, headerlinesIn_IMU);
@@ -113,7 +116,7 @@ tMid = transpose((LtimeMid-LtimeMid(1))./1000);     %relative to start time, ms 
 tBase = transpose((LtimeBase-LtimeBase(1))./1000);
 freqMid = length(tMid)/(tMid(end)-tMid(1));
 tMid = 0:1/freqMid:tMid(end-1);
-
+tMid = resample(tMid, length(gyroMid), length(tMid));
 
 %*******low pass filter*****
 x_filter = designfilt('lowpassiir','FilterOrder',3,...
@@ -153,8 +156,6 @@ SMid_plot_yaxis = SMid_y_axis(SMid_peak_beg:SMid_peak_end);
 SMid_plot_xaxis = 0:SMid_time/(SMid_peak_end-SMid_peak_beg):SMid_time;
 
 %%%%% Kinect %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename1_Kin = 'spinebaseT4.txt';
-filename2_Kin = 'spinemidT4.txt';
 delimiterIn = ' ';
 headerlinesIn_Kin = 0;
 spinebaseData = importdata(filename1_Kin, delimiterIn, headerlinesIn_Kin);
@@ -188,7 +189,7 @@ alpha_Kin = (pi/2)-theta_Kin;
 alpha_deg_Kin = alpha_Kin.*(180/pi);
 
 kin_filter = designfilt('lowpassiir','FilterOrder',3,...
-            'PassbandFrequency',5e3,'PassbandRipple',0.5,...
+            'PassbandFrequency',30e3,'PassbandRipple',0.5,...
             'SampleRate',200e3);
 
 alpha_deg_Kin_filt = filtfilt(kin_filter, alpha_deg_Kin);
@@ -231,7 +232,7 @@ end
 
 
 freqKin = length(time)/(time(end)-time(1));
-[Kin_peaks, Kin_locations] = findpeaks(Kin_plot_y, 'MinPeakProminence', 2);
+[Kin_peaks, Kin_locations] = findpeaks(Kin_plot_y, 'MinPeakProminence', 62);
 Kin_locations = [1; Kin_locations];
 Kin_locations = [Kin_locations; length(Kin_plot_time)];
 Kin_peaks = [Kin_plot_y(1); Kin_peaks];
@@ -302,6 +303,10 @@ RMSEvelocity = sqrt(mean((VVel_Filtered - velMid).^2))
 RMSEacceleration = sqrt(mean((VAcc_Filtered - accelerationMid).^2))
 RMSEjerk = sqrt(mean((VJer_Filtered - jerkMid).^2))
 anglepercent = mean((VPos_Filtered-IMU_corrected_func)./VPos_Filtered);
+anglepercent2 = RMSEangle/(sqrt(max((VPos_Filtered-IMU_corrected_func).^2)));
+angle3 = RMSEangle/(max(VPos_Filtered-IMU_corrected_func));
+angle4pt1 = VPos_Filtered(1000)-IMU_corrected_func(1000);
+angle4 = angle4pt1/VPos_Filtered(1000);
 
 %%%%% Maximums
 VVel_abs = abs(VVel);
